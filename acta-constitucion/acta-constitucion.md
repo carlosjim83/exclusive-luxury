@@ -63,14 +63,22 @@ Plataforma premium de personal shoppers a domicilio para tiendas de lujo. Sistem
 | **Membresía anual** | 2.000€/miembro |
 | **Precio por visita** | 100€ |
 
-## 9. Criterios de Éxito
+## 9. Proyecciones Financieras
+
+### Año 1
+- **Ingresos**: 684K€
+- **Costes**: 660K€
+- **Beneficio Operativo**: 24K€
+- **Margen Neto**: 19%
+
+## 10. Criterios de Éxito
 
 - 200 miembros activos en el primer año
 - Margen operativo del 19% en el primer año
 - Expansión a 6-8 ciudades en 3 años
 - Margen neto del 15-18%
 
-## 10. Estructura de Gobierno
+## 11. Estructura de Gobierno
 
 | Rol | Responsable |
 |-----|-------------|
@@ -86,7 +94,7 @@ Plataforma premium de personal shoppers a domicilio para tiendas de lujo. Sistem
 | Gestor de adquisiciones | Por definir |
 | Gestor de interesados | Por definir |
 
-## 11. Firmas
+## 12. Firmas
 
 | Rol | Nombre | Firma | Fecha |
 |-----|--------|-------|-------|
