@@ -95,7 +95,7 @@ Este documento identifica y analiza las personas, grupos u organizaciones que pu
 
 - [ ] Definir perfiles detallados de los primeros 50 clientes objetivo (proto-personas).
 - [ ] Establecer acuerdos preliminares con 5-10 marcas de lujo para consignación piloto.
-- [ ] Diseñar el proceso de selección y onboarding de los primeros 20 personal shoppers.
+- [ ] Diseñar el proceso de selección y onboarding de los primeros 10 personal shoppers.
 - [ ] Crear un comité de gobierno con representación de inversores y dirección.
 - [ ] Definir el plan de comunicación externo (pre-lanzamiento).
 

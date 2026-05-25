@@ -121,7 +121,7 @@ Tras el análisis comparativo, se identifica claramente un **espacio no cubierto
 | **Visitas domiciliarias** | No | No | No | No | No | **Sí (core del servicio)** |
 | **Shoppers independientes** | No | No | No | No | No | **Sí (red de expertos)** |
 | **Modelo consignación** | No | No | No | No | No | **Sí (sin inventario)** |
-| **Geografía inicial** | Global | España/Francia | Global | Global | EE.UU./UK | **España (MAD, BCN, Málaga, Mallorca)** |
+| **Geografía inicial** | Global | España/Francia | Global | Global | EE.UU./UK | **España Año 1 (MAD, BCN); Expansión Año 2-3 (Málaga, Mallorca)** |
 
 ### Insight clave
 
@@ -186,7 +186,7 @@ Esto posiciona a **Exclusive Luxury** en un **nicho azul**: entre el personal sh
 | **Ingresos totales** | **684.000€** |
 | **Costes totales** | **660.000€** |
 | **Beneficio operativo** | **24.000€** |
-| **Margen neto** | **3,5%** → *Nota: en el acta se indica 19% de margen operativo sobre costes netos ajustados.* |
+| **Margen sobre ingresos** | **3,5%** (24K€ / 684K€) |
 
 *Los detalles completos del desglose de costes se incluirán en el Plan de Gestión de Costes de la fase de Planificación.*
 

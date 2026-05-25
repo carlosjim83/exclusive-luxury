@@ -92,7 +92,7 @@ El alcance se considerará validado cuando:
 
 - Se asume que existe demanda suficiente en Madrid y Barcelona para alcanzar 200 miembros en el primer año.
 - Se asume que marcas de lujo están dispuestas a firmar acuerdos de consignación con una startup nueva.
-- Se asume que es posible reclutar 20 personal shoppers cualificados en el plazo de 6 meses.
+- Se asume que es posible reclutar 10 personal shoppers cualificados (5 por ciudad) en el plazo de 6 meses.
 
 ## 8. Acciones Pendientes para Planificación
 

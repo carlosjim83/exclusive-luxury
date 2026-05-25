@@ -93,7 +93,7 @@
 |---|:---:|:---:|:---:|:---:|:---:|
 | SUP-01 Demanda 200 miembros | Alta | Media | Baja | Alta | Baja |
 | SUP-04 Marcas en consignación | Media | Media | Baja | Baja | Baja |
-| SUP-07 Reclutar 20 shoppers | Media | Alta | Media | Baja | Media |
+| SUP-07 Reclutar 10 shoppers | Media | Alta | Media | Baja | Media |
 | SUP-10 Desarrollo 6-9 meses | Alta | Alta | Baja | Baja | Baja |
 
 *Leyenda: Alta = la restricción afecta gravemente al supuesto; Media = afecta moderadamente; Baja = afecta mínimamente.*
