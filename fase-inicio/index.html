@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Shopping Luxury — Fase de Inicio</title>
+  <style>
+    :root {
+      --bg: #f7f5f2;
+      --fg: #1a1a1a;
+      --muted: #666;
+      --accent: #bfa36f;
+      --accent-dark: #8c7344;
+      --surface: #ffffff;
+      --border: #e6e1da;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.55;
+    }
+    header {
+      background: linear-gradient(160deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #fff;
+      padding: 40px 24px;
+      text-align: center;
+      border-bottom: 4px solid var(--accent);
+    }
+    header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 0.5px; }
+    header p { margin: 8px 0 0; color: #c9c0b0; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247,245,242,0.92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    nav .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 14px; }
+    nav a { color: var(--fg); text-decoration: none; font-size: 0.92rem; padding: 4px 8px; border-radius: 6px; }
+    nav a:hover { background: var(--accent); color: #fff; }
+    section { margin: 28px 0; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .card h2 { margin-top: 0; font-size: 1.3rem; border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+    .card h3 { margin-top: 22px; font-size: 1.05rem; color: var(--accent-dark); }
+    .card h4 { margin-top: 16px; font-size: 0.98rem; color: #4a4a4a; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; }
+    th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+    th { background: #f1ece6; font-weight: 600; }
+    tr:nth-child(even) td { background: #fdfcfa; }
+    code, .label { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.88em; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .kpi { background: #f1ece6; border-left: 4px solid var(--accent); padding: 14px 16px; border-radius: var(--radius); }
+    .kpi strong { display: block; font-size: 1.25rem; color: var(--accent-dark); }
+    .muted { color: var(--muted); }
+    blockquote {
+      border-left: 4px solid var(--accent);
+      background: #fdfcfa;
+      margin: 12px 0;
+      padding: 12px 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-style: italic;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
+      background: var(--accent-dark);
+    }
+    .badge-low { background: #4a7c59; }
+    .badge-med { background: #bfa36f; }
+    .badge-high { background: #b04e4e; }
+    ul.check { list-style: none; padding-left: 0; }
+    ul.check li { padding-left: 22px; position: relative; }
+    ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--accent-dark); font-weight: 700; }
+    footer { text-align: center; padding: 40px 24px; color: var(--muted); font-size: 0.9rem; }
+    @media (max-width: 760px) {
+      .container { padding: 16px; }
+      nav ul { gap: 6px 10px; }
+      .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Personal Shopping Luxury</h1>
+  <p>Documentación de la Fase de Inicio — Proyecto de Gestión</p>
+</header>
+
+<nav>
+  <div class="wrap">
+    <ul>
+      <li><a href="#acta">Acta de Constitución</a></li>
+      <li><a href="#business-case">Business Case</a></li>
+      <li><a href="#interesados">Interesados</a></li>
+      <li><a href="#alcance">Alcance</a></li>
+      <li><a href="#supuestos">Supuestos y Restricciones</a></li>
+      <li><a href="#riesgos">Riesgos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- ACTA -->
+  <section id="acta" class="card">
+    <h2>Acta de Constitución del Proyecto</h2>
+    <table>
+      <tr><th>Campo</th><th>Descripción</th></tr>
+      <tr><td><strong>Nombre del proyecto</strong></td><td>Personal Shopping Luxury</td></tr>
+      <tr><td><strong>Fecha de constitución</strong></td><td>2026-05-21</td></tr>
+      <tr><td><strong>Patrocinador</strong></td><td>Por definir</td></tr>
+      <tr><td><strong>Director del proyecto</strong></td><td>Por definir</td></tr>
+      <tr><td><strong>Propósito</strong></td><td>Crear una plataforma premium de personal shoppers a domicilio para tiendas de lujo</td></tr>
+    </table>
+
+    <h3>Objetivos</h3>
+    <ul class="check">
+      <li>Modelo: Servicio premium de personal shoppers + Membresías (2.000€/año) + Visitas (100€)</li>
+      <li>Cobertura inicial: Madrid, Barcelona, Málaga, Mallorca</li>
+      <li>Objetivo Año 1: 200 miembros activos, margen operativo 19%</li>
+      <li>Expansión: 6-8 ciudades en 3 años</li>
+      <li>Margen esperado: 15-18% neto</li>
+    </ul>
+
+    <h3>Proyecciones Financieras — Año 1</h3>
+    <div class="grid-2">
+      <div class="kpi"><strong>684K€</strong>Ingresos</div>
+      <div class="kpi"><strong>660K€</strong>Costes</div>
+      <div class="kpi"><strong>24K€</strong>Beneficio Operativo</div>
+      <div class="kpi"><strong>19%</strong>Margen Neto</div>
+    </div>
+
+    <h3>Criterios de Éxito</h3>
+    <ul class="check">
+      <li>200 miembros activos en el primer año</li>
+      <li>Margen operativo del 19% en el primer año</li>
+      <li>Expansión a 6-8 ciudades en 3 años</li>
+      <li>Margen neto del 15-18%</li>
+    </ul>
+
+    <h3>Hitos</h3>
+    <table>
+      <tr><th>Hito</th><th>Fecha estimada</th></tr>
+      <tr><td>Constitución del proyecto</td><td>2026-05-21</td></tr>
+      <tr><td>Definición de alcance</td><td>Por definir</td></tr>
+      <tr><td>Lanzamiento MVP</td><td>Por definir</td></tr>
+      <tr><td>Expansión a 6-8 ciudades</td><td>Año 3</td></tr>
+    </table>
+
+    <h3>Presupuesto Resumen</h3>
+    <table>
+      <tr><th>Concepto</th><th>Importe</th></tr>
+      <tr><td><strong>Inversión total estimada</strong></td><td>Por definir</td></tr>
+      <tr><td><strong>Membresía anual</strong></td><td>2.000€/miembro</td></tr>
+      <tr><td><strong>Precio por visita</strong></td><td>100€</td></tr>
+    </table>
+  </section>
+
+  <!-- BUSINESS CASE -->
+  <section id="business-case" class="card">
+    <h2>Business Case</h2>
+    <p>Este documento justifica la creación de <strong>Personal Shopping Luxury</strong>, una plataforma premium de personal shoppers a domicilio para el sector del lujo en España.</p>
+
+    <h3>Escenario Financiero Base — Año 1</h3>
+    <div class="grid-2">
+      <div class="kpi"><strong>684K€</strong>Ingresos totales</div>
+      <div class="kpi"><strong>660K€</strong>Costes totales</div>
+      <div class="kpi"><strong>24K€</strong>Beneficio operativo</div>
+      <div class="kpi"><strong>3,5%</strong>Margen sobre ingresos</div>
+    </div>
+
+    <h3>Research Comparativo</h3>
+
+    <h4>Threads Styling (Reino Unido)</h4>
+    <table>
+      <tr><th>Aspecto</th><th>Descripción</th></tr>
+      <tr><td>Origen</td><td>Londres, Reino Unido</td></tr>
+      <tr><td>Modelo</td><td>Personal shopping digital conversacional (WhatsApp-first)</td></tr>
+      <tr><td>Visitas domiciliarias</td><td><span class="badge badge-low">No</span></td></tr>
+      <tr><td>Target</td><td>Millennial y Gen-Z con alto poder adquisitivo</td></tr>
+      <tr><td>Fortalezas</td><td>Escalabilidad digital, bajo coste operativo</td></tr>
+      <tr><td>Debilidades</td><td>Falta de componente físico/presencial</td></tr>
+    </table>
+
+    <h4>Lookiero (España / Francia)</h4>
+    <table>
+      <tr><th>Aspecto</th><th>Descripción</th></tr>
+      <tr><td>Origen</td><td>San Sebastián, España</td></tr>
+      <tr><td>Modelo</td><td>Personal styling online por suscripción (cajas)</td></tr>
+      <tr><td>Visitas domiciliarias</td><td><span class="badge badge-low">No</span></td></tr>
+      <tr><td>Target</td><td>Masivo-premium (mujer 25-45 años)</td></tr>
+      <tr><td>Fortalezas</td><td>Muy escalable, conocimiento del mercado español</td></tr>
+      <tr><td>Debilidades</td><td>No es lujo puro; sin interacción presencial</td></tr>
+    </table>
+
+    <h4>Farfetch — Private Client / Concierge</h4>
+    <table>
+      <tr><th>Aspecto</th><th>Descripción</th></tr>
+      <tr><td>Origen</td><td>Portugal / Marketplace global</td></tr>
+      <tr><td>Modelo</td><td>Servicio VIP para clientes de alto gasto</td></tr>
+      <tr><td>Visitas domiciliarias</td><td><span class="badge badge-med">Muy limitadas</span></td></tr>
+      <tr><td>Target</td><td>Clientes VIP globales</td></tr>
+      <tr><td>Fortalezas</td><td>Alcance global, cartera de marcas inmensa</td></tr>
+      <tr><td>Debilidades</td><td>Servicio digital-first; no visitas estructuradas en España</td></tr>
+    </table>
+
+    <h4>Mytheresa — EIP</h4>
+    <table>
+      <tr><th>Aspecto</th><th>Descripción</th></tr>
+      <tr><td>Origen</td><td>Alemania / E-commerce de lujo</td></tr>
+      <tr><td>Modelo</td><td>Servicio personal shopping para top clientes (EIP)</td></tr>
+      <tr><td>Visitas domiciliarias</td><td><span class="badge badge-low">No como estándar</span></td></tr>
+      <tr><td>Target</td><td>Top clientes globales, principalmente europeos</td></tr>
+      <tr><td>Fortalezas</td><td>Relación fuerte con marcas, credibilidad en lujo</td></tr>
+      <tr><td>Debilidades</td><td>No incluye visitas regulares ni shoppers independientes</td></tr>
+    </table>
+
+    <h4>Stitch Fix / Trunk Club (EE.UU.)</h4>
+    <table>
+      <tr><th>Aspecto</th><th>Descripción</th></tr>
+      <tr><td>Origen</td><td>Estados Unidos</td></tr>
+      <tr><td>Modelo</td><td>Suscripción mensual + cajas curadas (algoritmo + humano)</td></tr>
+      <tr><td>Canal</td><td>100% online / postal</td></tr>
+      <tr><td>Target</td><td>Masivo (hombres, mujeres, niños)</td></tr>
+      <tr><td>Fortalezas</td><td>Valida que el modelo suscripción + curación tiene demanda masiva</td></tr>
+      <tr><td>Debilidades</td><td>Segmento masivo, no lujo. Sin componente presencial</td></tr>
+    </table>
+
+    <h3>Análisis de Gap</h3>
+    <p>Ninguna plataforma existente ofrece la combinación de <strong>membresía premium + visitas domiciliarias físicas + consignación + shoppers independientes</strong> en el mercado español.</p>
+    <table>
+      <tr><th>Dimensión</th><th>Threads</th><th>Lookiero</th><th>Farfetch</th><th>Mytheresa</th><th>Stitch Fix</th><th><strong>Exclusive Luxury</strong></th></tr>
+      <tr><td>Segmento</td><td>Lujo</td><td>Masivo-premium</td><td>Lujo</td><td>Lujo</td><td>Masivo</td><td><strong>Lujo puro</strong></td></tr>
+      <tr><td>Membresía anual</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td><td><strong>Sí (2.000€)</strong></td></tr>
+      <tr><td>Visitas domiciliarias</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td><td><strong>Sí (core)</strong></td></tr>
+      <tr><td>Shoppers independientes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td><td><strong>Sí</strong></td></tr>
+      <tr><td>Modelo consignación</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td><td><strong>Sí</strong></td></tr>
+      <tr><td>Geografía inicial</td><td>Global</td><td>ES/FR</td><td>Global</td><td>Global</td><td>US/UK</td><td><strong>ES Año 1 (MAD, BCN)</strong></td></tr>
+    </table>
+
+    <h3>Propuesta de Valor Única</h3>
+    <blockquote>"La plataforma de personal shopping de lujo que lleva el exclusivismo a tu casa."</blockquote>
+    <ul class="check">
+      <li>Experiencia física, no digital</li>
+      <li>Independencia de las marcas</li>
+      <li>Sin inventario, sin riesgo (consignación)</li>
+      <li>Membresía como acceso a club exclusivo</li>
+      <li>Curación humana + tecnología</li>
+    </ul>
+    <blockquote>¿Qué es curar? En resumen: curar = elegir con criterio experto. Es la diferencia entre entrar en una tienda con 10.000 prendas y que un experto te diga "estas 12 son para ti".</blockquote>
+
+    <h3>Escenarios Año 3 (Expansión)</h3>
+    <table>
+      <tr><th>Métrica</th><th>Objetivo</th></tr>
+      <tr><td>Ciudades</td><td>6-8</td></tr>
+      <tr><td>Miembros activos</td><td>1.200+</td></tr>
+      <tr><td>Ingresos estimados</td><td>3,5M€ - 4,5M€</td></tr>
+      <tr><td>Margen neto objetivo</td><td>15-18%</td></tr>
+    </table>
+
+    <h3>Conclusiones</h3>
+    <ol>
+      <li><strong>Nicho azul identificado</strong>: ninguna plataforma cubre la combinación clave.</li>
+      <li><strong>Demanda validada</strong>: los clientes pagan por curación personalizada.</li>
+      <li><strong>Modelo financiero viable</strong>: punto de equilibrio con 200 miembros.</li>
+      <li><strong>Escalable</strong>: replicable en ciudades europeas premium.</li>
+    </ol>
+    <p><strong>Recomendación:</strong> Aprobar la fase de Inicio y asignar recursos para la Planificación.</p>
+  </section>
+
+  <!-- INTERESADOS -->
+  <section id="interesados" class="card">
+    <h2>Registro de Interesados</h2>
+    <table>
+      <tr>
+        <th>ID</th><th>Nombre / Grupo</th><th>Categoría</th><th>Interés</th><th>Influencia</th><th>Expectativas</th>
+      </tr>
+      <tr>
+        <td>INT-01</td><td>Clientes miembros</td><td>Externo / Cliente</td><td>Alto</td><td>Media</td><td>Servicio premium, exclusividad, tiempo ahorrado</td>
+      </tr>
+      <tr>
+        <td>INT-02</td><td>Personal shoppers</td><td>Externo / Colaborador</td><td>Alto</td><td>Alta</td><td>Ingresos estables, flexibilidad, reconocimiento</td>
+      </tr>
+      <tr>
+        <td>INT-03</td><td>Marcas de lujo</td><td>Externo / Socio</td><td>Alto</td><td>Alta</td><td>Incremento de ventas, control de imagen</td>
+      </tr>
+      <tr>
+        <td>INT-04</td><td>Patrocinador / Inversores</td><td>Interno / Financiador</td><td>Alto</td><td>Muy Alta</td><td>Retorno de inversión, crecimiento sostenible</td>
+      </tr>
+      <tr>
+        <td>INT-05</td><td>Director del Proyecto</td><td>Interno / Gestión</td><td>Alto</td><td>Alta</td><td>Cumplimiento de objetivos, entrega en plazo</td>
+      </tr>
+      <tr>
+        <td>INT-06</td><td>Equipo central</td><td>Interno / Ejecución</td><td>Alto</td><td>Media</td><td>Objetivos claros, recursos suficientes</td>
+      </tr>
+      <tr>
+        <td>INT-07</td><td>Competidores</td><td>Externo / Competencia</td><td>Medio</td><td>Baja</td><td>Mantener posición, replicar modelo</td>
+      </tr>
+      <tr>
+        <td>INT-08</td><td>Reguladores (AEPD, Hacienda)</td><td>Externo / Regulador</td><td>Medio</td><td>Alta</td><td>Cumplimiento normativo</td>
+      </tr>
+      <tr>
+        <td>INT-09</td><td>Medios e influencers</td><td>Externo / Difusión</td><td>Medio</td><td>Media</td><td>Contenido exclusivo, historias atractivas</td>
+      </tr>
+      <tr>
+        <td>INT-10</td><td>Proveedores tecnológicos</td><td>Externo / Proveedor</td><td>Medio</td><td>Baja</td><td>Contratos estables, pagos puntuales</td>
+      </tr>
+      <tr>
+        <td>INT-11</td><td>Escuelas de moda (IED, ESNE)</td><td>Externo / Institucional</td><td>Medio</td><td>Baja</td><td>Empleabilidad de alumnos, visibilidad</td>
+      </tr>
+      <tr>
+        <td>INT-12</td><td>Comunidad local</td><td>Externo / Social</td><td>Bajo</td><td>Baja</td><td>Empleo local, actividad económica</td>
+      </tr>
+    </table>
+
+    <h3>Estrategias de Comunicación</h3>
+    <table>
+      <tr><th>Grupo</th><th>Frecuencia</th><th>Canal</th><th>Responsable</th></tr>
+      <tr><td>Clientes miembros</td><td>Semanal</td><td>App, email, WhatsApp</td><td>Customer Success</td></tr>
+      <tr><td>Personal shoppers</td><td>Semanal</td><td>App interna, reuniones</td><td>Operations Manager</td></tr>
+      <tr><td>Marcas de lujo</td><td>Mensual</td><td>Email, reuniones presenciales</td><td>Partnerships Manager</td></tr>
+      <tr><td>Inversores</td><td>Mensual</td><td>Reuniones, informes</td><td>Director del Proyecto</td></tr>
+      <tr><td>Equipo central</td><td>Diaria</td><td>Slack, stand-ups</td><td>Director del Proyecto</td></tr>
+      <tr><td>Reguladores</td><td>Según requerimiento</td><td>Email, presentaciones</td><td>Legal / Compliance</td></tr>
+    </table>
+  </section>
+
+  <!-- ALCANCE -->
+  <section id="alcance" class="card">
+    <h2>Declaración del Alcance Preliminar</h2>
+
+    <h3>Alcance Incluido (MVP)</h3>
+    <ul class="check">
+      <li>Plataforma web responsive + app móvil (iOS y Android)</li>
+      <li>Panel de administración, CRM integrado y pasarela de pagos</li>
+      <li>Red de 10 personal shoppers expertos (5 por ciudad)</li>
+      <li>Visitas domiciliarias exclusivas para miembros con membresía activa</li>
+      <li>Membresía anual (2.000€) y visitas adicionales (100€)</li>
+      <li>Acuerdos de consignación con 10-15 marcas premium</li>
+      <li>Gestión de inventario en consignación y eventos trimestrales</li>
+      <li>Sistema de booking con geolocalización</li>
+      <li>Ciudades de lanzamiento: Madrid (mes 0) y Barcelona (mes 6)</li>
+      <li>Branding, campaña de lanzamiento y programa de embajadores</li>
+    </ul>
+
+    <h3>Alcance Excluido (Fuera del MVP)</h3>
+    <table>
+      <tr><th>Categoría</th><th>Exclusiones</th></tr>
+      <tr><td>Geográfico</td><td>Málaga y Mallorca (Año 2-3); expansión internacional (París, Milán, Londres, Dubái)</td></tr>
+      <tr><td>Servicios</td><td>Venta online directa, sastrería, alquiler de ropa, eventos corporativos, segunda mano/vintage</td></tr>
+      <tr><td>Tecnología</td><td>IA de recomendación, VR/AR, blockchain para autenticación</td></tr>
+      <tr><td>Operativa</td><td>Almacén propio, transporte de mercancía entre ciudades, servicio 24/7</td></tr>
+    </table>
+
+    <h3>Criterios de Aceptación</h3>
+    <table>
+      <tr><th>ID</th><th>Criterio</th><th>Métrica</th></tr>
+      <tr><td>CA-01</td><td>Plataforma web y app operativas</td><td>100% funcionalidades core activas</td></tr>
+      <tr><td>CA-02</td><td>10 personal shoppers activos y formados</td><td>10 shoppers con contrato y rating >4.5/5</td></tr>
+      <tr><td>CA-03</td><td>Acuerdos de consignación firmados</td><td>10 contratos activos</td></tr>
+      <tr><td>CA-04</td><td>200 miembros activos pagados</td><td>200 miembros con membresía vigente</td></tr>
+      <tr><td>CA-05</td><td>Servicio operativo en Madrid y Barcelona</td><td>2 ciudades activas con cobertura</td></tr>
+      <tr><td>CA-06</td><td>Tasa de satisfacción positiva</td><td>NPS > 50</td></tr>
+    </table>
+  </section>
+
+  <!-- SUPUESTOS -->
+  <section id="supuestos" class="card">
+    <h2>Supuestos y Restricciones</h2>
+
+    <h3>Supuestos Clave</h3>
+    <table>
+      <tr><th>ID</th><th>Supuesto</th><th>Impacto si falla</th><th>Propietario</th></tr>
+      <tr><td>SUP-01</td><td>Existe demanda para 200 miembros en Madrid y Barcelona en el primer año</td><td>No se alcanza el punto de equilibrio</td><td>Marketing</td></tr>
+      <tr><td>SUP-02</td><td>Los clientes están dispuestos a pagar 2.000€/año por la membresía</td><td>Debe ajustarse el precio o pivotar el modelo</td><td>Dirección</td></tr>
+      <tr><td>SUP-03</td><td>La tendencia post-pandemia hacia el servicio a domicilio se mantiene estable</td><td>La demanda disminuye</td><td>Marketing</td></tr>
+      <tr><td>SUP-04</td><td>Las marcas de lujo firmarán consignación con una startup nueva</td><td>No hay inventario exclusivo</td><td>Partnerships</td></tr>
+      <tr><td>SUP-05</td><td>Es posible obtener márgenes comerciales del 15-25% en consignación</td><td>Los ingresos por comisión son insuficientes</td><td>Dirección</td></tr>
+      <tr><td>SUP-06</td><td>Los shoppers aceptarán un modelo de ingresos mixto</td><td>Dificultad para reclutar</td><td>Operations</td></tr>
+      <tr><td>SUP-07</td><td>Es posible reclutar 10 shoppers cualificados (5 por ciudad) en 6 meses</td><td>El lanzamiento se retrasa</td><td>HR / Talent</td></tr>
+      <tr><td>SUP-08</td><td>El equipo central cabe dentro del presupuesto de 660K€</td><td>Reducir alcance o buscar más financiación</td><td>Dirección</td></tr>
+      <tr><td>SUP-10</td><td>La plataforma se desarrolla en 6-9 meses con el equipo presupuestado</td><td>Retraso en el lanzamiento</td><td>CTO / Tech</td></tr>
+      <tr><td>SUP-11</td><td>La normativa española no sufrirá cambios significativos en el primer año</td><td>Ajustes contractuales y legales</td><td>Legal</td></tr>
+      <tr><td>SUP-12</td><td>Los proveedores de pasarela de pagos admiten cobro recurrente de membresías</td><td>Retrasos o cambio de proveedor</td><td>CTO / Tech</td></tr>
+    </table>
+
+    <h3>Restricciones Clave</h3>
+    <table>
+      <tr><th>ID</th><th>Restricción</th><th>Implicación</th></tr>
+      <tr><td>RES-01</td><td>Presupuesto máximo Año 1: 660.000€</td><td>No hay margen para costes inesperados significativos</td></tr>
+      <tr><td>RES-02</td><td>Financiación inicial: inversores privados (angel / seed)</td><td>No se contempla deuda ni crowdfunding inicial</td></tr>
+      <tr><td>RES-03</td><td>No se invierte en inventario propio (modelo consignación)</td><td>La oferta depende de las marcas socias</td></tr>
+      <tr><td>RES-04</td><td>Lanzamiento MVP Madrid: máximo 9 meses; Barcelona: mes 12</td><td>No hay margen para desarrollos largos</td></tr>
+      <tr><td>RES-05</td><td>Expansión a Málaga/Mallorca: no antes del mes 18</td><td>Recursos centrados en Madrid y Barcelona</td></tr>
+      <tr><td>RES-06</td><td>Radio máximo de visitas: 30 km desde el centro de ciudad</td><td>Clientes rurales no atendidos a domicilio</td></tr>
+      <tr><td>RES-07</td><td>Visitas exclusivas para miembros con membresía activa</td><td>La adquisición requiere pago previo de membresía</td></tr>
+      <tr><td>RES-08</td><td>La empresa provee vehículos para los shoppers</td><td>El coste de flota limita shoppers simultáneos</td></tr>
+      <tr><td>RES-09</td><td>Stack tecnológico moderno pero estable, sin frameworks experimentales</td><td>Prioridad en estabilidad sobre innovación pura</td></tr>
+      <tr><td>RES-10</td><td>App móvil: iOS y Android simultáneamente</td><td>Necesidad de tecnología cross-platform o doble equipo</td></tr>
+      <tr><td>RES-11</td><td>Cumplimiento total del RGPD</td><td>Consentimientos, derecho al olvido, privacidad</td></tr>
+      <tr><td>RES-12</td><td>Contratos con shoppers respetan normativa laboral española</td><td>Definir modelo claro (autónomo, colaborador o empleado)</td></tr>
+      <tr><td>RES-13</td><td>Marcas de consignación: auténticas y con distribución oficial en España</td><td>Verificar legitimidad antes de firmar</td></tr>
+    </table>
+  </section>
+
+  <!-- RIESGOS -->
+  <section id="riesgos" class="card">
+    <h2>Registro de Riesgos Iniciales</h2>
+
+    <h3>Riesgos Críticos (Puntuación ≥ 12)</h3>
+    <table>
+      <tr><th>ID</th><th>Riesgo</th><th>Causa</th><th>Prob.</th><th>Imp.</th><th>Punt.</th><th>Estrategia</th><th>Propietario</th></tr>
+      <tr>
+        <td>RIE-01</td><td><strong>Demanda insuficiente</strong></td><td>El mercado no valora el servicio premium; crisis económica</td><td>3</td><td>5</td><td><strong>15</strong></td><td>Mitigar</td><td>Marketing</td>
+      </tr>
+      <tr>
+        <td>RIE-04</td><td><strong>Incapacidad para reclutar shoppers cualificados</strong></td><td>Escasez de talento; competencia por perfiles</td><td>3</td><td>5</td><td><strong>15</strong></td><td>Mitigar</td><td>HR / Talent</td>
+      </tr>
+      <tr>
+        <td>RIE-05</td><td><strong>Rotación alta de shoppers</strong></td><td>Mejores ofertas; insatisfacción; falta de pertenencia</td><td>3</td><td>4</td><td><strong>12</strong></td><td>Mitigar</td><td>Operations</td>
+      </tr>
+      <tr>
+        <td>RIE-06</td><td><strong>Calidad de servicio inconsistente</strong></td><td>Formación insuficiente; expectativas desalineadas</td><td>3</td><td>4</td><td><strong>12</strong></td><td>Mitigar</td><td>Quality</td>
+      </tr>
+      <tr>
+        <td>RIE-09</td><td><strong>Desviación del presupuesto</strong></td><td>Costes subestimados; imprevistos legales</td><td>3</td><td>4</td><td><strong>12</strong></td><td>Mitigar</td><td>Dirección</td>
+      </tr>
+      <tr>
+        <td>RIE-10</td><td><strong>Flujo de caja negativo</strong></td><td>Adquisición lenta; gastos fijos elevados</td><td>3</td><td>4</td><td><strong>12</strong></td><td>Mitigar</td><td>Finance</td>
+      </tr>
+      <tr>
+        <td>RIE-12</td><td><strong>Retraso en desarrollo de la plataforma</strong></td><td>Complejidad subestimada; falta de developers senior</td><td>3</td><td>4</td><td><strong>12</strong></td><td>Mitigar</td><td>CTO / Tech</td>
+      </tr>
+    </table>
+
+    <h3>Riesgos Relevantes (Puntuación 8-11)</h3>
+    <table>
+      <tr><th>ID</th><th>Riesgo</th><th>Punt.</th><th>Estrategia</th><th>Propietario</th></tr>
+      <tr><td>RIE-02</td><td>Replicación por competidores</td><td>10</td><td>Mitigar</td><td>Dirección</td></tr>
+      <tr><td>RIE-08</td><td>Incidentes durante visitas (daños, robos, accidentes)</td><td>10</td><td>Transferir</td><td>Legal / Ops</td></tr>
+      <tr><td>RIE-13</td><td>Fallos de seguridad o filtración de datos</td><td>10</td><td>Mitigar</td><td>CTO / Tech</td></tr>
+      <tr><td>RIE-15</td><td>Reclasificación laboral de shoppers</td><td>10</td><td>Mitigar</td><td>Legal / HR</td></tr>
+      <tr><td>RIE-03</td><td>Deterioro del mercado del lujo</td><td>8</td><td>Aceptar</td><td>Dirección</td></tr>
+      <tr><td>RIE-11</td><td>Incumplimiento de marcas en consignación</td><td>8</td><td>Mitigar</td><td>Partnerships</td></tr>
+      <tr><td>RIE-16</td><td>Sanción por incumplimiento del RGPD</td><td>8</td><td>Mitigar</td><td>Legal / Tech</td></tr>
+      <tr><td>RIE-17</td><td>Escándalo de reputación</td><td>8</td><td>Mitigar</td><td>Marketing / Legal</td></tr>
+      <tr><td>RIE-07</td><td>Cancelaciones y no-shows frecuentes</td><td>9</td><td>Mitigar</td><td>Operations</td></tr>
+    </table>
+
+    <h3>Riesgos Monitorizados (Puntuación ≤ 6)</h3>
+    <table>
+      <tr><th>ID</th><th>Riesgo</th><th>Punt.</th><th>Estrategia</th><th>Propietario</th></tr>
+      <tr><td>RIE-14</td><td>Dependencia de un proveedor tecnológico clave</td><td>6</td><td>Mitigar</td><td>CTO / Tech</td></tr>
+      <tr><td>RIE-18</td><td>Crisis sanitaria o restricciones de movilidad</td><td>5</td><td>Aceptar</td><td>Dirección</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<footer>
+  Personal Shopping Luxury — Fase de Inicio · Documento elaborado el 2026-05-22 · Versión 1.0
+</footer>
+
+</body>
+</html>
