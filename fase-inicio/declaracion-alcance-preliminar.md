@@ -28,10 +28,10 @@ Personal Shopping Luxury es una plataforma premium de personal shoppers a domici
 - **Pasarela de pagos**: Cobro de membresías anuales y tarifas por visita.
 
 ### 4.2 Servicio de Personal Shopping
-- **Red de personal shoppers**: Reclutamiento, selección, formación y onboarding de 20 shoppers expertos.
+- **Red de personal shoppers**: Reclutamiento, selección, formación y onboarding de 10 shoppers expertos (5 por ciudad).
 - **Visitas domiciliarias**: Servicio de styling, asesoramiento de armario, selección de prendas, y presentación de colecciones en el domicilio del cliente.
 - **Membresía anual**: Acceso ilimitado a la red de shoppers (2.000€/año).
-- **Visitas puntuales**: Tarifa por visita individual (100€/visita) para no miembros o miembros que quieran visitas adicionales.
+- **Visitas puntuales**: Tarifa por visita adicional (100€/visita) exclusivamente para miembros con membresía activa. No se ofrece el servicio de visitas a no miembros.
 
 ### 4.3 Alianzas y Consignación
 - **Acuerdos con marcas de lujo**: Negociación de contratos de consignación con 10-15 marcas premium.
@@ -82,7 +82,7 @@ El alcance se considerará validado cuando:
 | ID | Criterio | Métrica |
 |----|----------|---------|
 | CA-01 | La plataforma web y app estén operativas y permitan reservar una cita | 100% funcionalidades core activas |
-| CA-02 | Haya al menos 20 personal shoppers activos y formados | 20 shoppers con contrato y rating >4.5/5 |
+| CA-02 | Haya al menos 10 personal shoppers activos y formados | 10 shoppers con contrato y rating >4.5/5 |
 | CA-03 | Haya acuerdos de consignación firmados con al menos 10 marcas | 10 contratos activos |
 | CA-04 | Se alcancen 200 miembros activos pagados en el primer año | 200 miembros con membresía vigente |
 | CA-05 | El servicio esté operativo en Madrid y Barcelona | 2 ciudades activas con cobertura de shoppers |
