@@ -33,12 +33,12 @@ Esta matriz sirve como índice de navegación para toda la documentación del pr
 | **Alcance** | [Alcance Inicio](fase-inicio/alcance-inicio.md) · [Alcance Preliminar](fase-inicio/declaracion-alcance-preliminar.md) · [Cambio Avatar 3D](fase-inicio/solicitud-cambio-avatar-3d.md) | [Plan Gestión Alcance](fase-planificacion/plan-gestion-alcance.md) | Por definir | Por definir | Por definir |
 | **Tiempo** | [Tiempo Inicio](fase-inicio/tiempo-inicio.md) · [Hitos Acta](acta-constitucion/acta-constitucion.md) | [Plan Gestión Tiempo](fase-planificacion/plan-gestion-tiempo.md) | Por definir | Por definir | Por definir |
 | **Costes** | [Costes Inicio](fase-inicio/costes-inicio.md) · [Business Case](fase-inicio/business-case.md) | [Plan Gestión Costes](fase-planificacion/plan-gestion-costes.md) | Por definir | Por definir | Por definir |
-| **Calidad** | — | Por definir | Por definir | Por definir | Por definir |
-| **Recursos** | — | Por definir | Por definir | Por definir | Por definir |
-| **Comunicaciones** | — | Por definir | Por definir | Por definir | Por definir |
-| **Riesgos** | [Registro Riesgos Iniciales](fase-inicio/registro-riesgos-iniciales.md) | Por definir | Por definir | Por definir | Por definir |
-| **Interesados** | [Registro Interesados](fase-inicio/registro-interesados.md) | Por definir | Por definir | Por definir | Por definir |
-| **Adquisiciones** | — | Por definir | Por definir | Por definir | Por definir |
+| **Calidad** | — | [Plan Gestión Calidad](fase-planificacion/plan-gestion-calidad.md) | Por definir | Por definir | Por definir |
+| **Recursos** | — | [Plan Gestión Recursos](fase-planificacion/plan-gestion-recursos.md) | Por definir | Por definir | Por definir |
+| **Comunicaciones** | — | [Plan Gestión Comunicaciones](fase-planificacion/plan-gestion-comunicaciones.md) | Por definir | Por definir | Por definir |
+| **Riesgos** | [Registro Riesgos Iniciales](fase-inicio/registro-riesgos-iniciales.md) | [Plan Gestión Riesgos](fase-planificacion/plan-gestion-riesgos.md) | Por definir | Por definir | Por definir |
+| **Interesados** | [Registro Interesados](fase-inicio/registro-interesados.md) | [Plan Gestión Interesados](fase-planificacion/plan-gestion-interesados.md) | Por definir | Por definir | Por definir |
+| **Adquisiciones** | — | [Plan Gestión Adquisiciones](fase-planificacion/plan-gestion-adquisiciones.md) | Por definir | Por definir | Por definir |
 
 ### Documentación transversal / Soporte
 

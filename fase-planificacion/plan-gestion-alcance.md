@@ -156,43 +156,7 @@ Plataforma tecnológica + operativa de personal shopping de lujo a domicilio, la
 - Distribución mínima: 80 Madrid, 80 Barcelona, 40 mixtos.
 - Churn mensual <5%.
 
-## 8. Proceso de Control de Cambios de Alcance
-
-### 8.1 Solicitud de Cambio
-
-| Campo | Descripción |
-|-------|-------------|
-| ID | SC-XXX (consecutivo) |
-| Solicitante | Nombre y rol |
-| Fecha | |
-| Descripción del cambio | Qué se quiere añadir, modificar o eliminar |
-| Justificación | Por qué se solicita |
-| Impacto estimado | En alcance, tiempo, coste, calidad, riesgos |
-
-### 8.2 Flujo de Aprobación
-
-1. **Recepción**: El gestor de alcance recibe la solicitud y la registra.
-2. **Análisis de impacto**: Se evalúa el impacto en los 6 restricciones (alcance, tiempo, coste, calidad, riesgos, recursos).
-3. **Decisión del comité**: El comité de cambios (Director del Proyecto + Patrocinador + CTO) decide en 48h:
-   - **Aprobar**: se actualiza la línea base.
-   - **Rechazar**: se documenta y comunica.
-   - **Diferir**: se incluye en backlog para fases posteriores.
-4. **Implementación**: Si se aprueba, se asignan recursos y se actualizan planes dependientes (tiempo, costes, riesgos).
-5. **Lección aprendida**: Se documenta el cambio para cierre de fase.
-
-### 8.3 Caso Ejemplo — Avatar 3D (SC-001)
-
-| Campo | Valor |
-|-------|-------|
-| ID | SC-001 |
-| Solicitante | Stakeholder externo |
-| Descripción | Avatar 3D personalizable con probador virtual |
-| Análisis de impacto | +150K€–400K€; +3-6 meses; rompe REST-01, REST-04, REST-09; desalineado con propuesta de valor |
-| Decisión | **Rechazado para MVP** |
-| Alternativa propuesta | Fotos reales de prendas enviadas por shopper antes de visita |
-| Compromiso | Revisitar en Año 2 si hay demanda real |
-
-## 9. Matriz de Trazabilidad de Requisitos (Preliminar)
+## 8. Matriz de Trazabilidad de Requisitos (Preliminar)
 
 | ID Requisito | Descripción | Entregable | Criterio Aceptación | Estado |
 |--------------|-------------|------------|---------------------|--------|
@@ -206,7 +170,6 @@ Plataforma tecnológica + operativa de personal shopping de lujo a domicilio, la
 
 - [ ] Desarrollar EDT completa hasta nivel 4 (actividades individuales) para los paquetes críticos.
 - [ ] Validar EDT con el equipo técnico y operativo.
-- [ ] Establecer el comité de cambios formalmente.
 - [ ] Definir herramienta de gestión de alcance (Jira, Linear, o Notion).
 - [ ] Comunicar la línea base del alcance a todos los interesados clave.
 
