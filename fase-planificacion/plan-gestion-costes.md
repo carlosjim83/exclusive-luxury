@@ -140,16 +140,15 @@ Este documento detalla la estimación, presupuesto y control de los costes del p
 
 | Mes | Ingresos | Costes | Flujo Neto | Acumulado |
 |-----|----------|--------|------------|-----------|
-| M1-M6 | 0€ | 310.000€ | -310.000€ | -310.000€ |
-| M7 | 20.000€ | 80.000€ | -60.000€ | -370.000€ |
-| M8 | 50.000€ | 85.000€ | -35.000€ | -405.000€ |
-| M9 | 80.000€ | 75.000€ | +5.000€ | -400.000€ |
-| M10 | 100.000€ | 40.000€ | +60.000€ | -340.000€ |
-| M11 | 120.000€ | 35.000€ | +85.000€ | -255.000€ |
-| M12 | 140.000€ | 35.000€ | +105.000€ | -150.000€ |
-| **TOTAL** | **510.000€** | **660.000€** | **-150.000€** | — |
+| M1-M7 | 0€ | 310.000€ | -310.000€ | -310.000€ |
+| M8 | 50.000€ | 85.000€ | -35.000€ | -345.000€ |
+| M9 | 100.000€ | 75.000€ | +25.000€ | -320.000€ |
+| M10 | 140.000€ | 40.000€ | +100.000€ | -220.000€ |
+| M11 | 180.000€ | 35.000€ | +145.000€ | -75.000€ |
+| M12 | 214.000€ | 35.000€ | +179.000€ | **+104.000€** |
+| **TOTAL** | **684.000€** | **660.000€** | **+24.000€** | — |
 
-*Nota: El flujo acumulado negativo requiere que los inversores aporten el capital completo al inicio. Los ingresos del Año 1 no cubren el desembolso total; la rentabilidad se alcanza en el Año 2 con la base de miembros recurrentes.*
+*Nota: Aunque al cierre del Año 1 el resultado es positivo (24K€), el flujo de caja acumulado es negativo durante la mayor parte del año (hasta M11). Esto exige disponer del capital completo desde el inicio para financiar los costes operativos hasta que la masa de miembros genera ingresos suficientes. La previsión de liquidez mínima se alcanza en M8 (-345K€), momento en que los inversores deben haber desembolsado al menos el 55% del capital.*
 
 ## 7. Métricas de Control de Costes
 
