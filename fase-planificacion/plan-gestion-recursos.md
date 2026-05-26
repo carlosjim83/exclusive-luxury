@@ -37,10 +37,17 @@ Identificar, adquirir, gestionar y liberar los recursos humanos, materiales y te
 
 | Perfil | Cantidad | Compensación | Periodo | Coste Total | Contrato |
 |--------|----------|--------------|---------|-------------|----------|
-| Senior (ex-dependientes lujo, 5+ años) | 4 | 500€ fijo + 12€/visita + comisión venta | M5-M12 | ~32.000€/año c/u | Autónomo / Colaborador |
-| Mid (estilistas, 2-5 años) | 4 | 500€ fijo + 12€/visita + comisión venta | M5-M12 | ~28.000€/año c/u | Autónomo / Colaborador |
-| Junior (recién formados, 0-2 años) | 2 | 500€ fijo + 12€/visita | M6-M12 | ~22.000€/año c/u | Autónomo / Colaborador |
-| **Total shoppers** | **10** | — | — | **132.000€** | — |
+| Senior (ex-dependientes lujo, 5+ años) | 4 | 1.200€ fijo/mes + 15€/visita + 5% comisión venta | M5-M12 | ~32.000€/año c/u | Autónomo / Colaborador |
+| Mid (estilistas, 2-5 años) | 4 | 1.200€ fijo/mes + 15€/visita + 5% comisión venta | M5-M12 | ~28.000€/año c/u | Autónomo / Colaborador |
+| Junior (recién formados, 0-2 años) | 2 | 1.200€ fijo/mes + 15€/visita | M6-M12 | ~22.000€/año c/u | Autónomo / Colaborador |
+| **Total shoppers** | **10** | — | — | **~196.000€** | — |
+
+#### 3.2.1 Detalle del Modelo de Compensación
+
+- **Fijo mensual garantizado**: 1.200€/mes (anticipo a cuenta de variable), independientemente de visitas. Asegura una retribución digna acorde al SMI español y reduce el riesgo de reclasificación laboral (RIE-15).
+- **Variable por visita**: 15€ por visita completada. Incentiva la productividad sin presionar por volumen a costa de calidad.
+- **Comisión por venta**: 5% sobre el importe de las prendas vendidas en consignación durante la visita. Alinea el interés del shopper con el del negocio.
+- **Estimación media mensual por shopper activo**: ~2.000€/mes (1.200€ fijo + ~500€ variable + ~300€ comisión).
 
 ### 3.3 Recursos Materiales
 
@@ -49,7 +56,7 @@ Identificar, adquirir, gestionar y liberar los recursos humanos, materiales y te
 | Portátiles equipo tech | 5-6 | 9.000€ | MacBook Pro / ThinkPad |
 | Smartphones testers | 4 | 3.000€ | iPhone 15 + Android flagship |
 | iPads para shoppers (catálogo digital) | 10 | 6.000€ | Acceso a colecciones en visita |
-| Vehículos de empresa | 5 | 30.000€ | Leasing 12 meses + combustible |
+| Vehículos de empresa (leasing operativo) | 10 | 46.000€ | Leasing 12 meses + combustible + seguro (1 por shopper) |
 | Espacio de coworking / oficina | 1 | 12.000€ | 12 meses x 1.000€/mes (hot desk) |
 | Material de formación | — | 6.000€ | Dossiers, uniformes, kit de bienvenida |
 | Eventos lanzamiento | 2 | 24.000€ | Madrid + Barcelona |
@@ -142,11 +149,12 @@ Director del Proyecto
 
 ## 8. Acciones Pendientes
 
-- [ ] Definir modelo contractual definitivo: ¿autónomos, colaboradores o empleados para shoppers?
-- [ ] Negociar tarifas con leasing de vehículos (5 unidades, 12 meses).
+- [x] Definir modelo contractual definitivo: autónomos/colaboradores con fijo 1.200€/mes garantizado.
+- [ ] Negociar tarifas con leasing de vehículos (10 unidades, descuento por flota, 12 meses).
 - [ ] Preparar ofertas de trabajo para developers (stack: React Native / Flutter + Node.js / Python).
 - [ ] Definir política de trabajo remoto vs. presencial para equipo core.
 - [ ] Establecer proceso de onboarding de nuevos empleados/shoppers (checklist de 30 días).
+- [ ] Validar compensación de shoppers (1.200€ fijo + 15€/visita + 5% comisión) con asesoría laboral para mitigar RIE-15.
 
 ---
 

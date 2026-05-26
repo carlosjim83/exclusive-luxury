@@ -18,7 +18,7 @@ Transformar la experiencia de compra de lujo tradicional en un servicio premium 
 | **Cobertura Año 1** | Madrid, Barcelona |
 | **Expansión Año 3** | 6-8 ciudades (Málaga, Mallorca, París, Milán...) |
 | **Objetivo Año 1** | 200 miembros activos |
-| **Margen Año 1** | 19% operativo |
+| **Margen Año 1** | 3,5% sobre ingresos (24.000€ / 684.000€) |
 | **Presupuesto Año 1** | 660.000€ |
 
 ---

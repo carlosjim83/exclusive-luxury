@@ -43,7 +43,7 @@ Definir el proceso para adquirir bienes, servicios y resultados externos necesar
 
 | Adquisición | Tipo | Estimado | Proveedores Potenciales | Criterio Selección |
 |-------------|------|----------|------------------------|-------------------|
-| Vehículos de empresa (leasing) | Bien / Servicio | 30.000€ | LeasePlan, Alphabet, Santander Renting | Cuota mensual; km incluidos; seguro; flota premium (imagen marca) |
+| Vehículos de empresa (leasing operativo) | Bien / Servicio | 46.000€ | LeasePlan, Alphabet, Santander Renting | Cuota mensual; km incluidos; seguro; flota premium (imagen marca); descuento por flota 10 unidades |
 | Seguros (RC, mercancía, vehículos, ciber) | Servicio | 9.000€ | Mapfre, AXA, Allianz | Cobertura; precio; gestión de siniestros; reputación |
 | iPads para shoppers | Bien | 6.000€ | Apple, distribuidor autorizado | Garantía; soporte; gestión empresarial (MDM) |
 | Material de formación | Bien | 6.000€ | Imprenta premium, proveedores de moda | Calidad; sostenibilidad; imagen de marca |

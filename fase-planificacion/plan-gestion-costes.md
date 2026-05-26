@@ -27,13 +27,13 @@ Este documento detalla la estimación, presupuesto y control de los costes del p
 
 | Área | Presupuesto | % del Total |
 |------|-------------|-------------|
-| 1.1 Gestión del Proyecto | 30.000€ | 4,5% |
-| 1.2 Plataforma Tecnológica | 264.000€ | 40,0% |
-| 1.3 Operativa de Personal Shopping | 132.000€ | 20,0% |
-| 1.4 Alianzas y Consignación | 33.000€ | 5,0% |
-| 1.5 Marketing y Lanzamiento | 132.000€ | 20,0% |
-| 1.6 Legal, Calidad y Cumplimiento | 33.000€ | 5,0% |
-| **Reserva de contingencia** | **66.000€** | **10,0%** |
+| 1.1 Gestión del Proyecto | 24.000€ | 3,6% |
+| 1.2 Plataforma Tecnológica | 228.000€ | 34,5% |
+| 1.3 Operativa de Personal Shopping | 196.000€ | 29,7% |
+| 1.4 Alianzas y Consignación | 26.000€ | 3,9% |
+| 1.5 Marketing y Lanzamiento | 106.000€ | 16,1% |
+| 1.6 Legal, Calidad y Cumplimiento | 26.000€ | 3,9% |
+| **Reserva de contingencia** | **54.000€** | **8,2%** |
 | **TOTAL** | **660.000€** | **100%** |
 
 ### 4.2 Detalle por Área
@@ -42,113 +42,121 @@ Este documento detalla la estimación, presupuesto y control de los costes del p
 
 | Concepto | Importe | Notas |
 |----------|---------|-------|
-| Asesoría de dirección de proyectos | 12.000€ | 12 meses x 1.000€/mes |
-| Herramientas de gestión (Jira, Notion, Slack) | 6.000€ | Licencias equipo 12 meses |
-| Desplazamientos y reuniones | 6.000€ | Viajes Madrid-Barcelona, eventos |
-| Material de oficina y miscelánea | 6.000€ | — |
-| **Subtotal** | **30.000€** | |
+| Asesoría de dirección de proyectos | 10.000€ | 12 meses x ~833€/mes |
+| Herramientas de gestión (Jira, Notion, Slack) | 4.000€ | Licencias equipo 12 meses |
+| Desplazamientos y reuniones | 5.000€ | Viajes Madrid-Barcelona, eventos |
+| Material de oficina y miscelánea | 5.000€ | — |
+| **Subtotal** | **24.000€** | |
 
 #### 1.2 Plataforma Tecnológica — 264.000€
 
 | Concepto | Importe | Notas |
 |----------|---------|-------|
-| Salarios equipo tech (9 meses) | 180.000€ | 4 devs promedio 5.000€/mes x 9 meses |
-| Freelance / outsourcing puntual | 24.000€ | Diseño UI/UX, seguridad, consultoría |
-| Infraestructura cloud (AWS/GCP) | 18.000€ | 12 meses x 1.500€/mes |
-| Licencias y herramientas dev | 12.000€ | GitHub, Figma, Stripe fees, analytics |
-| Testing y dispositivos | 6.000€ | iPhones, Androids, tablets |
-| Auditoría de seguridad | 12.000€ | Pre-lanzamiento + trimestral |
-| App Store / Play Store | 2.000€ | Cuentas developer, marketing assets |
-| **Subtotal** | **264.000€** | |
+| Salarios equipo tech (9 meses) | 162.000€ | 4-5 devs promedio 4.500€/mes x 9 meses |
+| Freelance / outsourcing puntual | 18.000€ | Diseño UI/UX, seguridad, consultoría |
+| Infraestructura cloud (AWS/GCP) | 14.000€ | 12 meses x ~1.170€/mes |
+| Licencias y herramientas dev | 9.000€ | GitHub, Figma, Stripe fees, analytics |
+| Testing y dispositivos | 3.000€ | iPhones, Androids, tablets |
+| Auditoría de seguridad | 8.000€ | Pre-lanzamiento + trimestral |
+| App Store / Play Store | 1.000€ | Cuentas developer, marketing assets |
+| Consultoría técnica puntual | 7.000€ | Arquitectura, DevOps, revisión código |
+| **Subtotal** | **222.000€** | |
 
-#### 1.3 Operativa de Personal Shopping — 132.000€
+#### 1.3 Operativa de Personal Shopping — 196.000€
 
 | Concepto | Importe | Notas |
 |----------|---------|-------|
-| Salarios shoppers (10) | 60.000€ | 500€/mes fijo x 10 shoppers x 12 meses |
-| Comisiones por visita | 24.000€ | 2.000 visitas x ~12€/visita de comisión variable |
-| Vehículos de empresa | 18.000€ | Alquiler / leasing 5 vehículos x 12 meses |
-| Combustible y mantenimiento | 12.000€ | 5 vehículos x 12 meses |
+| Fijos shoppers (10) | 78.000€ | 1.200€/mes fijo x 65 meses-shopper activos (M5-M12 Madrid, M8-M12 Barcelona) |
+| Variable por visita | 30.000€ | 2.000 visitas x 15€/visita de comisión variable |
+| Comisiones por venta a shoppers | 24.000€ | 5% estimado sobre ventas de consignación generadas |
+| Vehículos de empresa (leasing) | 26.000€ | 10 vehículos (1 por shopper), leasing operativo con descuento flota |
+| Combustible y mantenimiento | 16.000€ | 10 vehículos x promedio 6,5 meses activos |
+| Seguros flota de vehículos | 4.000€ | Cobertura adicional a leasing operativo |
 | Formación shoppers | 6.000€ | Material, espacios, instructores externos |
 | Uniformes / kit shopper | 3.000€ | 10 shoppers x 300€ |
 | Atención al cliente (call center / chat) | 9.000€ | 12 meses x 750€/mes (part-time) |
-| **Subtotal** | **132.000€** | |
+| **Subtotal** | **196.000€** | |
 
 #### 1.4 Alianzas y Consignación — 33.000€
 
 | Concepto | Importe | Notas |
 |----------|---------|-------|
-| Salario Partnerships Manager | 24.000€ | 12 meses x 2.000€/mes |
-| Viajes a showrooms y eventos de marcas | 3.000€ | Desplazamientos nacionales |
-| Material de presentación para marcas | 3.000€ | Dossiers, muestras, eventos |
-| Regalos y detalles para marcas | 3.000€ | Protocolo relación comercial |
-| **Subtotal** | **33.000€** | |
+| Salario Partnerships Manager | 22.000€ | 12 meses x ~1.830€/mes |
+| Viajes a showrooms y eventos de marcas | 2.000€ | Desplazamientos nacionales |
+| Material de presentación para marcas | 2.000€ | Dossiers, muestras, eventos |
+| **Subtotal** | **26.000€** | |
 
 #### 1.5 Marketing y Lanzamiento — 132.000€
 
 | Concepto | Importe | Notas |
 |----------|---------|-------|
 | Salario Marketing Manager | 24.000€ | 12 meses x 2.000€/mes |
-| Branding y diseño identidad visual | 18.000€ | Agencia o freelance premium |
-| Desarrollo landing page y web marketing | 6.000€ | Fuera del MVP tech (puro marketing) |
-| Publicidad digital (Meta, Google, TikTok) | 36.000€ | 3.000€/mes x 12 meses |
-| Eventos de lanzamiento (Madrid + Barcelona) | 24.000€ | 2 eventos x 12.000€ |
-| Embajadores e influencers | 12.000€ | 10 influencers x 1.200€ promedio |
-| PR y agencia de comunicación | 6.000€ | 6 meses x 1.000€/mes |
+| Branding y diseño identidad visual | 15.000€ | Agencia o freelance premium |
+| Desarrollo landing page y web marketing | 3.000€ | Fuera del MVP tech (puro marketing) |
+| Publicidad digital (Meta, Google, TikTok) | 28.000€ | ~2.330€/mes x 12 meses |
+| Eventos de lanzamiento (Madrid + Barcelona) | 18.000€ | 2 eventos x 9.000€ |
+| Embajadores e influencers | 10.000€ | 10 influencers x 1.000€ promedio |
+| PR y agencia de comunicación | 4.000€ | 6 meses x ~670€/mes |
 | Material impreso y merchandising | 4.000€ | — |
-| **Subtotal** | **132.000€** | |
+| **Subtotal** | **106.000€** | |
 
 #### 1.6 Legal, Calidad y Cumplimiento — 33.000€
 
 | Concepto | Importe | Notas |
 |----------|---------|-------|
-| Asesoría legal externa | 12.000€ | 12 meses x 1.000€/mes |
+| Asesoría legal externa | 10.000€ | 12 meses x ~830€/mes |
 | Constitución societaria y trámites | 3.000€ | Notaría, registro, licencias |
-| Seguros | 9.000€ | RC, mercancía, vehículos, ciberriesgo |
-| Auditoría RGPD | 6.000€ | Inicial + seguimiento |
-| Certificaciones y cumplimientos | 3.000€ | — |
-| **Subtotal** | **33.000€** | |
+| Seguros | 7.000€ | RC profesional, mercancía en tránsito, ciberriesgo |
+| Auditoría RGPD | 4.000€ | Inicial + seguimiento |
+| Certificaciones y cumplimientos | 2.000€ | — |
+| **Subtotal** | **26.000€** | |
 
 #### Reserva de Contingencia — 66.000€
 
 | Destino potencial | Importe asignado | Riesgo asociado |
 |-------------------|-------------------|-----------------|
-| Desviación tecnológica | 30.000€ | RIE-09, RIE-12 |
+| Desviación tecnológica | 24.000€ | RIE-09, RIE-12 |
 | Retraso en adquisición de clientes | 18.000€ | RIE-01, RIE-10 |
-| Imprevistos legales / laborales | 12.000€ | RIE-15, RIE-16 |
-| Otros imprevistos | 6.000€ | Buffer general |
-| **Subtotal** | **66.000€** | |
+| Imprevistos legales / laborales | 8.000€ | RIE-15, RIE-16 |
+| Otros imprevistos | 4.000€ | Buffer general |
+| **Subtotal** | **54.000€** | |
 
 ## 5. Curva de Gastos Mensual (S-Curve)
 
 | Mes | Gasto Acumulado | % Acumulado | Fase Principal |
 |-----|-----------------|-------------|----------------|
-| M1 | 35.000€ | 5,3% | Fundación, contrataciones |
-| M2 | 70.000€ | 10,6% | Desarrollo tech inicia |
-| M3 | 115.000€ | 17,4% | Backend + frontend |
-| M4 | 170.000€ | 25,8% | App móvil + reclutamiento |
-| M5 | 235.000€ | 35,6% | Formación + contratos marcas |
-| M6 | 310.000€ | 47,0% | Integración + Barcelona |
-| M7 | 390.000€ | 59,1% | Pre-lanzamiento + marketing |
-| M8 | 475.000€ | 72,0% | Soft launch Madrid |
-| M9 | 550.000€ | 83,3% | Hard launch Madrid |
-| M10 | 590.000€ | 89,4% | Barcelona operativa |
-| M11 | 625.000€ | 94,7% | Escalada miembros |
+| M1 | 24.000€ | 3,6% | Fundación, contrataciones |
+| M2 | 58.000€ | 8,8% | Desarrollo tech inicia |
+| M3 | 102.000€ | 15,5% | Backend + frontend |
+| M4 | 156.000€ | 23,6% | App móvil + reclutamiento |
+| M5 | 216.000€ | 32,7% | Formación + contratos marcas |
+| M6 | 282.000€ | 42,7% | Integración + Barcelona |
+| M7 | 352.000€ | 53,3% | Pre-lanzamiento + marketing |
+| M8 | 426.000€ | 64,5% | Soft launch Madrid |
+| M9 | 494.000€ | 74,8% | Hard launch Madrid |
+| M10 | 552.000€ | 83,6% | Barcelona operativa |
+| M11 | 602.000€ | 91,2% | Escalada miembros |
 | M12 | 660.000€ | 100% | Cierre Año 1 |
 
 ## 6. Ingresos Proyectados vs. Costes (Flujo de Caja)
 
 | Mes | Ingresos | Costes | Flujo Neto | Acumulado |
 |-----|----------|--------|------------|-----------|
-| M1-M7 | 0€ | 310.000€ | -310.000€ | -310.000€ |
-| M8 | 50.000€ | 85.000€ | -35.000€ | -345.000€ |
-| M9 | 100.000€ | 75.000€ | +25.000€ | -320.000€ |
-| M10 | 140.000€ | 40.000€ | +100.000€ | -220.000€ |
-| M11 | 180.000€ | 35.000€ | +145.000€ | -75.000€ |
-| M12 | 214.000€ | 35.000€ | +179.000€ | **+104.000€** |
+| M1 | 0€ | 24.000€ | -24.000€ | -24.000€ |
+| M2 | 0€ | 34.000€ | -34.000€ | -58.000€ |
+| M3 | 0€ | 44.000€ | -44.000€ | -102.000€ |
+| M4 | 0€ | 54.000€ | -54.000€ | -156.000€ |
+| M5 | 0€ | 60.000€ | -60.000€ | -216.000€ |
+| M6 | 0€ | 66.000€ | -66.000€ | -282.000€ |
+| M7 | 0€ | 70.000€ | -70.000€ | -352.000€ |
+| M8 | 50.000€ | 74.000€ | -24.000€ | -376.000€ |
+| M9 | 100.000€ | 68.000€ | +32.000€ | -344.000€ |
+| M10 | 140.000€ | 58.000€ | +82.000€ | -262.000€ |
+| M11 | 180.000€ | 50.000€ | +130.000€ | -132.000€ |
+| M12 | 214.000€ | 58.000€ | +156.000€ | **+24.000€** |
 | **TOTAL** | **684.000€** | **660.000€** | **+24.000€** | — |
 
-*Nota: Aunque al cierre del Año 1 el resultado es positivo (24K€), el flujo de caja acumulado es negativo durante la mayor parte del año (hasta M11). Esto exige disponer del capital completo desde el inicio para financiar los costes operativos hasta que la masa de miembros genera ingresos suficientes. La previsión de liquidez mínima se alcanza en M8 (-345K€), momento en que los inversores deben haber desembolsado al menos el 55% del capital.*
+*Nota: El flujo de caja acumulado es negativo durante todo el año hasta el cierre. El pico de necesidad de liquidez se alcanza en M8 (-376K€), coincidiendo con el soft launch de Madrid y la contratación simultánea de shoppers en Barcelona. Los inversores deben desembolsar el capital completo antes de M1. A partir de M9 el flujo mensual es positivo gracias al hard launch y la aceleración de membresías.*
 
 ## 7. Métricas de Control de Costes
 
