@@ -30,9 +30,9 @@ Esta matriz sirve como índice de navegación para toda la documentación del pr
 | Área de Conocimiento | [🟡 Inicio](fase-inicio/) | [🔵 Planificación](fase-planificacion/) | 🟠 Ejecución | 🟢 Supervisión y Control | ⚫ Cierre |
 |----------------------|:------------------------:|:----------------------------------------:|:------------:|:------------------------:|:---------:|
 | **Integración** | [Acta de Constitución](acta-constitucion/acta-constitucion.md) · [Business Case](fase-inicio/business-case.md) | Por definir | Por definir | Por definir | Por definir |
-| **Alcance** | [Alcance Preliminar](fase-inicio/declaracion-alcance-preliminar.md) · [Cambio Avatar 3D](fase-inicio/solicitud-cambio-avatar-3d.md) | [Plan Gestión Alcance](fase-planificacion/plan-gestion-alcance.md) | Por definir | Por definir | Por definir |
-| **Tiempo** | — (contenido en Acta) | [Plan Gestión Tiempo](fase-planificacion/plan-gestion-tiempo.md) | Por definir | Por definir | Por definir |
-| **Costes** | — (contenido en Business Case) | [Plan Gestión Costes](fase-planificacion/plan-gestion-costes.md) | Por definir | Por definir | Por definir |
+| **Alcance** | [Alcance Inicio](fase-inicio/alcance-inicio.md) · [Alcance Preliminar](fase-inicio/declaracion-alcance-preliminar.md) · [Cambio Avatar 3D](fase-inicio/solicitud-cambio-avatar-3d.md) | [Plan Gestión Alcance](fase-planificacion/plan-gestion-alcance.md) | Por definir | Por definir | Por definir |
+| **Tiempo** | [Tiempo Inicio](fase-inicio/tiempo-inicio.md) · [Hitos Acta](acta-constitucion/acta-constitucion.md) | [Plan Gestión Tiempo](fase-planificacion/plan-gestion-tiempo.md) | Por definir | Por definir | Por definir |
+| **Costes** | [Costes Inicio](fase-inicio/costes-inicio.md) · [Business Case](fase-inicio/business-case.md) | [Plan Gestión Costes](fase-planificacion/plan-gestion-costes.md) | Por definir | Por definir | Por definir |
 | **Calidad** | — | Por definir | Por definir | Por definir | Por definir |
 | **Recursos** | — | Por definir | Por definir | Por definir | Por definir |
 | **Comunicaciones** | — | Por definir | Por definir | Por definir | Por definir |
