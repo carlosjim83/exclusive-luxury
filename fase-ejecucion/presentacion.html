@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Shopping Luxury — Fase de Ejecución</title>
+<style>
+  :root {
+    --bg: #0a0e27;
+    --bg-light: #111640;
+    --gold: #d4af37;
+    --gold-light: #f0d878;
+    --text: #f5f5f5;
+    --text-muted: #a0a8c8;
+    --accent: #1a2050;
+    --border: #2a3070;
+    --success: #4caf50;
+    --danger: #e57373;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+  }
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    overflow-y: auto;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+  }
+  .slide-content {
+    width: 100%;
+    max-width: 1100px;
+  }
+  h1, h2, h3 {
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.3rem, 3vw, 2rem); margin-bottom: 0.8rem; }
+  h3 { font-size: clamp(1rem, 2vw, 1.3rem); margin: 1rem 0 0.5rem; }
+  p, li { color: var(--text); line-height: 1.6; }
+  .subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; }
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .card {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1rem;
+  }
+  .card h4 { color: var(--gold); font-size: 1rem; margin-bottom: 0.4rem; }
+  .card p, .card li { font-size: 0.9rem; color: var(--text-muted); }
+  .card ul { margin-left: 1rem; }
+  .stat {
+    text-align: center;
+    padding: 1.2rem;
+  }
+  .stat-value {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.2;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.3rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  th, td {
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--gold);
+    font-weight: 600;
+    background: var(--accent);
+  }
+  td { color: var(--text-muted); }
+  tr:last-child td { border-bottom: none; }
+  .nav {
+    position: fixed;
+    bottom: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10;
+    background: rgba(10, 14, 39, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.5rem 1.2rem;
+    backdrop-filter: blur(6px);
+  }
+  .nav button {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav button:hover { background: var(--gold); color: var(--bg); }
+  .counter {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    min-width: 3.5rem;
+    text-align: center;
+  }
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--border);
+    z-index: 20;
+  }
+  .progress-bar .fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+  .hero-logo {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .hero-line {
+    width: 80px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1rem auto;
+  }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .overview-item {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  .overview-item h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .overview-item p { font-size: 0.85rem; color: var(--text-muted); }
+  .highlight-box {
+    background: linear-gradient(135deg, var(--accent), var(--bg-light));
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 0.6rem;
+    padding: 1rem 1.2rem;
+    margin: 0.8rem 0;
+  }
+  .highlight-box p { color: var(--text); font-size: 0.95rem; }
+  .highlight-box strong { color: var(--gold); }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .slide { padding: 1.2rem; }
+    .nav { bottom: 0.8rem; padding: 0.4rem 0.9rem; }
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar"><div class="fill" id="progress"></div></div>
+
+<div class="deck">
+
+  <!-- Slide 1: Title -->
+  <div class="slide active">
+    <div class="slide-content" style="text-align:center;">
+      <div class="kicker">Fase de Ejecución — Año 1 MVP</div>
+      <div class="hero-logo">Personal Shopping Luxury</div>
+      <div class="hero-line"></div>
+      <p class="subtitle">Plataforma premium de personal shoppers a domicilio<br>Madrid + Barcelona | 200 miembros | 10 shoppers activos</p>
+      <div class="grid-4" style="margin-top:2rem; max-width:800px; margin-left:auto; margin-right:auto;">
+        <div class="card stat">
+          <div class="stat-value">200</div>
+          <div class="stat-label">Miembros activos</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">52</div>
+          <div class="stat-label">NPS Madrid</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">10</div>
+          <div class="stat-label">Shoppers activos</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">691K€</div>
+          <div class="stat-label">Ingresos Año 1</div>
+        </div>
+      </div>
+      <p style="margin-top:2rem; color:var(--text-muted); font-size:0.85rem;">Fecha: 2026-05-27 | Versión 1.0</p>
+    </div>
+  </div>
+
+  <!-- Slide 2: Overview -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Resumen ejecutivo</div>
+      <h2>Vista general de la Ejecución</h2>
+      <div class="overview-grid" style="margin-top:1rem;">
+        <div class="overview-item">
+          <h4>Integración</h4>
+          <p>10 entregables aceptados. 5 cambios registrados (4 aprobados). Avance global 100%.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Alcance</h4>
+          <p>Plataforma web + apps iOS/Android. 12 marcas consignadas. Sin inventario propio.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Tiempo</h4>
+          <p>Lanzamiento Madrid M9 y Barcelona M12 en fecha. SPI global 1,00.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Costes</h4>
+          <p>Presupuesto 660K€. Gasto real 658K€. Beneficio 33K€ (+37,5% vs. plan).</p>
+        </div>
+        <div class="overview-item">
+          <h4>Calidad</h4>
+          <p>NPS 51, CSAT 4,5/5. Uptime 99,6%. 0 bugs críticos. 8 auditorías aprobadas.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Recursos</h4>
+          <p>10 shoppers certificados (5+5). Equipo tech liberado M9. Rotación 0% core, 10% shoppers.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Comunicaciones</h4>
+          <p>36 comunicados emitidos. 67 publicaciones logradas. 100% asistencia board.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Riesgos</h4>
+          <p>7 críticos cerrados. 3 residuales activos. 4 problemas derivados resueltos.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Interesados</h4>
+          <p>Patrocinador 9,2/10. Shoppers empoderados. Marcas 8,7/10. Tendencia estable o positiva.</p>
+        </div>
+        <div class="overview-item">
+          <h4>Adquisiciones</h4>
+          <p>11 contratos firmados. 6 adquisiciones no previstas gestionadas. Proveedores excelentes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Integración + Alcance -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Áreas de conocimiento</div>
+      <h2>Integración y Alcance</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Dashboard de ejecución (Meses 1–12)</h3>
+          <table>
+            <tr><th>Mes</th><th>Entregable clave</th><th>% Avance</th></tr>
+            <tr><td>M1</td><td>Sociedad + contratos tech</td><td>8%</td></tr>
+            <tr><td>M3</td><td>API core + política RGPD</td><td>22%</td></tr>
+            <tr><td>M6</td><td>5 shoppers Madrid + 6 marcas</td><td>48%</td></tr>
+            <tr><td>M8</td><td>Soft launch Madrid (62 pre-ventas)</td><td>68%</td></tr>
+            <tr><td>M9</td><td><strong>Lanzamiento Madrid</strong> — 85 miembros</td><td>78%</td></tr>
+            <tr><td>M12</td><td><strong>Lanzamiento Barcelona</strong> — 200 miembros</td><td>100%</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Entregables aceptados vs. línea base</h3>
+          <table>
+            <tr><th>ID</th><th>Descripción</th><th>Estado</th></tr>
+            <tr><td>ENT-01</td><td>Plataforma web</td><td>Aceptado</td></tr>
+            <tr><td>ENT-02</td><td>App iOS/Android</td><td>Aceptado</td></tr>
+            <tr><td>ENT-03</td><td>Panel admin + CRM + pagos</td><td>Aceptado</td></tr>
+            <tr><td>ENT-04</td><td>10 shoppers formados</td><td>Aceptado</td></tr>
+            <tr><td>ENT-05</td><td>12 marcas consignación</td><td>Aceptado</td></tr>
+            <tr><td>ENT-08</td><td>200 miembros activos</td><td>Aceptado</td></tr>
+          </table>
+          <div class="highlight-box" style="margin-top:0.8rem;">
+            <p><strong>Cambios ejecutados:</strong> CC-01 stack Flutter (-12K€), CC-02 ajuste formación (+2 sem), CC-03 embajadores (+8K€), CC-04 seguro RC (+1,2K€). CC-05 feedback post-visita rechazado (roadmap Año 2).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Tiempo + Costes -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Áreas de conocimiento</div>
+      <h2>Tiempo y Costes</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Rendimiento del cronograma</h3>
+          <table>
+            <tr><th>Trimestre</th><th>SPI</th><th>EV</th><th>Interpretación</th></tr>
+            <tr><td>T1 (M1–M3)</td><td>1,02</td><td>48K€</td><td>Ligero adelanto</td></tr>
+            <tr><td>T2 (M4–M6)</td><td>0,95</td><td>142K€</td><td>Retraso leve reclutamiento BCN</td></tr>
+            <tr><td>T3 (M7–M9)</td><td>1,00</td><td>310K€</td><td>Lanzamiento Madrid en fecha</td></tr>
+            <tr><td>T4 (M10–M12)</td><td>1,01</td><td>658K€</td><td>Cierre Año 1 ligero adelanto</td></tr>
+          </table>
+          <div class="highlight-box">
+            <p><strong>Hitos clave:</strong> H-09 Lanzamiento Madrid M9 (0 días desvío) · H-12 Lanzamiento Barcelona M12 (0 días desvío). Desvío significativo: formación shoppers Madrid +2 sem, app móvil +2 sem (Flutter), shoppers Barcelona +2 sem (escasez verano).</p>
+          </div>
+        </div>
+        <div>
+          <h3>Control financiero Año 1</h3>
+          <table>
+            <tr><th>Concepto</th><th>Importe</th></tr>
+            <tr><td>Presupuesto aprobado (BAC)</td><td>660.000€</td></tr>
+            <tr><td>Costes reales acumulados (AC)</td><td>658.000€</td></tr>
+            <tr><td>Ingresos reales</td><td>691.000€</td></tr>
+            <tr><td><strong>Beneficio real</strong></td><td><strong>33.000€</strong></td></tr>
+            <tr><td>VAC (ahorro)</td><td>+2.000€</td></tr>
+            <tr><td>Reserva contingencia usada</td><td>42K€ / 54K€</td></tr>
+          </table>
+          <div class="grid-2" style="margin-top:0.8rem;">
+            <div class="card stat"><div class="stat-value">1,00</div><div class="stat-label">CPI anual</div></div>
+            <div class="card stat"><div class="stat-value">54.8K</div><div class="stat-label">Burn rate mensual</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: Calidad -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Área de conocimiento</div>
+      <h2>Calidad — Métricas y Auditorías</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Métricas de calidad: Plan vs. Real</h3>
+          <table>
+            <tr><th>Métrica</th><th>Objetivo</th><th>M12</th><th>Estado</th></tr>
+            <tr><td>NPS</td><td>&gt; 50</td><td>51</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>CSAT visita</td><td>&gt; 4,5/5</td><td>4,5/5</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>Rating shopper</td><td>&gt; 4,5/5</td><td>4,6/5</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>Churn mensual</td><td>&lt; 5%</td><td>4,0%</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>Puntualidad visitas</td><td>&gt; 95%</td><td>97%</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>Uptime plataforma</td><td>&gt; 99,5%</td><td>99,6%</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>Crash rate app</td><td>&lt; 0,5%</td><td>0,3%</td><td style="color:var(--success)">Cumple</td></tr>
+            <tr><td>Bugs críticos</td><td>0</td><td>0</td><td style="color:var(--success)">Cumple</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Auditorías realizadas</h3>
+          <table>
+            <tr><th>ID</th><th>Tipo</th><th>Área</th><th>Resultado</th></tr>
+            <tr><td>AUD-03</td><td>Externa</td><td>RGPD</td><td>Aprobado</td></tr>
+            <tr><td>AUD-05</td><td>Interna</td><td>App móvil</td><td>Aprobado</td></tr>
+            <tr><td>AUD-06</td><td>Interna</td><td>Post-lanzamiento MAD</td><td>NPS 54, CSAT 4,6</td></tr>
+            <tr><td>AUD-07</td><td>Externa</td><td>Pentest ciberseguridad</td><td>Sin críticas</td></tr>
+            <tr><td>AUD-08</td><td>Interna</td><td>Lanzamiento BCN</td><td>Puntualidad 97%</td></tr>
+          </table>
+          <div class="highlight-box" style="margin-top:0.8rem;">
+            <p><strong>Mejoras de proceso:</strong> checklist pre-visita (incidencias 3→0), confirmación automática 24h+2h (no-shows 4%→1,5%), dashboard calidad en tiempo real (respuesta 24h→4h).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 6: Recursos -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Área de conocimiento</div>
+      <h2>Recursos — Equipo, Shoppers y Materiales</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Asignaciones equipo core</h3>
+          <table>
+            <tr><th>Rol</th><th>Persona</th><th>Periodo</th><th>Estado</th></tr>
+            <tr><td>Director del Proyecto</td><td>Carlos Jiménez</td><td>M1–M12</td><td>Activo</td></tr>
+            <tr><td>CTO / Tech Lead</td><td>María López</td><td>M1–M9</td><td>Liberada M9</td></tr>
+            <tr><td>Backend (x2)</td><td>J. Ruiz, A. Torres</td><td>M2–M9</td><td>Liberados M9</td></tr>
+            <tr><td>Frontend</td><td>Laura Vega</td><td>M2–M9</td><td>Liberada M9</td></tr>
+            <tr><td>Mobile (x2)</td><td>P. Soto, E. Navas</td><td>M2–M9</td><td>Liberados M9</td></tr>
+            <tr><td>Operations Manager</td><td>Sofía Herrera</td><td>M4–M12</td><td>Activo</td></tr>
+            <tr><td>Marketing Manager</td><td>Pablo Castillo</td><td>M1–M12</td><td>Activo</td></tr>
+            <tr><td>Partnerships</td><td>Lucía Gómez</td><td>M3–M12</td><td>Activo</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Shoppers y recursos materiales</h3>
+          <table>
+            <tr><th>Recurso</th><th>Cantidad</th><th>Asignación</th><th>% Uso M12</th></tr>
+            <tr><td>Shoppers activos</td><td>10</td><td>5 MAD / 5 BCN</td><td>100%</td></tr>
+            <tr><td>Vehículos (leasing)</td><td>10</td><td>5 MAD / 5 BCN</td><td>92%</td></tr>
+            <tr><td>iPad Pro 11"</td><td>12</td><td>10 + 2 repuesto</td><td>100%</td></tr>
+            <tr><td>Uniforme / kit marca</td><td>12</td><td>10 + 2 repuesto</td><td>100%</td></tr>
+            <tr><td>Muestras / lookbooks</td><td>15 sets</td><td>Rotativo por shopper</td><td>85%</td></tr>
+          </table>
+          <div class="highlight-box" style="margin-top:0.8rem;">
+            <p><strong>Desempeño:</strong> rotación core 0% · rotación shoppers 10% (1 baja voluntaria) · satisfacción equipo 8,2/10 · productividad shopper 5,7 visitas/semana · cumplimiento horario 97–98%.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7: Comunicaciones -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Área de conocimiento</div>
+      <h2>Comunicaciones — Log y Canales</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Reuniones regulares: Plan vs. Real</h3>
+          <table>
+            <tr><th>Reunión</th><th>Frecuencia</th><th>Asistencia</th><th>Cumplimiento</th></tr>
+            <tr><td>Daily stand-up (tech)</td><td>4,2 días/semana</td><td>95%</td><td>95%</td></tr>
+            <tr><td>Weekly sync (dirección)</td><td>Semanal</td><td>100%</td><td>100%</td></tr>
+            <tr><td>Sprint review / retro</td><td>Cada 2 semanas</td><td>90–95%</td><td>100%</td></tr>
+            <tr><td>Monthly board</td><td>Mensual</td><td>100%</td><td>100%</td></tr>
+            <tr><td>All-hands</td><td>M6 + M12</td><td>95–100%</td><td>100%</td></tr>
+          </table>
+          <div class="highlight-box">
+            <p><strong>Impacto destacado:</strong> 67 artículos/publicaciones totales · 28 artículos soft launch Madrid · evento lanzamiento Madrid 80 personas, 15 influencers · Barcelona 60 personas, 10 influencers.</p>
+          </div>
+        </div>
+        <div>
+          <h3>Stakeholder updates registrados</h3>
+          <table>
+            <tr><th>Interesado</th><th>Updates</th><th>Satisfacción</th></tr>
+            <tr><td>Patrocinador / Inversores</td><td>12 mensuales + 4 ext.</td><td>Alta</td></tr>
+            <tr><td>Clientes miembros</td><td>6 newsletters + auto</td><td>Alta</td></tr>
+            <tr><td>Marcas de lujo</td><td>6 informes + 2 eventos</td><td>Alta</td></tr>
+            <tr><td>Shoppers</td><td>8 newsletters + chat</td><td>Alta</td></tr>
+            <tr><td>Equipo core</td><td>12 internas + stand-ups</td><td>Alta</td></tr>
+            <tr><td>Reguladores / AEPD</td><td>2 (inicio + auditoría M8)</td><td>Cumplimiento</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: Riesgos -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Área de conocimiento</div>
+      <h2>Riesgos — Respuestas Implementadas</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Riesgos críticos cerrados</h3>
+          <table>
+            <tr><th>ID</th><th>Riesgo</th><th>Respuesta ejecutada</th><th>Resultado</th></tr>
+            <tr><td>RIE-01</td><td>Demanda &lt; 200 miembros</td><td>Campaña embajadores + eventos prueba + pre-venta</td><td>200 miembros M12</td></tr>
+            <tr><td>RIE-04</td><td>No reclutar 10 shoppers</td><td>Headhunting premium + IED + incentivo referido 500€</td><td>10 certificados (12 contratados)</td></tr>
+            <tr><td>RIE-05</td><td>Rotación alta shoppers</td><td>Bonus antigüedad M6 + mentoring + comunidad</td><td>1 baja (10%), 0 despidos</td></tr>
+            <tr><td>RIE-06</td><td>Calidad inconsistente</td><td>Manual + shadowing 3 visitas + QA aleatoria</td><td>NPS 51, CSAT 4,5</td></tr>
+            <tr><td>RIE-09</td><td>Desviación &gt; 10% presupuesto</td><td>Control mensual + reserva + priorización</td><td>Desvío –0,3%</td></tr>
+            <tr><td>RIE-10</td><td>Flujo caja negativo</td><td>Pre-venta M7–M8 + línea crédito 30K€ (no usada)</td><td>CF+ desde M9</td></tr>
+            <tr><td>RIE-12</td><td>Retraso plataforma &gt; 15 días</td><td>MVP enfocado + cambio Flutter + web primero</td><td>Retraso 7 días app</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Problemas derivados resueltos</h3>
+          <table>
+            <tr><th>ID</th><th>Problema</th><th>Resolución</th><th>Estado</th></tr>
+            <tr><td>ISS-01</td><td>Retraso 2 sem reclutamiento BCN</td><td>Headhunting + formación online adelantada</td><td>Cerrado</td></tr>
+            <tr><td>ISS-02</td><td>Coste extra 2K€ shoppers descartados</td><td>Imputado a Operativa, ajustado en reserva</td><td>Cerrado</td></tr>
+            <tr><td>ISS-03</td><td>Sustitución shopper Madrid M10</td><td>Contratación rápida PS-M05 preseleccionado</td><td>Cerrado</td></tr>
+            <tr><td>ISS-04</td><td>Línea de crédito 30K€ por precaución</td><td>Firmada, no usada, comisión 300€</td><td>Cerrado</td></tr>
+          </table>
+          <div class="highlight-box" style="margin-top:0.8rem;">
+            <p><strong>Residuales activos:</strong> RIE-02 replicación competidores · RIE-13 fallos de seguridad · RIE-15 reclasificación laboral. Probabilidades reducidas. Acciones Año 2 definidas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 9: Interesados + Adquisiciones -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="kicker">Áreas de conocimiento</div>
+      <h2>Interesados y Adquisiciones</h2>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h3>Pulse checks de satisfacción</h3>
+          <table>
+            <tr><th>Grupo</th><th>M3</th><th>M6</th><th>M9</th><th>M12</th><th>Tendencia</th></tr>
+            <tr><td>Patrocinador / Inversores</td><td>8,5</td><td>8,8</td><td>9,0</td><td>9,2</td><td>Positiva</td></tr>
+            <tr><td>Equipo core</td><td>8,0</td><td>8,3</td><td>8,5</td><td>8,2</td><td>Estable</td></tr>
+            <tr><td>Shoppers</td><td>—</td><td>7,5</td><td>7,8</td><td>7,8</td><td>Positiva</td></tr>
+            <tr><td>Clientes (NPS)</td><td>—</td><td>—</td><td>52</td><td>51</td><td>Estable</td></tr>
+            <tr><td>Marcas de lujo</td><td>—</td><td>8,0</td><td>8,5</td><td>8,7</td><td>Positiva</td></tr>
+          </table>
+          <div class="highlight-box">
+            <p><strong>Engagement ejecutado:</strong> dashboard privado inversor (+0,4 puntos) · comunidad WhatsApp shoppers + mentoring (rotación 10%) · programa embajadores 8K€ (45 miembros referidos) · eventos lanzamiento conjunto 6K€ (12 marcas activas, 0 bajas).</p>
+          </div>
+        </div>
+        <div>
+          <h3>Contratos firmados y estado</h3>
+          <table>
+            <tr><th>Proveedor</th><th>Concepto</th><th>Importe</th><th>Estado</th></tr>
+            <tr><td>CloudTech Solutions</td><td>Desarrollo tech</td><td>216K€</td><td>Completado</td></tr>
+            <tr><td>AWS</td><td>Hosting + infra</td><td>18K€</td><td>Activo</td></tr>
+            <tr><td>Stripe</td><td>Pasarela pagos</td><td>Variable</td><td>Activo</td></tr>
+            <tr><td>LeasePlan</td><td>10 vehículos</td><td>46K€</td><td>Activo</td></tr>
+            <tr><td>Mapfre</td><td>Seguros</td><td>9K€</td><td>Activo</td></tr>
+            <tr><td>Despacho RMT</td><td>Legal + DPO</td><td>14K€</td><td>Activo</td></tr>
+            <tr><td>Consultora ciber</td><td>Pentest</td><td>10K€</td><td>Completado</td></tr>
+            <tr><td>Agencia eventos</td><td>Lanzamientos x2</td><td>6K€</td><td>Completado</td></tr>
+          </table>
+          <div class="highlight-box" style="margin-top:0.8rem;">
+            <p><strong>Adquisiciones no previstas:</strong> headhunting premium BCN 3K€ · training Flutter 800€ · dashboard BI 400€ · seguro RC europea 1,2K€ · campaña embajadores 8K€ · sustitución shopper 2K€. Todas gestionadas dentro de reservas o reasignaciones.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 10: Closing / Summary -->
+  <div class="slide">
+    <div class="slide-content" style="text-align:center;">
+      <div class="kicker">Cierre de la Fase de Ejecución</div>
+      <h2>Resultados Año 1</h2>
+      <div class="grid-4" style="margin-top:2rem; max-width:900px; margin-left:auto; margin-right:auto;">
+        <div class="card stat">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Entregables aceptados</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">M9 / M12</div>
+          <div class="stat-label">Lanzamientos en fecha</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">+37,5%</div>
+          <div class="stat-label">Beneficio vs. plan</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">51</div>
+          <div class="stat-label">NPS global</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:2rem; max-width:800px; margin-left:auto; margin-right:auto; text-align:left;">
+        <p><strong>Próximos pasos (transición a Cierre):</strong></p>
+        <p>1. Formalizar acta de cierre de fase Ejecución y transición a Cierre.<br>2. Documentar lecciones aprendidas de las 5 solicitudes de cambio ejecutadas.<br>3. Actualizar líneas base integradas (alcance, tiempo, costes) con valores reales finales.<br>4. Preparar informe ejecutivo de ejecución para patrocinador e inversores.</p>
+      </div>
+      <p style="margin-top:2rem; color:var(--text-muted); font-size:0.85rem;">Personal Shopping Luxury | Ejecución Año 1 MVP | 2026-05-27</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="btnPrev" onclick="prevSlide()">Anterior</button>
+  <span class="counter" id="counter">1 / 10</span>
+  <button id="btnNext" onclick="nextSlide()">Siguiente</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  let current = 0;
+  const total = slides.length;
+
+  function update() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    counter.textContent = (current + 1) + ' / ' + total;
+    progress.style.width = ((current + 1) / total * 100) + '%';
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    btnPrev.style.opacity = current === 0 ? '0.5' : '1';
+    btnNext.style.opacity = current === total - 1 ? '0.5' : '1';
+  }
+
+  function nextSlide() {
+    if (current < total - 1) { current++; update(); }
+  }
+  function prevSlide() {
+    if (current > 0) { current--; update(); }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  });
+
+  // Swipe support
+  let startX = 0;
+  document.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].screenX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+  });
+
+  update();
+</script>
+</body>
+</html>

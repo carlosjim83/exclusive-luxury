@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supervisión y Control — Personal Shopping Luxury</title>
+<style>
+  :root {
+    --bg: #0a0e27;
+    --bg-light: #11183a;
+    --gold: #d4af37;
+    --gold-light: #f3d773;
+    --white: #f4f6ff;
+    --muted: #a0a8c9;
+    --red: #ff5a5a;
+    --green: #2ecc71;
+    --yellow: #f1c40f;
+    --slide-width: min(1100px, 92vw);
+    --slide-height: min(720px, 85vh);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: #05071a;
+    color: var(--white);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .slide {
+    width: var(--slide-width);
+    height: var(--slide-height);
+    background: linear-gradient(145deg, var(--bg) 0%, var(--bg-light) 100%);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(212,175,55,0.08);
+    display: none;
+    flex-direction: column;
+    padding: clamp(18px, 2.6vw, 40px) clamp(22px, 3vw, 46px);
+    position: relative;
+    overflow-y: auto;
+    animation: fadeIn 0.45s ease both;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(212,175,55,0.25);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    gap: 12px;
+  }
+
+  .slide-header h2 {
+    font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+  }
+
+  .badge {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,175,55,0.4);
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .slide-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .card h3 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .metric {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .metric-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  th {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  td { color: var(--white); }
+  tr:last-child td { border-bottom: none; }
+
+  .status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .status.verde { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.35); }
+  .status.amarillo { background: rgba(241,196,15,0.15); color: var(--yellow); border: 1px solid rgba(241,196,15,0.35); }
+  .status.rojo { background: rgba(255,90,90,0.15); color: var(--red); border: 1px solid rgba(255,90,90,0.35); }
+
+  .progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .progress-bar > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 999px;
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+    background: rgba(10,14,39,0.85);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 999px;
+    padding: 8px 18px;
+    backdrop-filter: blur(8px);
+  }
+
+  .nav button {
+    background: transparent;
+    border: 1px solid rgba(212,175,55,0.35);
+    color: var(--gold);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .nav button:hover {
+    background: rgba(212,175,55,0.12);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  .nav .counter {
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-width: 72px;
+    text-align: center;
+  }
+
+  .hero {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    line-height: 1.15;
+  }
+
+  .hero p {
+    color: var(--muted);
+    margin-top: 12px;
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  }
+
+  .gold-line {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 18px auto;
+    border-radius: 999px;
+  }
+
+  .small { font-size: 0.78rem; color: var(--muted); }
+  .highlight { color: var(--gold-light); font-weight: 700; }
+
+  .chart-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 140px;
+    padding-top: 10px;
+  }
+
+  .bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--gold), rgba(212,175,55,0.25));
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    min-height: 10px;
+  }
+
+  .bar-label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .bar-value {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.72rem;
+    color: var(--white);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+  }
+
+  .list li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  @media (max-width: 860px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .footer-note {
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- Slide 1: Title -->
+  <div class="slide hero active" id="slide-1">
+    <div class="badge" style="margin-bottom:14px;">Fase 4 — Supervisión y Control</div>
+    <h1>Personal Shopping Luxury</h1>
+    <div class="gold-line"></div>
+    <p>Control integrado del proyecto tras el lanzamiento en Madrid (M9)</p>
+    <p class="small" style="margin-top:28px;">Corte: 2026-05-27 · Versión 1.0 · Presupuesto BAC 660.000€</p>
+  </div>
+
+  <!-- Slide 2: Overview / Dashboard -->
+  <div class="slide" id="slide-2">
+    <div class="slide-header">
+      <h2>Panel de Control — Métricas Clave</h2>
+      <span class="badge">Corte M9</span>
+    </div>
+    <div class="slide-body">
+      <div class="grid-4">
+        <div class="card">
+          <h3>EAC</h3>
+          <div class="metric">678.480€</div>
+          <div class="metric-sub">+2,8% sobre BAC</div>
+        </div>
+        <div class="card">
+          <h3>CPI</h3>
+          <div class="metric">0,973</div>
+          <div class="metric-sub">Cada € genera 0,973€ de valor</div>
+        </div>
+        <div class="card">
+          <h3>SPI</h3>
+          <div class="metric">1,002</div>
+          <div class="metric-sub">Cronograma según plan</div>
+        </div>
+        <div class="card">
+          <h3>NPS</h3>
+          <div class="metric">52</div>
+          <div class="metric-sub">Meta >50 alcanzada</div>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-top:6px;">
+        <div class="card">
+          <h3>Riesgos Materializados</h3>
+          <div class="metric">4</div>
+          <div class="metric-sub">Reserva consumida: 12.500€ / 66.000€</div>
+        </div>
+        <div class="card">
+          <h3>Entregables Validados</h3>
+          <div class="metric">8/10</div>
+          <div class="metric-sub">80% del alcance; 2 pendientes (Barcelona)</div>
+        </div>
+        <div class="card">
+          <h3>Miembros Activos</h3>
+          <div class="metric">105</div>
+          <div class="metric-sub">52% del objetivo de 200 (M12)</div>
+        </div>
+        <div class="card">
+          <h3>Cambios Aprobados</h3>
+          <div class="metric">3/5 SC</div>
+          <div class="metric-sub">+18.480€ aprobados por CCB</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:6px;">
+        <h3>Estado por Área de Conocimiento</h3>
+        <div class="two-col">
+          <table>
+            <tr><th>Área</th><th>Estado</th><th>Indicador Clave</th></tr>
+            <tr><td>Integración</td><td><span class="status amarillo">Amarillo</span></td><td>EAC +2,8%</td></tr>
+            <tr><td>Alcance</td><td><span class="status verde">Verde</span></td><td>Scope creep controlado</td></tr>
+            <tr><td>Tiempo</td><td><span class="status verde">Verde</span></td><td>SPI 1,002</td></tr>
+            <tr><td>Costes</td><td><span class="status amarillo">Amarillo</span></td><td>CPI 0,973</td></tr>
+            <tr><td>Calidad</td><td><span class="status verde">Verde</span></td><td>NPS 52</td></tr>
+          </table>
+          <table>
+            <tr><th>Área</th><th>Estado</th><th>Indicador Clave</th></tr>
+            <tr><td>Recursos</td><td><span class="status verde">Verde</span></td><td>+1,0% coste</td></tr>
+            <tr><td>Comunicaciones</td><td><span class="status verde">Verde</span></td><td>Efectividad 4,05/5</td></tr>
+            <tr><td>Riesgos</td><td><span class="status verde">Verde</span></td><td>4 cerrados; 53,5K€ remanentes</td></tr>
+            <tr><td>Interesados</td><td><span class="status verde">Verde</span></td><td>Gap -1 Patrocinador</td></tr>
+            <tr><td>Adquisiciones</td><td><span class="status verde">Verde</span></td><td>SLAs cumplidos</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Personal Shopping Luxury · Supervisión y Control · 2026-05-27</div>
+  </div>
+
+  <!-- Slide 3: Integration + Change Control -->
+  <div class="slide" id="slide-3">
+    <div class="slide-header">
+      <h2>Integración y Control de Cambios</h2>
+      <span class="badge">Área Integración</span>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <h3>Resumen Integrado de Rendimiento</h3>
+            <table>
+              <tr><th>Parámetro</th><th>Baseline</th><th>Real</th><th>Estado</th></tr>
+              <tr><td>Alcance</td><td>10 entregables</td><td>7 validados, 3 en curso</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Tiempo</td><td>Madrid M9</td><td>M9+3d</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Coste AC</td><td>494.000€</td><td>508.800€ (+2,8%)</td><td><span class="status amarillo">Amarillo</span></td></tr>
+              <tr><td>Ingresos</td><td>100.000€</td><td>96.000€ (-4%)</td><td><span class="status amarillo">Amarillo</span></td></tr>
+              <tr><td>Beneficio Año 1</td><td>24.000€</td><td>~5.500€ (est.)</td><td><span class="status amarillo">Amarillo</span></td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Pronósticos</h3>
+            <table>
+              <tr><th>Métrica</th><th>Valor</th><th>Interpretación</th></tr>
+              <tr><td>EAC</td><td class="highlight">678.480€</td><td>+2,8% sobre BAC</td></tr>
+              <tr><td>VAC</td><td class="highlight">-18.480€</td><td>Se consume margen; rentable si se contienen costes</td></tr>
+              <tr><td>Fecha fin estimada</td><td>M12+2d</td><td>Barcelona en M12; riesgo +2d micro-retrasos</td></tr>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Comité de Control de Cambios (CCB)</h3>
+            <table>
+              <tr><th>Reunión</th><th>Cambios</th><th>Apr.</th><th>Rec.</th></tr>
+              <tr><td>CCB-01 M3</td><td>Reserva cloud +1.200€/mes</td><td>1</td><td>0</td></tr>
+              <tr><td>CCB-02 M6</td><td>Freelance mobile refuerzo</td><td>1</td><td>0</td></tr>
+              <tr><td>CCB-03 M8</td><td>Avatar 3D (fuera MVP)</td><td>0</td><td>1</td></tr>
+              <tr><td>CCB-04 M9</td><td>Landing marketing +3.000€</td><td>1</td><td>0</td></tr>
+              <tr><td><strong>Total</strong></td><td>5 SC</td><td><strong>3</strong></td><td><strong>1</strong></td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Cambios aprobados acumulados: <span class="highlight">+18.480€</span></p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Desviaciones Integradas y Acciones</h3>
+            <ul class="list">
+              <li>Coste tech +4,2%: reasignación 2.000€ marketing → tech aprobada por CCB</li>
+              <li>Ingresos M8-M9 -4%: campaña embajadores intensificada; descuento 10% primeros 50 miembros</li>
+              <li>Retraso Madrid +3d: bug pasarela; fix priorizado; QA reforzado; no impacta Barcelona</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Integración · Plan Gestión Costes · Plan Gestión Tiempo</div>
+  </div>
+
+  <!-- Slide 4: Scope + Time -->
+  <div class="slide" id="slide-4">
+    <div class="slide-header">
+      <h2>Alcance y Cronograma</h2>
+      <span class="badge">Áreas Alcance + Tiempo</span>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <h3>Verificación del Alcance (Validate Scope)</h3>
+            <table>
+              <tr><th>Entregable</th><th>Plan</th><th>Real</th><th>Estado</th></tr>
+              <tr><td>Plataforma web</td><td>M8</td><td>M8+1d</td><td><span class="status verde">Cumple</span></td></tr>
+              <tr><td>App móvil</td><td>M9</td><td>M9+3d</td><td><span class="status verde">Cumple</span></td></tr>
+              <tr><td>Panel admin + CRM</td><td>M8</td><td>M8+2d</td><td><span class="status verde">Cumple</span></td></tr>
+              <tr><td>Red 10 shoppers</td><td>M6</td><td>M6</td><td><span class="status verde">Cumple</span></td></tr>
+              <tr><td>Acuerdos consignación</td><td>M7</td><td>M7+5d</td><td><span class="status verde">Cumple</span></td></tr>
+              <tr><td>Lanzamiento Madrid</td><td>M9</td><td>M9+3d</td><td><span class="status verde">Cumple</span></td></tr>
+              <tr><td>Lanzamiento Barcelona</td><td>M12</td><td>—</td><td><span class="status amarillo">En curso</span></td></tr>
+              <tr><td>200 miembros activos</td><td>M12</td><td>105 a M9</td><td><span class="status amarillo">En curso</span></td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Tasa de aceptación: <span class="highlight">8/8 validados = 100%</span> (2 aún no terminados)</p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Control del Scope Creep</h3>
+            <table>
+              <tr><th>Solicitud</th><th>Decisión</th><th>Impacto</th></tr>
+              <tr><td>Lista de deseos en app</td><td><span class="status rojo">Rechazada</span></td><td>+2 sem; aplazada Año 2</td></tr>
+              <tr><td>Avatar 3D virtual</td><td><span class="status rojo">Rechazada</span></td><td>+45.000€; +2 meses</td></tr>
+              <tr><td>Ampliación a 12 marcas</td><td><span class="status verde">Aprobada</span></td><td>+1.500€ (dentro rango)</td></tr>
+              <tr><td>Dashboard ventas marcas</td><td><span class="status verde">Aprobada</span></td><td>+1 sem; +800€</td></tr>
+              <tr><td>App interna shoppers</td><td><span class="status verde">Aprobada</span></td><td>+3.000€; +1 sem</td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Scope creep controlado: 5 solicitudes, 3 aprobadas (+5.300€), 2 rechazadas</p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Métricas de Desempeño del Cronograma</h3>
+            <div class="grid-2" style="gap:10px; margin-bottom:10px;">
+              <div>
+                <div class="metric" style="font-size:1.6rem;">1,002</div>
+                <div class="metric-sub">SPI (EV/PV)</div>
+              </div>
+              <div>
+                <div class="metric" style="font-size:1.6rem;">+1.000€</div>
+                <div class="metric-sub">SV (EV-PV)</div>
+              </div>
+            </div>
+            <table>
+              <tr><th>Actividad</th><th>Plan</th><th>Real</th><th>Desv.</th></tr>
+              <tr><td>API base operativa</td><td>M3</td><td>M3+2d</td><td>+2d</td></tr>
+              <tr><td>App móvil en test</td><td>M6</td><td>M6+4d</td><td>+4d</td></tr>
+              <tr><td>Soft launch Madrid</td><td>M8</td><td>M8</td><td>0</td></tr>
+              <tr><td>Hard launch Madrid</td><td>M9</td><td>M9+3d</td><td>+3d</td></tr>
+              <tr><td>Barcelona</td><td>M12</td><td>M12 (est.)</td><td>0</td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Escenarios de Finalización</h3>
+            <table>
+              <tr><th>Escenario</th><th>Barcelona</th><th>200 Miembros</th></tr>
+              <tr><td><span class="status verde">Optimista</span></td><td>M12</td><td>M12</td></tr>
+              <tr><td><span class="status amarillo">Base</span></td><td>M12+2d</td><td>M12+7d</td></tr>
+              <tr><td><span class="status rojo">Pesimista</span></td><td>M12+10d</td><td>M13</td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Base más probable: buffer por micro-retrasos acumulados y conversión post-lanzamiento</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Alcance · Plan Gestión Tiempo · Plan Gestión Integración</div>
+  </div>
+
+  <!-- Slide 5: Costes (EVM deep dive) -->
+  <div class="slide" id="slide-5">
+    <div class="slide-header">
+      <h2>Control de Costes — Valor Ganado (EVM)</h2>
+      <span class="badge">Área Costes</span>
+    </div>
+    <div class="slide-body">
+      <div class="grid-3">
+        <div class="card">
+          <h3>BAC</h3>
+          <div class="metric">660.000€</div>
+          <div class="metric-sub">Presupuesto aprobado Año 1</div>
+        </div>
+        <div class="card">
+          <h3>PV (Plan Value)</h3>
+          <div class="metric">494.000€</div>
+          <div class="metric-sub">Curva S a M9</div>
+        </div>
+        <div class="card">
+          <h3>EV (Earned Value)</h3>
+          <div class="metric">495.000€</div>
+          <div class="metric-sub">75% del BAC realizado</div>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-top:10px;">
+        <div class="card">
+          <h3>AC</h3>
+          <div class="metric" style="font-size:1.5rem;">508.800€</div>
+          <div class="metric-sub">Gasto real acumulado (+2,8%)</div>
+        </div>
+        <div class="card">
+          <h3>CV</h3>
+          <div class="metric" style="font-size:1.5rem; color:var(--red);">-13.800€</div>
+          <div class="metric-sub">EV - AC</div>
+        </div>
+        <div class="card">
+          <h3>CPI</h3>
+          <div class="metric" style="font-size:1.5rem; color:var(--yellow);">0,973</div>
+          <div class="metric-sub">EV / AC</div>
+        </div>
+        <div class="card">
+          <h3>SPI</h3>
+          <div class="metric" style="font-size:1.5rem; color:var(--green);">1,002</div>
+          <div class="metric-sub">EV / PV</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:10px;">
+        <div class="card">
+          <h3>Pronósticos de Coste Final</h3>
+          <table>
+            <tr><th>Métrica</th><th>Cálculo</th><th>Valor</th></tr>
+            <tr><td>EAC</td><td>BAC / CPI</td><td class="highlight">678.480€</td></tr>
+            <tr><td>ETC</td><td>EAC - AC</td><td>169.680€</td></tr>
+            <tr><td>VAC</td><td>BAC - EAC</td><td>-18.480€</td></tr>
+            <tr><td>TCPI (BAC)</td><td>(BAC-EV)/(BAC-AC)</td><td>1,091</td></tr>
+            <tr><td>TCPI (VAC=0)</td><td>(BAC-EV)/(EAC-AC)</td><td>0,972</td></tr>
+          </table>
+          <p class="small" style="margin-top:8px;">TCPI 1,091: se requiere rendir al 109,1% de eficiencia en M10-M12 para cerrar dentro del BAC. Exigente pero alcanzable.</p>
+        </div>
+        <div class="card">
+          <h3>Varianza por Área de Coste (M1-M9)</h3>
+          <table>
+            <tr><th>Área</th><th>Presup.</th><th>Real</th><th>%</th><th>Est.</th></tr>
+            <tr><td>Gestión Proyecto</td><td>18.000€</td><td>17.200€</td><td>-4,4%</td><td><span class="status verde">V</span></td></tr>
+            <tr><td>Plataforma Tech</td><td>171.000€</td><td>180.500€</td><td>+5,6%</td><td><span class="status rojo">R</span></td></tr>
+            <tr><td>Operativa Shopping</td><td>147.000€</td><td>149.200€</td><td>+1,5%</td><td><span class="status amarillo">A</span></td></tr>
+            <tr><td>Alianzas</td><td>19.500€</td><td>20.100€</td><td>+3,1%</td><td><span class="status verde">V</span></td></tr>
+            <tr><td>Marketing</td><td>79.500€</td><td>78.000€</td><td>-1,9%</td><td><span class="status verde">V</span></td></tr>
+            <tr><td>Legal / Calidad</td><td>19.500€</td><td>19.300€</td><td>-1,0%</td><td><span class="status verde">V</span></td></tr>
+            <tr><td>Reserva Contingencia</td><td>39.600€</td><td>8.000€</td><td>23,6% usada</td><td><span class="status verde">V</span></td></tr>
+          </table>
+          <p class="small" style="margin-top:8px;"><span class="highlight">Desbordamiento tech compensado parcialmente por reserva.</span> Reserva remanente: ~54.000€.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Costes · Business Case · Plan Gestión Integración</div>
+  </div>
+
+  <!-- Slide 6: Quality Control -->
+  <div class="slide" id="slide-6">
+    <div class="slide-header">
+      <h2>Control de la Calidad</h2>
+      <span class="badge">Área Calidad</span>
+    </div>
+    <div class="slide-body">
+      <div class="grid-4">
+        <div class="card">
+          <h3>NPS</h3>
+          <div class="metric">52</div>
+          <div class="metric-sub">Objetivo >50 · M7:38 → M8:46 → M9:52</div>
+        </div>
+        <div class="card">
+          <h3>CSAT</h3>
+          <div class="metric">4,4/5</div>
+          <div class="metric-sub">Objetivo >4,5 · Estable 4,3-4,5</div>
+        </div>
+        <div class="card">
+          <h3>Rating Shopper</h3>
+          <div class="metric">4,6/5</div>
+          <div class="metric-sub">Objetivo >4,5 · Estable</div>
+        </div>
+        <div class="card">
+          <h3>Uptime Plataforma</h3>
+          <div class="metric">99,7%</div>
+          <div class="metric-sub">Objetivo >99,5%</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:10px;">
+        <div class="card">
+          <h3>Métricas del Servicio (M5-M9)</h3>
+          <table>
+            <tr><th>Métrica</th><th>Obj.</th><th>Actual</th><th>Estado</th></tr>
+            <tr><td>Churn mensual</td><td>&lt;5%</td><td>4,2%</td><td><span class="status verde">Verde</span></td></tr>
+            <tr><td>Puntualidad visitas</td><td>&gt;95%</td><td>93%</td><td><span class="status amarillo">Amarillo</span></td></tr>
+            <tr><td>Tasa incidencias</td><td>&lt;2%</td><td>2,1%</td><td><span class="status amarillo">Amarillo</span></td></tr>
+            <tr><td>Tiempo reserva a confirm.</td><td>&lt;5 min</td><td>3,2 min</td><td><span class="status verde">Verde</span></td></tr>
+            <tr><td>Tiempo carga homepage</td><td>&lt;2s</td><td>1,4s</td><td><span class="status verde">Verde</span></td></tr>
+            <tr><td>Crash rate app</td><td>&lt;0,5%</td><td>0,3%</td><td><span class="status verde">Verde</span></td></tr>
+            <tr><td>Bugs críticos abiertos</td><td>0</td><td>0</td><td><span class="status verde">Verde</span></td></tr>
+            <tr><td>Bugs graves abiertos</td><td>&lt;5</td><td>3</td><td><span class="status amarillo">Amarillo</span></td></tr>
+          </table>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Análisis de Defectos e Incidencias</h3>
+            <table>
+              <tr><th>Categoría</th><th>Total</th><th>Tasa</th><th>Acción</th></tr>
+              <tr><td>Quejas puntualidad</td><td>14</td><td>7,0%</td><td>GPS + push 30min</td></tr>
+              <tr><td>Fallo técnico reserva</td><td>3</td><td>1,5%</td><td>Fix sincronización calendario</td></tr>
+              <tr><td>Prenda dañada/equivocada</td><td>2</td><td>1,0%</td><td>Checklist pre-visita reforzado</td></tr>
+              <tr><td>Quejas trato/protocolo</td><td>4</td><td>2,0%</td><td>Coaching + re-visita gratis</td></tr>
+              <tr><td>Cancelaciones última hora</td><td>6</td><td>3,0%</td><td>Política &lt;48h reforzada</td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Tasa global de incidencias: <span class="highlight">2,1%</span> (objetivo &lt;2%). Mayoría leves; ninguna crítica post-M9.</p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Auditoría de Visitas (M9) — % Cumplimiento</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:140px;">
+                <div class="progress-bar"><span style="width:95%"></span></div>
+                <div class="small" style="margin-top:4px;">Presentación personal <strong>95%</strong></div>
+              </div>
+              <div style="flex:1; min-width:140px;">
+                <div class="progress-bar"><span style="width:85%"></span></div>
+                <div class="small" style="margin-top:4px;">Puntualidad <strong>85%</strong></div>
+              </div>
+              <div style="flex:1; min-width:140px;">
+                <div class="progress-bar"><span style="width:100%"></span></div>
+                <div class="small" style="margin-top:4px;">Protocolo entrada <strong>100%</strong></div>
+              </div>
+              <div style="flex:1; min-width:140px;">
+                <div class="progress-bar"><span style="width:90%"></span></div>
+                <div class="small" style="margin-top:4px;">Duración 60-90min <strong>90%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Calidad · Supuestos y Restricciones</div>
+  </div>
+
+  <!-- Slide 7: Resources + Communications -->
+  <div class="slide" id="slide-7">
+    <div class="slide-header">
+      <h2>Recursos y Comunicaciones</h2>
+      <span class="badge">Áreas Recursos + Comunicaciones</span>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <h3>Utilización Recursos Humanos Core (M1-M9)</h3>
+            <table>
+              <tr><th>Rol</th><th>FTE Plan</th><th>FTE Real</th><th>Issue</th></tr>
+              <tr><td>Director Proyecto</td><td>50-75%</td><td>65%</td><td>—</td></tr>
+              <tr><td>CTO / Tech Lead</td><td>100%</td><td>110%</td><td>Horas extra M7-M9 bug pasarela</td></tr>
+              <tr><td>Backend (x2)</td><td>100%</td><td>95%</td><td>—</td></tr>
+              <tr><td>Frontend</td><td>100%</td><td>90%</td><td>Baja M4 (gripe)</td></tr>
+              <tr><td>Mobile (x2)</td><td>50-100%</td><td>105%</td><td>Refuerzo freelance</td></tr>
+              <tr><td>QA / Tester</td><td>0-100%</td><td>100%</td><td>—</td></tr>
+              <tr><td>Operations</td><td>0-100%</td><td>100%</td><td>—</td></tr>
+              <tr><td>Marketing</td><td>25-100%</td><td>95%</td><td>Reasignación parcial a tech</td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Shoppers y Materiales</h3>
+            <table>
+              <tr><th>Ciudad</th><th>Shoppers</th><th>Visitas/mes</th><th>Utilización</th></tr>
+              <tr><td>Madrid</td><td>5</td><td>28/shopper</td><td><span class="status verde">80%</span></td></tr>
+              <tr><td>Barcelona</td><td>5</td><td>0 (pre-operativos)</td><td>En preparación M10</td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Compensación shopper Madrid: <span class="highlight">~1.900€/mes</span> (fijo 1.200€ + variable ~700€)</p>
+            <p class="small">Vehículos: 10 leasing; 9 operativos (1 taller M8, sustitución gestionada en 24h)</p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Efectividad de la Comunicación (M9)</h3>
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:10px;">
+              <div class="metric" style="font-size:2rem;">4,05/5</div>
+              <div class="metric-sub">Global (25 encuestados)</div>
+            </div>
+            <table>
+              <tr><th>Dimensión</th><th>Resultado</th><th>Estado</th></tr>
+              <tr><td>Oportunidad</td><td>4,1</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Claridad</td><td>4,3</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Relevancia</td><td>3,6</td><td><span class="status amarillo">Amarillo</span></td></tr>
+              <tr><td>Canales</td><td>4,0</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Retroalimentación</td><td>3,8</td><td><span class="status amarillo">Amarillo</span></td></tr>
+              <tr><td>Escalado</td><td>4,5</td><td><span class="status verde">Verde</span></td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Feedback de Interesados y Acciones</h3>
+            <ul class="list">
+              <li>Patrocinador: solicita proyecciones cash flow M10-M12 → incluir escenarios en informe M10</li>
+              <li>Shoppers: exceso de canales → migrar avisos a app interna; WhatsApp solo urgencias</li>
+              <li>Equipo tech: documentación dispersa → centralizar en Notion con índice maestro</li>
+              <li>Marcas: quieren reporte quincenal → evaluar automatización desde dashboard</li>
+              <li>Clientes: recordatorio 24h en spam → revisar SPF/DKIM + WhatsApp alternativo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Recursos · Plan Gestión Comunicaciones · Plan Gestión Interesados</div>
+  </div>
+
+  <!-- Slide 8: Risk Monitoring -->
+  <div class="slide" id="slide-8">
+    <div class="slide-header">
+      <h2>Monitorización de Riesgos</h2>
+      <span class="badge">Área Riesgos</span>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <h3>Riesgos Materializados (M1-M9)</h3>
+            <table>
+              <tr><th>ID</th><th>Riesgo</th><th>Impacto</th><th>Reserva</th><th>Est.</th></tr>
+              <tr><td>RIE-12</td><td>Retraso plataforma &gt;15d</td><td>+4d app; +3d launch</td><td>8.000€</td><td><span class="status verde">Cerrado</span></td></tr>
+              <tr><td>RIE-04</td><td>Reclutamiento shoppers</td><td>Baja mobile dev; +2 sem</td><td>3.000€</td><td><span class="status verde">Cerrado</span></td></tr>
+              <tr><td>RIE-06</td><td>Calidad inconsistente</td><td>NPS 38 en M7; 2 quejas</td><td>1.500€</td><td><span class="status verde">Cerrado</span></td></tr>
+              <tr><td>RIE-15</td><td>Reclasificación laboral</td><td>Inspección pasada sin incid.</td><td>0€</td><td><span class="status verde">Cerrado</span></td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Reserva consumida: <span class="highlight">12.500€ / 66.000€ (19%)</span> · Remanente: 53.500€</p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Evolución de Riesgos Clave (Puntuación)</h3>
+            <table>
+              <tr><th>ID</th><th>Antes</th><th>Ahora</th><th>Tendencia</th></tr>
+              <tr><td>RIE-01 Demanda insuficiente</td><td>15</td><td>10</td><td><span class="status verde">Baja</span></td></tr>
+              <tr><td>RIE-04 Reclutamiento</td><td>15</td><td>8</td><td><span class="status verde">Baja</span></td></tr>
+              <tr><td>RIE-05 Rotación shoppers</td><td>12</td><td>8</td><td><span class="status verde">Baja</span></td></tr>
+              <tr><td>RIE-06 Calidad</td><td>12</td><td>6</td><td><span class="status verde">Baja</span></td></tr>
+              <tr><td>RIE-09 Desviación &gt;10%</td><td>12</td><td>6</td><td><span class="status verde">Baja</span></td></tr>
+              <tr><td>RIE-12 Retraso tech</td><td>12</td><td>3</td><td><span class="status verde">Baja fuerte</span></td></tr>
+              <tr><td>RIE-16 Sanción RGPD</td><td>8</td><td>4</td><td><span class="status verde">Baja fuerte</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Nuevos Riesgos Identificados (M9)</h3>
+            <table>
+              <tr><th>ID</th><th>Riesgo</th><th>PxI</th><th>Estrategia</th><th>Reserva</th></tr>
+              <tr><td>RIE-19</td><td>Inflación cloud/SaaS &gt;15% Año 2</td><td>9</td><td>Mitigar</td><td>3.000€</td></tr>
+              <tr><td>RIE-20</td><td>Dependencia 1-2 marcas top</td><td>9</td><td>Mitigar</td><td>0€</td></tr>
+              <tr><td>RIE-21</td><td>Saturación shopper Navidad</td><td>6</td><td>Aceptar/Mitigar</td><td>2.000€</td></tr>
+              <tr><td>RIE-22</td><td>Escalado membresías Barcelona</td><td>8</td><td>Mitigar</td><td>4.000€</td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Estado de Reservas de Contingencia</h3>
+            <table>
+              <tr><th>Destino</th><th>Original</th><th>Consumida</th><th>Remanente</th></tr>
+              <tr><td>RIE-01 (Demanda)</td><td>18.000€</td><td>0€</td><td>18.000€</td></tr>
+              <tr><td>RIE-04 (Reclutamiento)</td><td>12.000€</td><td>3.000€</td><td>9.000€</td></tr>
+              <tr><td>RIE-09 (Presupuesto)</td><td>30.000€</td><td>8.000€</td><td>22.000€</td></tr>
+              <tr><td>RIE-12 (Retraso tech)</td><td>10.000€</td><td>0€</td><td>10.000€</td></tr>
+              <tr><td>Buffer general / Nuevos</td><td>—</td><td>1.500€ (RIE-06)</td><td>53.500€ total</td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;">Se recomienda reasignar reservas de riesgos cerrados a nuevos riesgos antes de M10.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Riesgos · Registro Riesgos Iniciales</div>
+  </div>
+
+  <!-- Slide 9: Stakeholders + Acquisitions -->
+  <div class="slide" id="slide-9">
+    <div class="slide-header">
+      <h2>Interesados y Adquisiciones</h2>
+      <span class="badge">Áreas Interesados + Adquisiciones</span>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <h3>Compromiso de Interesados (Escala 1-5)</h3>
+            <table>
+              <tr><th>Grupo</th><th>Deseado</th><th>Actual</th><th>Tendencia</th></tr>
+              <tr><td>Patrocinador / Inversores</td><td>5</td><td>4</td><td>Estable</td></tr>
+              <tr><td>Personal shoppers</td><td>5</td><td>5</td><td>Positiva</td></tr>
+              <tr><td>Marcas de lujo</td><td>4</td><td>4</td><td>Estable</td></tr>
+              <tr><td>Clientes miembros</td><td>4</td><td>4</td><td>Positiva (NPS sube)</td></tr>
+              <tr><td>Equipo central</td><td>4</td><td>4</td><td>Estable</td></tr>
+              <tr><td>Reguladores</td><td>4</td><td>4</td><td>Estable</td></tr>
+            </table>
+            <p class="small" style="margin-top:8px;"><span class="highlight">Gap significativo:</span> Patrocinador (-1) por preocupación de cash flow pre-M9. Mitigado con informe ejecutivo y reunión presencial.</p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Gestión de Conflictos Activos</h3>
+            <table>
+              <tr><th>Conflicto</th><th>Estado</th><th>Resolución</th></tr>
+              <tr><td>Revisión comisión shoppers (5%)</td><td>Diferido</td><td>Año 2: modelo escalonado 5% base + 7% sobre &gt;2.000€/mes</td></tr>
+              <tr><td>Frecuencia reportes marcas</td><td>En negociación</td><td>Dashboard tiempo real Año 2; quincenal piloto Q4</td></tr>
+              <tr><td>Priorización tech post-lanzamiento</td><td>Resuelto</td><td>70% bugs/estabilidad; 30% features marketing Año 2</td></tr>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Evaluación de Proveedores (M1-M9)</h3>
+            <table>
+              <tr><th>Proveedor</th><th>Adquisición</th><th>Nota</th><th>Est.</th></tr>
+              <tr><td>AWS</td><td>Cloud</td><td>5/5 · Uptime &gt;99,5%</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Stripe</td><td>Pagos</td><td>5/5 · PSD2 ok</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Agencia Alfa</td><td>Branding</td><td>3/5 · Retraso 5d; penalización 1.500€</td><td><span class="status amarillo">Amarillo</span></td></tr>
+              <tr><td>Freelance Mobile X</td><td>App iOS</td><td>4/5 · Bug post-entrega en garantía</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>LeasePlan</td><td>Vehículos</td><td>4/5 · 1 avería M8; seguro cubrió</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Mapfre</td><td>Seguros</td><td>5/5 · Resolución &lt;48h</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Asesoría Legal Y</td><td>Legal/RGPD</td><td>5/5</td><td><span class="status verde">Verde</span></td></tr>
+              <tr><td>Agencia Performance</td><td>Publicidad</td><td>3/5 · CAC 420€ (&gt;400€ objetivo)</td><td><span class="status amarillo">Amarillo</span></td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Reclamaciones y Disputas</h3>
+            <table>
+              <tr><th>ID</th><th>Asunto</th><th>Importe</th><th>Estado</th></tr>
+              <tr><td>DIS-01</td><td>Agencia Alfa retraso kit marca</td><td>-1.500€</td><td><span class="status verde">Cerrada</span></td></tr>
+              <tr><td>DIS-02</td><td>Freelance bug push iOS</td><td>0€ (garantía)</td><td><span class="status verde">Cerrada</span></td></tr>
+              <tr><td>DIS-03</td><td>Agencia Performance atribución</td><td>0€</td><td><span class="status amarillo">Mediación</span></td></tr>
+              <tr><td>DIS-04</td><td>LeasePlan vehículo averiado</td><td>0€ (seguro)</td><td><span class="status verde">Cerrada</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Referencias: Plan Gestión Interesados · Registro Interesados · Plan Gestión Adquisiciones</div>
+  </div>
+
+  <!-- Slide 10: Forecast / Outlook -->
+  <div class="slide" id="slide-10">
+    <div class="slide-header">
+      <h2>Pronóstico y Ruta al Cierre</h2>
+      <span class="badge">Perspectiva M10-M12</span>
+    </div>
+    <div class="slide-body">
+      <div class="grid-4">
+        <div class="card">
+          <h3>Beneficio Año 1 (Est.)</h3>
+          <div class="metric">~5.500€</div>
+          <div class="metric-sub">Escenario conservador (Ingresos 684K - EAC 678,5K)</div>
+        </div>
+        <div class="card">
+          <h3>Escenario Optimista</h3>
+          <div class="metric">~15.000€</div>
+          <div class="metric-sub">Si ingresos se recuperan y costes se contienen</div>
+        </div>
+        <div class="card">
+          <h3>Fecha Cierre Barcelona</h3>
+          <div class="metric">M12+2d</div>
+          <div class="metric-sub">Base más probable; optimista M12; pesimista M12+10d</div>
+        </div>
+        <div class="card">
+          <h3>Reserva Contingencia</h3>
+          <div class="metric">53.500€</div>
+          <div class="metric-sub">81,4% remanente; uso solo para riesgos aprobados por CCB</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:10px;">
+        <div class="card">
+          <h3>Acciones Críticas M10-M12</h3>
+          <ul class="list">
+            <li>Convocar CCB-05 tras cierre M10 para revisar forecasts y decidir sobre reserva remanente</li>
+            <li>Actualizar líneas base a versión 1.1 con cambios aprobados hasta M9</li>
+            <li>Preparar informe ejecutivo M10 para Patrocinador con escenarios optimista/base/pesimista</li>
+            <li>Documentar lección aprendida del bug de pasarela como caso de estudio para Año 2</li>
+            <li>Revisar integración entre planes de calidad y operativa tras incidencias de shopper en Madrid</li>
+            <li>Negociar contrato anual cloud AWS para Año 2 con descuento por volumen (objetivo -15%)</li>
+            <li>Evaluar CAC Agencia Performance a M10; si no baja a &lt;400€, solicitar mejora o RFP</li>
+            <li>Programar auditoría de calidad de visitas Barcelona pre-lanzamiento (M11)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="card">
+            <h3>Resumen EVM Visual</h3>
+            <div class="chart-wrap" style="height:120px; margin-bottom:8px;">
+              <div class="bar" style="height:74.8%">
+                <span class="bar-value">494K</span>
+                <span class="bar-label">PV</span>
+              </div>
+              <div class="bar" style="height:75.0%">
+                <span class="bar-value">495K</span>
+                <span class="bar-label">EV</span>
+              </div>
+              <div class="bar" style="height:77.1%">
+                <span class="bar-value">508,8K</span>
+                <span class="bar-label">AC</span>
+              </div>
+              <div class="bar" style="height:100%">
+                <span class="bar-value">678,5K</span>
+                <span class="bar-label">EAC</span>
+              </div>
+              <div class="bar" style="height:102.7%">
+                <span class="bar-value">660K</span>
+                <span class="bar-label">BAC</span>
+              </div>
+            </div>
+            <p class="small">Comparativa acumulada a M9. EAC supera BAC en +2,8%. EV &gt; PV indica rendimiento temporal favorable.</p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <h3>Checklist de Cierre de Fase</h3>
+            <ul class="list">
+              <li>Validar ENT-07 (Barcelona operativa) con checklist de replicación</li>
+              <li>Auditar que entregables pendientes no incorporen scope creep no documentado</li>
+              <li>Confirmar trazabilidad completa REQ-01 a REQ-05</li>
+              <li>Resolver 3 bugs graves del panel admin antes del lanzamiento Barcelona</li>
+              <li>Reducir tasa de incidencias a &lt;1,8% en M10 mediante coaching mensual</li>
+              <li>Subir CSAT a 4,5/5 con encuesta corta + incentivo (cupón 50€)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Documento elaborado por Dirección del Proyecto · 2026-05-27 · Versión 1.0 — Fase de Supervisión y Control</div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="btn-prev" aria-label="Anterior">&larr; Anterior</button>
+  <div class="counter" id="counter">1 / 10</div>
+  <button id="btn-next" aria-label="Siguiente">Siguiente &rarr;</button>
+</div>
+
+<script>
+(function(){
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function show(i){
+    if(i < 0) i = 0;
+    if(i >= total) i = total - 1;
+    current = i;
+    slides.forEach((s, idx) => {
+      s.classList.toggle('active', idx === current);
+    });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+  }
+
+  document.getElementById('btn-prev').addEventListener('click', () => show(current - 1));
+  document.getElementById('btn-next').addEventListener('click', () => show(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      show(current + 1);
+    } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      show(current - 1);
+    } else if(e.key === 'Home'){
+      e.preventDefault();
+      show(0);
+    } else if(e.key === 'End'){
+      e.preventDefault();
+      show(total - 1);
+    }
+  });
+
+  // Touch support
+  let startX = 0;
+  document.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].screenX;
+    const diff = endX - startX;
+    if(Math.abs(diff) > 40){
+      show(diff < 0 ? current + 1 : current - 1);
+    }
+  });
+})();
+</script>
+</body>
+</html>

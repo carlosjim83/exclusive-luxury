@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Shopping Luxury — Fase de Planificación</title>
+<style>
+  :root {
+    --bg: #0a0e27;
+    --bg-card: #0f1433;
+    --accent: #d4af37;
+    --accent-light: #e8c96a;
+    --text: #f5f5f5;
+    --text-dim: #a0a8c0;
+    --border: rgba(212,175,55,0.25);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3vh 5vw;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .slide.active {
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .slide.prev {
+    display: flex;
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  /* Title slide */
+  .title-slide { text-align: center; }
+  .title-slide h1 {
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4em;
+  }
+  .title-slide .subtitle {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--text-dim);
+    margin-bottom: 2em;
+  }
+  .divider {
+    width: 80px; height: 2px;
+    background: var(--accent);
+    margin: 0 auto 2em;
+  }
+  .meta {
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  /* Content slides */
+  .content-slide { align-items: stretch; }
+  .slide-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2vh;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1vh;
+  }
+  .slide-header h2 {
+    font-size: clamp(1.3rem, 2.6vw, 2rem);
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .slide-header .kicker {
+    font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .slide-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+  }
+  .slide-body::-webkit-scrollbar { width: 6px; }
+  .slide-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+  }
+  .card h3 {
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    color: var(--accent-light);
+    font-weight: 500;
+    margin-bottom: 0.6em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+  }
+  th, td {
+    padding: 0.55em 0.7em;
+    text-align: left;
+    border-bottom: 1px solid rgba(212,175,55,0.12);
+  }
+  th {
+    color: var(--accent);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75em;
+    letter-spacing: 0.06em;
+  }
+  tr:last-child td { border-bottom: none; }
+  .num { font-variant-numeric: tabular-nums; }
+  .highlight { color: var(--accent-light); font-weight: 600; }
+
+  /* KPI grid */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+  .kpi {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .kpi .value {
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    color: var(--accent);
+    font-weight: 300;
+  }
+  .kpi .label {
+    font-size: clamp(0.7rem, 1vw, 0.85rem);
+    color: var(--text-dim);
+    margin-top: 0.3em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Lists */
+  ul.bullets {
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.bullets li {
+    position: relative;
+    padding-left: 1.2em;
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+    font-size: clamp(0.82rem, 1.15vw, 0.98rem);
+  }
+  ul.bullets li::before {
+    content: "\2726";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7em;
+    top: 0.15em;
+  }
+
+  /* Two column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .slide { padding: 2vh 4vw; }
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1vh 3vw;
+    background: linear-gradient(to top, rgba(10,14,39,0.95), transparent);
+    pointer-events: none;
+  }
+  .nav button {
+    pointer-events: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    padding: 0.6em 1.4em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: clamp(0.8rem, 1.1vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav button:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .nav button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: rgba(212,175,55,0.1);
+    color: var(--text-dim);
+  }
+  .counter {
+    font-size: clamp(0.8rem, 1.1vw, 1rem);
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 0.5vh;
+    opacity: 0.6;
+  }
+
+  /* Small note */
+  .note {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 0.5em;
+  }
+
+  /* Gantt-like bar chart */
+  .bar-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    font-size: clamp(0.72rem, 1vw, 0.88rem);
+  }
+  .bar-label { color: var(--text-dim); text-align: right; white-space: nowrap; }
+  .bar-track {
+    background: rgba(212,175,55,0.08);
+    border-radius: 3px;
+    height: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bar-fill {
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    height: 100%;
+    border-radius: 3px;
+    opacity: 0.85;
+  }
+  @media (max-width: 700px) {
+    .bar-row { grid-template-columns: 120px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide title-slide active" id="slide-1">
+  <h1>Personal Shopping Luxury</h1>
+  <div class="subtitle">Fase de Planificación — Planes de Gestión</div>
+  <div class="divider"></div>
+  <div class="meta">
+    MVP Año 1 · Madrid (M9) + Barcelona (M12)<br>
+    10 Shoppers · Membresía 2.000€/año · Modelo Consignación<br>
+    <span style="color:var(--accent);">Presupuesto 660K€ · Ingresos 684K€ · Beneficio 24K€ (3,5%)</span><br><br>
+    Documento de presentación · 2026-05-27 · v1.0
+  </div>
+</div>
+
+<!-- Slide 2: Overview -->
+<div class="slide content-slide" id="slide-2">
+  <div class="slide-header">
+    <span class="kicker">Resumen Ejecutivo</span>
+    <h2>Visión General del Proyecto</h2>
+  </div>
+  <div class="slide-body">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="value">660K€</div><div class="label">Presupuesto Año 1</div></div>
+      <div class="kpi"><div class="value">684K€</div><div class="label">Ingresos Proyectados</div></div>
+      <div class="kpi"><div class="value">24K€</div><div class="label">Beneficio (3,5%)</div></div>
+      <div class="kpi"><div class="value">200</div><div class="label">Miembros Objetivo</div></div>
+      <div class="kpi"><div class="value">10</div><div class="label">Shoppers (5+5)</div></div>
+      <div class="kpi"><div class="value">M9 / M12</div><div class="label">Madrid / Barcelona</div></div>
+    </div>
+    <div class="two-col" style="margin-top:1.5vh;">
+      <div class="card">
+        <h3>Modelo de Negocio</h3>
+        <ul class="bullets">
+          <li>Membresía anual: <strong>2.000€</strong></li>
+          <li>Visitas adicionales: <strong>100€</strong></li>
+          <li>Comisiones por venta de consignación</li>
+          <li>Sin inventario propio · Sin e-commerce directo</li>
+          <li>10-15 marcas en consignación</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>10 Planes de Gestión</h3>
+        <ul class="bullets">
+          <li>Integración (Plan Maestro)</li>
+          <li>Alcance, Tiempo, Costes, Calidad</li>
+          <li>Recursos, Comunicaciones, Riesgos</li>
+          <li>Interesados, Adquisiciones</li>
+          <li>Todos aprobados · v1.0 · Mayo 2026</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1vh;">
+      <h3>Ciclo de Vida</h3>
+      <table>
+        <tr><th>Fase</th><th>Periodo</th><th>Entregables Clave</th></tr>
+        <tr><td>Inicio</td><td class="num">Mes 0</td><td>Acta de constitución, business case</td></tr>
+        <tr><td>Planificación</td><td class="num">Mes 0-1</td><td>10 planes aprobados, EDT, presupuesto base</td></tr>
+        <tr><td>Ejecución</td><td class="num">Mes 1-12</td><td>Plataforma, shoppers, marcas, miembros</td></tr>
+        <tr><td>Supervisión y Control</td><td class="num">Continuo</td><td>Informes mensuales, reuniones de control</td></tr>
+        <tr><td>Cierre</td><td class="num">Mes 12</td><td>Informe de cierre, lecciones aprendidas</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Integration -->
+<div class="slide content-slide" id="slide-3">
+  <div class="slide-header">
+    <span class="kicker">Plan de Gestión de la Integración</span>
+    <h2>Plan Maestro de Dirección del Proyecto</h2>
+  </div>
+  <div class="slide-body">
+    <div class="card">
+      <h3>Propósito</h3>
+      <p style="font-size:0.92rem; line-height:1.6; color:var(--text-dim);">Define cómo se identifican, desarrollan, combinan y coordinan los 9 planes subsidiarios para actuar como un sistema coherente. Garantiza decisiones estratégicas con visión integral.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Comité de Control de Cambios (CCB)</h3>
+        <table>
+          <tr><th>Rol</th><th>Miembro</th></tr>
+          <tr><td>Presidente</td><td>Patrocinador</td></tr>
+          <tr><td>Secretario</td><td>Director del Proyecto</td></tr>
+          <tr><td>Miembro</td><td>CTO / Tech Lead</td></tr>
+          <tr><td>Miembro</td><td>Operations Manager</td></tr>
+          <tr><td>Miembro</td><td>Marketing Manager</td></tr>
+          <tr><td>Miembro</td><td>Legal / DPO</td></tr>
+        </table>
+        <p class="note">Quórum: Presidente + 3 miembros. Decisión en 48h.</p>
+      </div>
+      <div class="card">
+        <h3>Umbrales de Autorización</h3>
+        <table>
+          <tr><th>Tipo</th><th>Umbral</th><th>Aprobador</th></tr>
+          <tr><td>Alcance</td><td class="num">&lt; 1% EDT</td><td>Director</td></tr>
+          <tr><td>Alcance</td><td class="num">&ge; 1% EDT</td><td>CCB (Patrocinador)</td></tr>
+          <tr><td>Tiempo</td><td class="num">&lt; 3 días</td><td>CTO / Gestor Tiempo</td></tr>
+          <tr><td>Tiempo</td><td class="num">Riesgo M9/M12</td><td>CCB (Patrocinador)</td></tr>
+          <tr><td>Costes</td><td class="num">500€ - 5.000€</td><td>Director</td></tr>
+          <tr><td>Costes</td><td class="num">&gt; 5.000€</td><td>CCB (Patrocinador)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Jerarquía de Resolución de Conflictos</h3>
+      <ul class="bullets">
+        <li>1. Restricciones innegociables tienen prioridad absoluta.</li>
+        <li>2. Líneas base aprobadas no se modifican sin proceso formal de cambio.</li>
+        <li>3. Calidad del servicio premium no se sacrifica; se escala al Director.</li>
+        <li>4. Seguridad legal y RGPD no se negocian; incumplimiento bloquea lanzamiento.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Scope + Time -->
+<div class="slide content-slide" id="slide-4">
+  <div class="slide-header">
+    <span class="kicker">Alcance + Tiempo</span>
+    <h2>Qué se Entrega y Cuándo</h2>
+  </div>
+  <div class="slide-body">
+    <div class="card">
+      <h3>Entregables Principales</h3>
+      <table>
+        <tr><th>ID</th><th>Entregable</th><th>Fecha</th></tr>
+        <tr><td>ENT-01</td><td>Plataforma web responsive operativa</td><td class="num">Mes 8</td></tr>
+        <tr><td>ENT-02</td><td>App móvil iOS/Android operativa</td><td class="num">Mes 9</td></tr>
+        <tr><td>ENT-03</td><td>Panel admin + CRM + pasarela de pagos</td><td class="num">Mes 8</td></tr>
+        <tr><td>ENT-04</td><td>Red de 10 shoppers reclutados y formados</td><td class="num">Mes 6</td></tr>
+        <tr><td>ENT-05</td><td>Acuerdos de consignación con 10-15 marcas</td><td class="num">Mes 7</td></tr>
+        <tr><td>ENT-06</td><td>Lanzamiento operativo en Madrid</td><td class="num highlight">Mes 9</td></tr>
+        <tr><td>ENT-07</td><td>Lanzamiento operativo en Barcelona</td><td class="num highlight">Mes 12</td></tr>
+        <tr><td>ENT-08</td><td>200 miembros activos pagados</td><td class="num">Mes 12</td></tr>
+      </table>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Ruta Crítica (M0 → M9)</h3>
+        <ul class="bullets">
+          <li>Arquitectura técnica (M0-1)</li>
+          <li>Desarrollo backend + API (M1-4)</li>
+          <li>Desarrollo app móvil (M3-6)</li>
+          <li>Integración end-to-end (M6-7)</li>
+          <li>Testing y QA (M7-8)</li>
+          <li>Soft launch + ajustes (M8-9)</li>
+          <li>Hard launch Madrid (M9)</li>
+        </ul>
+        <p class="note">Duración ruta crítica: 9 meses (con buffer 10%).</p>
+      </div>
+      <div class="card">
+        <h3>Hitos Duros</h3>
+        <table>
+          <tr><th>Hito</th><th>Fecha</th><th>Responsable</th></tr>
+          <tr><td>Equipo tech contratado</td><td class="num">M1</td><td>CTO / HR</td></tr>
+          <tr><td>API base operativa</td><td class="num">M3</td><td>Backend Lead</td></tr>
+          <tr><td>5 shoppers Madrid certificados</td><td class="num">M5</td><td>Operations</td></tr>
+          <tr><td>5 contratos consignación firmados</td><td class="num">M5</td><td>Partnerships</td></tr>
+          <tr><td>App móvil en test interno</td><td class="num">M6</td><td>Mobile Lead</td></tr>
+          <tr><td>Soft launch Madrid (50 beta)</td><td class="num">M8</td><td>Marketing / Ops</td></tr>
+          <tr><td><strong>Lanzamiento MVP Madrid</strong></td><td class="num highlight">M9</td><td>Director</td></tr>
+          <tr><td><strong>Lanzamiento Barcelona</strong></td><td class="num highlight">M12</td><td>Director</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Costs -->
+<div class="slide content-slide" id="slide-5">
+  <div class="slide-header">
+    <span class="kicker">Plan de Gestión de Costes</span>
+    <h2>Presupuesto, Flujo de Caja y Métricas</h2>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="card">
+        <h3>Presupuesto por Área</h3>
+        <table>
+          <tr><th>Área</th><th class="num">Importe</th><th class="num">%</th></tr>
+          <tr><td>Plataforma Tecnológica</td><td class="num highlight">228.000€</td><td class="num">34,5%</td></tr>
+          <tr><td>Operativa Personal Shopping</td><td class="num highlight">196.000€</td><td class="num">29,7%</td></tr>
+          <tr><td>Marketing y Lanzamiento</td><td class="num">106.000€</td><td class="num">16,1%</td></tr>
+          <tr><td>Gestión del Proyecto</td><td class="num">24.000€</td><td class="num">3,6%</td></tr>
+          <tr><td>Alianzas y Consignación</td><td class="num">26.000€</td><td class="num">3,9%</td></tr>
+          <tr><td>Legal, Calidad y Cumplimiento</td><td class="num">26.000€</td><td class="num">3,9%</td></tr>
+          <tr><td>Reserva de contingencia</td><td class="num">54.000€</td><td class="num">8,2%</td></tr>
+          <tr><td><strong>TOTAL</strong></td><td class="num highlight"><strong>660.000€</strong></td><td class="num"><strong>100%</strong></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Flujo de Caja Clave</h3>
+        <table>
+          <tr><th>Mes</th><th class="num">Ingresos</th><th class="num">Costes</th><th class="num">Neto</th><th class="num">Acumulado</th></tr>
+          <tr><td>M1</td><td class="num">0€</td><td class="num">24K€</td><td class="num">-24K€</td><td class="num">-24K€</td></tr>
+          <tr><td>M6</td><td class="num">0€</td><td class="num">66K€</td><td class="num">-66K€</td><td class="num">-282K€</td></tr>
+          <tr><td>M8</td><td class="num">50K€</td><td class="num">74K€</td><td class="num">-24K€</td><td class="num highlight">-376K€</td></tr>
+          <tr><td>M9</td><td class="num">100K€</td><td class="num">68K€</td><td class="num">+32K€</td><td class="num">-344K€</td></tr>
+          <tr><td>M10</td><td class="num">140K€</td><td class="num">58K€</td><td class="num">+82K€</td><td class="num">-262K€</td></tr>
+          <tr><td>M12</td><td class="num">214K€</td><td class="num">58K€</td><td class="num">+156K€</td><td class="num highlight">+24K€</td></tr>
+        </table>
+        <p class="note">Pico de liquidez: M8 (-376K€). El capital completo debe desembolsarse antes de M1.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Curva de Gastos Mensual (S-Curve)</h3>
+      <div class="bar-row"><div class="bar-label">M1</div><div class="bar-track"><div class="bar-fill" style="width:3.6%"></div></div></div>
+      <div class="bar-row"><div class="bar-label">M3</div><div class="bar-track"><div class="bar-fill" style="width:15.5%"></div></div></div>
+      <div class="bar-row"><div class="bar-label">M5</div><div class="bar-track"><div class="bar-fill" style="width:32.7%"></div></div></div>
+      <div class="bar-row"><div class="bar-label">M7</div><div class="bar-track"><div class="bar-fill" style="width:53.3%"></div></div></div>
+      <div class="bar-row"><div class="bar-label">M9</div><div class="bar-track"><div class="bar-fill" style="width:74.8%"></div></div></div>
+      <div class="bar-row"><div class="bar-label">M11</div><div class="bar-track"><div class="bar-fill" style="width:91.2%"></div></div></div>
+      <div class="bar-row"><div class="bar-label">M12</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Quality -->
+<div class="slide content-slide" id="slide-6">
+  <div class="slide-header">
+    <span class="kicker">Plan de Gestión de la Calidad</span>
+    <h2>Experiencia Premium Medible</h2>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="card">
+        <h3>Métricas de Calidad del Servicio</h3>
+        <table>
+          <tr><th>Métrica</th><th>Objetivo</th><th>Frec.</th></tr>
+          <tr><td>NPS</td><td class="num highlight">&gt; 50</td><td>Mensual</td></tr>
+          <tr><td>CSAT (post-visita)</td><td class="num highlight">&gt; 4.5 / 5</td><td>Por visita</td></tr>
+          <tr><td>Rating del shopper</td><td class="num highlight">&gt; 4.5 / 5</td><td>Por visita</td></tr>
+          <tr><td>Churn mensual</td><td class="num highlight">&lt; 5%</td><td>Mensual</td></tr>
+          <tr><td>Tiempo de respuesta</td><td class="num highlight">&lt; 5 min</td><td>Por reserva</td></tr>
+          <tr><td>Tasa de incidencias</td><td class="num highlight">&lt; 2%</td><td>Mensual</td></tr>
+          <tr><td>Puntualidad</td><td class="num highlight">&gt; 95%</td><td>Mensual</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Métricas de Calidad de la Plataforma</h3>
+        <table>
+          <tr><th>Métrica</th><th>Objetivo</th></tr>
+          <tr><td>Uptime</td><td class="num highlight">&gt; 99.5%</td></tr>
+          <tr><td>Tiempo de carga (home)</td><td class="num highlight">&lt; 2s</td></tr>
+          <tr><td>Crash rate</td><td class="num highlight">&lt; 0.5%</td></tr>
+          <tr><td>Bugs críticos</td><td class="num highlight">0</td></tr>
+        </table>
+        <h3 style="margin-top:1em;">Formación de Shoppers (40h)</h3>
+        <table>
+          <tr><th>Módulo</th><th>Dur.</th><th>Evaluación</th></tr>
+          <tr><td>Marca, protocolo, vestimenta</td><td class="num">8h</td><td>Examen &gt;80%</td></tr>
+          <tr><td>CRM, herramientas digitales</td><td class="num">8h</td><td>Práctica supervisada</td></tr>
+          <tr><td>Técnicas de venta</td><td class="num">8h</td><td>Role-playing</td></tr>
+          <tr><td>Etiqueta y protocolo domiciliario</td><td class="num">8h</td><td>Examen &gt;80%</td></tr>
+          <tr><td>Shadowing (3 visitas)</td><td class="num">16h</td><td>Eval. senior &gt;4/5</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Protocolo de Servicio Premium</h3>
+      <ul class="bullets">
+        <li><strong>Presentación:</strong> vestimenta elegante y discreta; no perfume invasivo; accesorios mínimos.</li>
+        <li><strong>Puntualidad:</strong> llegar 5 min antes; avisar si retraso &gt;10 min.</li>
+        <li><strong>Protocolo de entrada:</strong> presentación formal; confirmación de identidad; respeto por el espacio.</li>
+        <li><strong>Duración:</strong> 60-90 min según tipo (styling, armario, presentación colección).</li>
+        <li><strong>Despedida:</strong> resumen de recomendaciones; próximos pasos claros; agradecimiento personalizado.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Resources -->
+<div class="slide content-slide" id="slide-7">
+  <div class="slide-header">
+    <span class="kicker">Plan de Gestión de Recursos</span>
+    <h2>Equipo, Shoppers y Materiales</h2>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="card">
+        <h3>Equipo Core (12 personas)</h3>
+        <table>
+          <tr><th>Rol</th><th class="num">FTE</th><th class="num">Periodo</th><th class="num">Total</th></tr>
+          <tr><td>Director del Proyecto</td><td class="num">50-75%</td><td class="num">M0-M12</td><td class="num">27K€</td></tr>
+          <tr><td>CTO / Tech Lead</td><td class="num">100%</td><td class="num">M0-M9</td><td class="num">45K€</td></tr>
+          <tr><td>Backend Developer (x2)</td><td class="num">100%</td><td class="num">M1-M9</td><td class="num">72K€</td></tr>
+          <tr><td>Frontend Developer</td><td class="num">100%</td><td class="num">M1-M9</td><td class="num">36K€</td></tr>
+          <tr><td>Mobile Developer (x2)</td><td class="num">50-100%</td><td class="num">M1-M9</td><td class="num">54K€</td></tr>
+          <tr><td>QA / Tester</td><td class="num">0-100%</td><td class="num">M5-M9</td><td class="num">15K€</td></tr>
+          <tr><td>Operations Manager</td><td class="num">0-100%</td><td class="num">M4-M12</td><td class="num">28K€</td></tr>
+          <tr><td>Marketing Manager</td><td class="num">25-100%</td><td class="num">M0-M12</td><td class="num">24K€</td></tr>
+          <tr><td>Partnerships Manager</td><td class="num">0-100%</td><td class="num">M2-M12</td><td class="num">30K€</td></tr>
+          <tr><td>HR / Talent</td><td class="num">0-50%</td><td class="num">M0-M6</td><td class="num">7,5K€</td></tr>
+          <tr><td>Legal / DPO</td><td class="num">0-50%</td><td class="num">M0-M12</td><td class="num">15K€</td></tr>
+          <tr><td><strong>Total equipo core</strong></td><td></td><td></td><td class="num highlight"><strong>353.500€</strong></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Personal Shoppers (10)</h3>
+        <table>
+          <tr><th>Perfil</th><th class="num">Cant.</th><th class="num">Compensación</th></tr>
+          <tr><td>Senior (5+ años)</td><td class="num">4</td><td class="num">~32K€/año</td></tr>
+          <tr><td>Mid (2-5 años)</td><td class="num">4</td><td class="num">~28K€/año</td></tr>
+          <tr><td>Junior (0-2 años)</td><td class="num">2</td><td class="num">~22K€/año</td></tr>
+          <tr><td><strong>Total shoppers</strong></td><td class="num"><strong>10</strong></td><td class="num highlight"><strong>~196K€</strong></td></tr>
+        </table>
+        <h3 style="margin-top:1em;">Modelo de Compensación</h3>
+        <ul class="bullets">
+          <li>Fijo mensual garantizado: <strong>1.200€/mes</strong> (SMI compliance)</li>
+          <li>Variable por visita: <strong>15€</strong> por visita completada</li>
+          <li>Comisión por venta: <strong>5%</strong> sobre prendas vendidas</li>
+          <li>Estimación media mensual: <strong>~2.000€/mes</strong> por shopper</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cronograma de Contratación</h3>
+      <div class="bar-row"><div class="bar-label">M0-M1</div><div class="bar-track"><div class="bar-fill" style="width:15%"></div></div><span style="font-size:0.8rem; color:var(--text-dim); margin-left:0.5rem;">Director, CTO, Legal, HR</span></div>
+      <div class="bar-row"><div class="bar-label">M1-M2</div><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><span style="font-size:0.8rem; color:var(--text-dim); margin-left:0.5rem;">Backend (x2), Frontend, Mobile (x2)</span></div>
+      <div class="bar-row"><div class="bar-label">M3</div><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span style="font-size:0.8rem; color:var(--text-dim); margin-left:0.5rem;">QA Tester</span></div>
+      <div class="bar-row"><div class="bar-label">M4-M5</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><span style="font-size:0.8rem; color:var(--text-dim); margin-left:0.5rem;">Ops, Partnerships, Marketing, Shoppers Madrid (x5)</span></div>
+      <div class="bar-row"><div class="bar-label">M7-M8</div><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span style="font-size:0.8rem; color:var(--text-dim); margin-left:0.5rem;">Shoppers Barcelona (x5)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Communications + Stakeholders -->
+<div class="slide content-slide" id="slide-8">
+  <div class="slide-header">
+    <span class="kicker">Comunicaciones + Interesados</span>
+    <h2>Quién, Qué, Cuándo y Cómo</h2>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="card">
+        <h3>Reuniones Regulares</h3>
+        <table>
+          <tr><th>Reunión</th><th>Frec.</th><th>Dur.</th></tr>
+          <tr><td>Daily stand-up (tech)</td><td>Diaria</td><td class="num">15 min</td></tr>
+          <tr><td>Weekly sync (dirección)</td><td>Semanal</td><td class="num">45 min</td></tr>
+          <tr><td>Sprint review</td><td class="num">Cada 2 sem</td><td class="num">60 min</td></tr>
+          <tr><td>Sprint retrospective</td><td class="num">Cada 2 sem</td><td class="num">30 min</td></tr>
+          <tr><td>Monthly board</td><td>Mensual</td><td class="num">90 min</td></tr>
+          <tr><td>All-hands</td><td>Trimestral</td><td class="num">60 min</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Canales de Comunicación</h3>
+        <table>
+          <tr><th>Canal</th><th>Uso</th><th>Herramienta</th></tr>
+          <tr><td>Chat instantáneo</td><td>Coordinación diaria</td><td>Slack</td></tr>
+          <tr><td>Videollamadas</td><td>Reuniones, demos</td><td>Zoom / Meet</td></tr>
+          <tr><td>Gestión de tareas</td><td>Backlog, seguimiento</td><td>Jira / Linear / Notion</td></tr>
+          <tr><td>Documentación</td><td>Wikis, manuales</td><td>Notion / Confluence</td></tr>
+          <tr><td>Email formal</td><td>Externo, contratos</td><td>Google Workspace</td></tr>
+          <tr><td>App interna shoppers</td><td>Citas, rating</td><td>Panel admin propio</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Estrategias por Grupo de Interesados</h3>
+      <table>
+        <tr><th>Grupo</th><th>Interés / Influencia</th><th>Estrategia</th><th>Responsable</th></tr>
+        <tr><td>Patrocinador / Inversores</td><td>Alto / Muy Alta</td><td>Satisfacer / Colaborar</td><td>Director</td></tr>
+        <tr><td>Personal shoppers</td><td>Alto / Alta</td><td>Colaborar / Empoderar</td><td>Operations</td></tr>
+        <tr><td>Marcas de lujo</td><td>Alto / Alta</td><td>Colaborar / Negociar</td><td>Partnerships</td></tr>
+        <tr><td>Clientes miembros</td><td>Alto / Media</td><td>Satisfacer / Escuchar</td><td>Customer Success</td></tr>
+        <tr><td>Equipo central</td><td>Alto / Media</td><td>Informar / Consultar</td><td>Director</td></tr>
+        <tr><td>Medios e influencers</td><td>Medio / Media</td><td>Informar / Difundir</td><td>Marketing</td></tr>
+        <tr><td>Reguladores</td><td>Medio / Alta</td><td>Cumplir / Documentar</td><td>Legal</td></tr>
+        <tr><td>Competidores</td><td>Medio / Baja</td><td>Monitorizar / Diferenciar</td><td>Marketing / Strategy</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 9: Risks -->
+<div class="slide content-slide" id="slide-9">
+  <div class="slide-header">
+    <span class="kicker">Plan de Gestión de Riesgos</span>
+    <h2>Riesgos Críticos y Reservas</h2>
+  </div>
+  <div class="slide-body">
+    <div class="card">
+      <h3>Riesgos Críticos (Puntuación &ge; 12)</h3>
+      <table>
+        <tr><th>ID</th><th>Riesgo</th><th class="num">Prob</th><th class="num">Imp</th><th class="num">Punt</th><th>Reserva</th></tr>
+        <tr><td>RIE-01</td><td>Demanda insuficiente (&lt; 200 miembros)</td><td class="num">3</td><td class="num">5</td><td class="num highlight">15</td><td class="num">18.000€</td></tr>
+        <tr><td>RIE-04</td><td>Incapacidad para reclutar 10 shoppers</td><td class="num">3</td><td class="num">5</td><td class="num highlight">15</td><td class="num">12.000€</td></tr>
+        <tr><td>RIE-05</td><td>Rotación alta de shoppers (&gt; 3 bajas)</td><td class="num">3</td><td class="num">4</td><td class="num highlight">12</td><td class="num">8.000€</td></tr>
+        <tr><td>RIE-06</td><td>Calidad inconsistente (NPS &lt; 40)</td><td class="num">3</td><td class="num">4</td><td class="num highlight">12</td><td class="num">6.000€</td></tr>
+        <tr><td>RIE-09</td><td>Desviación presupuesto (&gt; 10%)</td><td class="num">3</td><td class="num">4</td><td class="num highlight">12</td><td class="num">30.000€</td></tr>
+        <tr><td>RIE-10</td><td>Flujo de caja negativo (M1-M8)</td><td class="num">3</td><td class="num">4</td><td class="num highlight">12</td><td class="num">18.000€</td></tr>
+        <tr><td>RIE-12</td><td>Retraso desarrollo plataforma (&gt; 15 días)</td><td class="num">3</td><td class="num">4</td><td class="num highlight">12</td><td class="num">10.000€</td></tr>
+        <tr><td colspan="5"><strong>Total reserva de contingencia</strong></td><td class="num highlight"><strong>66.000€</strong></td></tr>
+      </table>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Riesgos Significativos (8-11)</h3>
+        <ul class="bullets">
+          <li>Replicación por competidores (10) — velocidad de ejecución</li>
+          <li>Incidentes durante visitas (10) — seguros RC + mercancía</li>
+          <li>Fallos de seguridad / filtración (10) — auditoría + cifrado</li>
+          <li>Reclasificación laboral shoppers (10) — contratos autónomos</li>
+          <li>Cancelaciones y no-shows (9) — política &lt;48h</li>
+          <li>Deterioro mercado del lujo (8) — diversificación</li>
+          <li>Incumplimiento marcas (8) — diversificación cartera</li>
+          <li>Sanción RGPD (8) — DPO desde inicio</li>
+          <li>Escándalo de reputación (8) — protocolo crisis</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Key Risk Indicators (KRI)</h3>
+        <table>
+          <tr><th>KRI</th><th>Umbral Alerta</th><th>Frec.</th></tr>
+          <tr><td>Miembros nuevos / mes</td><td class="num">&lt; 15 en Madrid</td><td>Semanal</td></tr>
+          <tr><td>Candidatos viables / mes</td><td class="num">&lt; 2</td><td>Mensual</td></tr>
+          <tr><td>Tasa rotación shoppers</td><td class="num">&gt; 1 / trimestre</td><td>Trimestral</td></tr>
+          <tr><td>NPS promedio</td><td class="num">&lt; 45</td><td>Mensual</td></tr>
+          <tr><td>Desviación gasto acumulado</td><td class="num">&gt; 5%</td><td>Mensual</td></tr>
+          <tr><td>Ingresos vs. previsto</td><td class="num">&lt; 80%</td><td>Mensual</td></tr>
+          <tr><td>Burndown sprint</td><td class="num">&lt; 70%</td><td class="num">Cada 2 sem</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 10: Procurement -->
+<div class="slide content-slide" id="slide-10">
+  <div class="slide-header">
+    <span class="kicker">Plan de Gestión de las Adquisiciones</span>
+    <h2>Compras, Proveedores y Contratos</h2>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="card">
+        <h3>Adquisiciones Clave</h3>
+        <table>
+          <tr><th>Adquisición</th><th class="num">Estimado</th></tr>
+          <tr><td>Desarrollo backend (2 devs)</td><td class="num">72.000€</td></tr>
+          <tr><td>Desarrollo frontend (1 dev)</td><td class="num">36.000€</td></tr>
+          <tr><td>Desarrollo mobile (2 devs)</td><td class="num">54.000€</td></tr>
+          <tr><td>Infraestructura cloud</td><td class="num">18.000€</td></tr>
+          <tr><td>Auditoría de seguridad</td><td class="num">12.000€</td></tr>
+          <tr><td>Vehículos (leasing 10 unidades)</td><td class="num">46.000€</td></tr>
+          <tr><td>Seguros (RC, mercancía, ciber)</td><td class="num">9.000€</td></tr>
+          <tr><td>iPads para shoppers</td><td class="num">6.000€</td></tr>
+          <tr><td>Agencia branding e identidad</td><td class="num">18.000€</td></tr>
+          <tr><td>Publicidad digital</td><td class="num">36.000€</td></tr>
+          <tr><td>Eventos lanzamiento (2)</td><td class="num">24.000€</td></tr>
+          <tr><td>Asesoría legal</td><td class="num">15.000€</td></tr>
+          <tr><td>Auditoría RGPD</td><td class="num">6.000€</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Política de Autorización</h3>
+        <table>
+          <tr><th>Umbral</th><th>Aprobador</th></tr>
+          <tr><td class="num">&lt; 500€</td><td>Gestor de área</td></tr>
+          <tr><td class="num">500€ - 5.000€</td><td>Director del Proyecto</td></tr>
+          <tr><td class="num">&gt; 5.000€</td><td>Patrocinador / Junta</td></tr>
+          <tr><td class="num">&gt; 10.000€</td><td>Mínimo 3 presupuestos</td></tr>
+        </table>
+        <h3 style="margin-top:1em;">Tipos de Contrato</h3>
+        <table>
+          <tr><th>Adquisición</th><th>Tipo</th></tr>
+          <tr><td>Desarrollo tech</td><td>Precio fijo por hito</td></tr>
+          <tr><td>Cloud</td><td>Consumo / Suscripción</td></tr>
+          <tr><td>Vehículos</td><td>Leasing operativo</td></tr>
+          <tr><td>Seguros</td><td>Prima anual fija</td></tr>
+          <tr><td>Branding</td><td>Precio fijo por entregable</td></tr>
+          <tr><td>Publicidad digital</td><td>Consumo (variable)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Proceso de Adquisición (10 pasos)</h3>
+      <ul class="bullets">
+        <li>1. Identificación de necesidad · 2. Definición de requisitos · 3. Solicitud de presupuestos (mín. 3 si &gt;10K€)</li>
+        <li>4. Evaluación y selección (precio 40%, calidad/técnico 40%, servicio 20%) · 5. Negociación · 6. Aprobación</li>
+        <li>7. Orden de compra / contrato · 8. Recepción y verificación · 9. Pago (30% inicio, 40% entrega, 30% aceptación) · 10. Cierre y lección aprendida</li>
+      </ul>
+      <p class="note">Cláusulas clave: penalización 0,5% por día de retraso (máx. 10%), NDA obligatorio, propiedad intelectual al proyecto, rescisión con 30 días de preaviso.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button id="btn-prev" onclick="goTo(current-1)">&larr; Anterior</button>
+  <span class="counter" id="counter">1 / 10</span>
+  <button id="btn-next" onclick="goTo(current+1)">Siguiente &rarr;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 1;
+
+  function goTo(n) {
+    if (n < 1 || n > total) return;
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i + 1 === n) s.classList.add('active');
+      else if (i + 1 === current && n > current) s.classList.add('prev');
+    });
+    current = n;
+    document.getElementById('counter').textContent = current + ' / ' + total;
+    document.getElementById('btn-prev').disabled = current === 1;
+    document.getElementById('btn-next').disabled = current === total;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'Home') goTo(1);
+    if (e.key === 'End') goTo(total);
+  });
+
+  goTo(1);
+</script>
+</body>
+</html>

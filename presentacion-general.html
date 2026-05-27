@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Shopping Luxury — Master Briefing</title>
+  <style>
+    :root {
+      --navy: #0a0e27;
+      --navy-light: #12183f;
+      --navy-lighter: #1a2255;
+      --gold: #d4af37;
+      --gold-light: #e8c96a;
+      --gold-dark: #b5942f;
+      --white: #f5f5f7;
+      --gray: #a0a8c0;
+      --gray-dark: #6b7190;
+      --success: #2ecc71;
+      --warning: #f1c40f;
+      --danger: #e74c3c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .presentation {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 4rem;
+      background: var(--navy);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold));
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+    }
+
+    .slide-content {
+      max-width: 1100px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 1.2rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+      margin-top: 1.2rem;
+    }
+
+    p, li {
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+      line-height: 1.6;
+      color: var(--gray);
+      margin-bottom: 0.6rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    li { margin-bottom: 0.4rem; }
+
+    .subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      padding: 0.35rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .kpi-card {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-lighter);
+      border-radius: 8px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+
+    .kpi-card:hover { border-color: var(--gold-dark); }
+
+    .kpi-value {
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .box {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-lighter);
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+
+    .box h4 {
+      color: var(--gold-light);
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid var(--navy-lighter);
+    }
+
+    th {
+      color: var(--gold);
+      font-weight: 600;
+      background: var(--navy-light);
+    }
+
+    td { color: var(--gray); }
+
+    .status-green { color: var(--success); font-weight: 600; }
+    .status-yellow { color: var(--warning); font-weight: 600; }
+    .status-red { color: var(--danger); font-weight: 600; }
+
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 2rem 0;
+      padding: 0 0.5rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      max-width: 120px;
+      text-align: center;
+    }
+
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid var(--navy);
+      margin-bottom: 0.6rem;
+    }
+
+    .timeline-dot.major {
+      width: 22px;
+      height: 22px;
+      background: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    .timeline-label {
+      font-size: 0.8rem;
+      color: var(--gray);
+      line-height: 1.3;
+    }
+
+    .timeline-label strong {
+      color: var(--white);
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .highlight {
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: var(--navy-light);
+      border-top: 1px solid var(--navy-lighter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-size: 0.9rem;
+      color: var(--gray);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .jump-menu {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 200;
+    }
+
+    .jump-btn {
+      background: var(--navy-light);
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .jump-btn:hover { background: rgba(212, 175, 55, 0.15); }
+
+    .jump-panel {
+      position: absolute;
+      top: 44px;
+      right: 0;
+      width: 280px;
+      max-height: 70vh;
+      overflow-y: auto;
+      background: var(--navy-light);
+      border: 1px solid var(--gold-dark);
+      border-radius: 8px;
+      padding: 0.5rem 0;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .jump-panel.open { display: block; }
+
+    .jump-item {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+      cursor: pointer;
+      border-bottom: 1px solid var(--navy-lighter);
+    }
+
+    .jump-item:last-child { border-bottom: none; }
+    .jump-item:hover { background: var(--navy-lighter); color: var(--white); }
+    .jump-item.active { color: var(--gold); font-weight: 600; }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+      z-index: 300;
+    }
+
+    .logo-mark {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .centered { text-align: center; }
+
+    .cta-box {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid var(--gold-dark);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .slide { padding: 2rem; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .timeline { flex-wrap: wrap; gap: 1rem; }
+      .timeline::before { display: none; }
+      .timeline-item { width: 45%; max-width: none; }
+      table { font-size: 0.85rem; }
+      th, td { padding: 0.4rem; }
+      .nav-bar { padding: 0 1rem; }
+    }
+
+    @media (max-width: 600px) {
+      .slide { padding: 1.5rem 1rem 5rem; justify-content: flex-start; overflow-y: auto; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .timeline-item { width: 100%; }
+      .jump-panel { width: 90vw; right: -0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="jump-menu">
+    <button class="jump-btn" id="jumpBtn" onclick="toggleJump()">Ir a diapositiva</button>
+    <div class="jump-panel" id="jumpPanel"></div>
+  </div>
+
+  <div class="presentation" id="presentation">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active" data-title="Portada">
+      <div class="slide-content centered">
+        <div class="logo-mark">EXCLUSIVE LUXURY</div>
+        <h1 style="font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 0.6rem;">Personal Shopping Luxury</h1>
+        <p class="subtitle">Master Briefing — Las 5 Fases del Proyecto</p>
+        <div class="kpi-grid" style="max-width: 600px; margin: 2rem auto;">
+          <div class="kpi-card">
+            <span class="kpi-value">2026</span>
+            <span class="kpi-label">Año del MVP</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">Madrid + BCN</span>
+            <span class="kpi-label">Cobertura Año 1</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">200</span>
+            <span class="kpi-label">Miembros activos</span>
+          </div>
+        </div>
+        <p style="color: var(--gray-dark); font-size: 0.9rem; margin-top: 2rem;">Equipo de Direccion del Proyecto · 2026-05-27</p>
+      </div>
+    </div>
+
+    <!-- Slide 2: Executive Summary -->
+    <div class="slide" data-title="Resumen Ejecutivo">
+      <div class="slide-content">
+        <div class="badge">RESUMEN EJECUTIVO</div>
+        <h1>Vision y Numeros Clave</h1>
+        <p class="subtitle">Transformar la experiencia de compra de lujo en un servicio premium omnicanal que lleva el exclusivismo directamente al hogar del cliente.</p>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-value">660K€</span>
+            <span class="kpi-label">Presupuesto Año 1</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">684K€</span>
+            <span class="kpi-label">Ingresos proyectados</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">24K€</span>
+            <span class="kpi-label">Beneficio (3,5%)</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">200</span>
+            <span class="kpi-label">Miembros objetivo</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">10</span>
+            <span class="kpi-label">Personal Shoppers</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">12 meses</span>
+            <span class="kpi-label">Duracion MVP</span>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top: 1.5rem;">
+          <div class="box">
+            <h4>Modelo de negocio</h4>
+            <p>Membresia premium (2.000€/año) + Visitas domiciliarias (100€) + Consignacion con 10-15 marcas de lujo. Sin inventario propio, sin e-commerce directo, sin almacen.</p>
+          </div>
+          <div class="box">
+            <h4>Propuesta de valor unica</h4>
+            <p>"La plataforma de personal shopping de lujo que lleva el exclusivismo a tu casa." Experiencia fisica, shoppers independientes, curacion humana + tecnologia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Market Opportunity -->
+    <div class="slide" data-title="Oportunidad de Mercado">
+      <div class="slide-content">
+        <div class="badge">OPORTUNIDAD DE MERCADO</div>
+        <h1>Un Nicho Azul en el Lujo Espanol</h1>
+        <p class="subtitle">Ninguna plataforma existente ofrece la combinacion de membresia + visitas domiciliarias + consignacion en el segmento luxury.</p>
+        <div class="two-col">
+          <div>
+            <h3>Gap identificado</h3>
+            <ul>
+              <li><span class="highlight">Threads / Lookiero</span>: personal shopping digital, sin componente fisico.</li>
+              <li><span class="highlight">Farfetch / Mytheresa</span>: atencion VIP digital-first, sin visitas domiciliarias estructuradas.</li>
+              <li><span class="highlight">Stitch Fix</span>: modelo masivo por correo, no lujo puro.</li>
+            </ul>
+            <h3>Target</h3>
+            <ul>
+              <li>Hombres y mujeres 35-65 anos con alto patrimonio.</li>
+              <li>Residentes en ciudades premium: Madrid (M9) y Barcelona (M12).</li>
+              <li>Profesionales y ejecutivos sin tiempo de ir de tiendas.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Expansion Año 3</h4>
+              <p>6-8 ciudades (Malaga, Mallorca, Paris, Milan...). 1.200+ miembros. Ingresos estimados 3,5M€ - 4,5M€. Margen neto objetivo <span class="highlight">15-18%</span>.</p>
+            </div>
+            <div class="box" style="margin-top: 1rem;">
+              <h4>Ingresos Año 1</h4>
+              <table>
+                <tr><td>Membresias (200 x 2.000€)</td><td style="text-align:right;">400.000€</td></tr>
+                <tr><td>Visitas (2.000 x 100€)</td><td style="text-align:right;">200.000€</td></tr>
+                <tr><td>Comisiones consignacion</td><td style="text-align:right;">84.000€</td></tr>
+                <tr><td style="font-weight:600; color:var(--gold);">Total</td><td style="text-align:right; font-weight:600; color:var(--gold);">684.000€</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Fase Inicio -->
+    <div class="slide" data-title="Fase Inicio">
+      <div class="slide-content">
+        <div class="badge">FASE 1 — INICIO</div>
+        <h1>Aprobacion, Alcance y Gobierno</h1>
+        <p class="subtitle">Constitucion del proyecto el 2026-05-21. Aprobacion del business case, acta de constitucion, registro de interesados y riesgos iniciales.</p>
+        <div class="two-col">
+          <div>
+            <h3>Decisiones clave</h3>
+            <ul>
+              <li>Presupuesto maximo <span class="highlight">660.000€</span> (innegociable).</li>
+              <li>Lanzamientos duros: Madrid <span class="highlight">Mes 9</span>, Barcelona <span class="highlight">Mes 12</span>.</li>
+              <li>10 shoppers (5 por ciudad), vehiculos de empresa, sin inventario propio.</li>
+              <li>Rechazo de IA/VR/Avatar 3D en MVP (roadmap futuro).</li>
+              <li>Cumplimiento RGPD total desde el diseno.</li>
+            </ul>
+            <h3>Stakeholders clave</h3>
+            <ul>
+              <li>12 grupos identificados: clientes, shoppers, marcas, patrocinador, equipo core, competidores, reguladores, medios, proveedores, escuelas de moda, comunidad local.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Riesgos iniciales criticos (≥ 12)</h4>
+              <table>
+                <tr><th>ID</th><th>Riesgo</th><th>Punt.</th></tr>
+                <tr><td>RIE-01</td><td>Demanda insuficiente</td><td class="status-red">15</td></tr>
+                <tr><td>RIE-04</td><td>Reclutar shoppers</td><td class="status-red">15</td></tr>
+                <tr><td>RIE-05</td><td>Rotacion shoppers</td><td class="status-yellow">12</td></tr>
+                <tr><td>RIE-06</td><td>Calidad inconsistente</td><td class="status-yellow">12</td></tr>
+                <tr><td>RIE-09</td><td>Desviacion presupuesto</td><td class="status-yellow">12</td></tr>
+                <tr><td>RIE-10</td><td>Flujo de caja negativo</td><td class="status-yellow">12</td></tr>
+                <tr><td>RIE-12</td><td>Retraso plataforma</td><td class="status-yellow">12</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Fase Planificacion -->
+    <div class="slide" data-title="Fase Planificacion">
+      <div class="slide-content">
+        <div class="badge">FASE 2 — PLANIFICACION</div>
+        <h1>10 Planes de Gestion y 3 Baselines</h1>
+        <p class="subtitle">Plan maestro de integracion que coordina 9 planes subsidiarios. Baselines de alcance, tiempo y costes aprobados por el CCB.</p>
+        <div class="three-col">
+          <div class="box">
+            <h4>Alcance & Tiempo</h4>
+            <p>EDT completa (niveles 0-3), 10 entregables MVP, cronograma con ruta critica de 9 meses, hitos duros M9/M12.</p>
+          </div>
+          <div class="box">
+            <h4>Costes</h4>
+            <p>Presupuesto 660K€, S-curve mensual, reserva de contingencia <span class="highlight">66.000€</span> (10%), flujo de caja controlado.</p>
+          </div>
+          <div class="box">
+            <h4>Calidad</h4>
+            <p>NPS > 50, CSAT > 4,5/5, churn < 5%, uptime > 99,5%. Formacion de 40h + shadowing para shoppers.</p>
+          </div>
+        </div>
+        <div class="three-col" style="margin-top: 1rem;">
+          <div class="box">
+            <h4>Recursos</h4>
+            <p>Equipo core 12 personas + 10 shoppers. RACI definido. Contratacion escalonada M0-M8. Compensacion shopper: 1.200€ fijo + 15€/visita + 5% comision.</p>
+          </div>
+          <div class="box">
+            <h4>Riesgos & Interesados</h4>
+            <p>18 riesgos registrados, 7 criticos con reservas asignadas. KRI definidos. Estrategias de comunicacion por grupo de interesados.</p>
+          </div>
+          <div class="box">
+            <h4>Comunicaciones & Adquisiciones</h4>
+            <p>Canales, frecuencias y reuniones regulares. Proceso de compra, umbral de autorizacion y evaluacion de proveedores.</p>
+          </div>
+        </div>
+        <div class="cta-box" style="margin-top: 1.2rem;">
+          <p style="margin:0;"><span class="highlight">Regla de oro:</span> Las 3 lineas base no se modifican sin proceso formal de cambio aprobado por el CCB (Patrocinador + Director + CTO + Ops + Marketing + Legal).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Fase Ejecucion -->
+    <div class="slide" data-title="Fase Ejecucion">
+      <div class="slide-content">
+        <div class="badge">FASE 3 — EJECUCION</div>
+        <h1>MVP Entregado en Madrid y Barcelona</h1>
+        <p class="subtitle">12 meses de ejecucion: plataforma web/app, 10 shoppers formados, 12 marcas consignadas, 200 miembros activos.</p>
+        <div class="two-col">
+          <div>
+            <h3>Entregables producidos</h3>
+            <ul>
+              <li>Plataforma web responsive operativa <span class="highlight">(M8)</span>.</li>
+              <li>App iOS/Android publicada <span class="highlight">(M9)</span>.</li>
+              <li>Panel admin + CRM + pasarela de pagos <span class="highlight">(M8)</span>.</li>
+              <li>Red de 10 shoppers reclutados y certificados <span class="highlight">(M7)</span>.</li>
+              <li>Acuerdos de consignacion con <span class="highlight">12 marcas</span> firmados <span class="highlight">(M7)</span>.</li>
+              <li>Lanzamiento oficial Madrid <span class="highlight">(M9, 85 miembros)</span>.</li>
+              <li>Lanzamiento Barcelona <span class="highlight">(M12, 45 miembros + 155 Madrid = 200)</span>.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Decisiones de cambio ejecutadas</h4>
+              <table>
+                <tr><th>ID</th><th>Cambio</th><th>Estado</th></tr>
+                <tr><td>CC-01</td><td>Stack mobile a Flutter (-12K€)</td><td class="status-green">Aprobado</td></tr>
+                <tr><td>CC-02</td><td>Ajuste calendario formacion</td><td class="status-green">Aprobado</td></tr>
+                <tr><td>CC-03</td><td>Campaña embajadores adicional</td><td class="status-green">Aprobado</td></tr>
+                <tr><td>CC-04</td><td>Seguro RC cobertura europea</td><td class="status-green">Aprobado</td></tr>
+                <tr><td>CC-05</td><td>Modulo feedback post-visita en app</td><td class="status-red">Rechazado</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Fase Supervision y Control -->
+    <div class="slide" data-title="Fase Supervision y Control">
+      <div class="slide-content">
+        <div class="badge">FASE 4 — SUPERVISION Y CONTROL</div>
+        <h1>EVM, Variaciones y Gestion de Cambios</h1>
+        <p class="subtitle">Control integrado continuo (M0-M12): comparacion de baselines contra reales, comite de control de cambios, pronosticos de cierre.</p>
+        <div class="two-col">
+          <div>
+            <h3>Indicadores de desempeno (a M9)</h3>
+            <table>
+              <tr><th>Metrica</th><th>Baseline</th><th>Real</th><th>Estado</th></tr>
+              <tr><td>Alcance</td><td>10 entregables</td><td>7 validados, 3 en curso</td><td class="status-green">Verde</td></tr>
+              <tr><td>Tiempo Madrid</td><td>M9</td><td>M9+3d</td><td class="status-green">Verde</td></tr>
+              <tr><td>Coste acumulado (AC)</td><td>494K€</td><td>508.800€</td><td class="status-yellow">Amarillo</td></tr>
+              <tr><td>Valor Ganado (EV)</td><td>495K€</td><td>495K€</td><td class="status-green">Verde</td></tr>
+              <tr><td>Ingresos acumulados</td><td>100K€</td><td>96K€</td><td class="status-yellow">Amarillo</td></tr>
+            </table>
+            <h3>Pronosticos</h3>
+            <ul>
+              <li>EAC estimado: <span class="highlight">678.480€</span> (+2,8% sobre BAC).</li>
+              <li>Beneficio final estimado: ~5.500€ (conservador) a 15.000€ (optimista).</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>CCB — Comite de Control de Cambios</h4>
+              <p>4 reuniones CCB (M3, M6, M8, M9). 5 solicitudes tratadas: <span class="highlight">3 aprobadas, 1 rechazada, 1 diferida</span>. Desviacion presupuestaria integrada +2,8%.</p>
+            </div>
+            <div class="box" style="margin-top: 1rem;">
+              <h4>Acciones correctoras clave</h4>
+              <ul style="margin:0;">
+                <li>Reasignacion 2.000€ marketing a tecnologia por cloud.</li>
+                <li>Campaña embajadores intensificada por conversion lenta.</li>
+                <li>Fix prioritario pasarela de pagos (+3 dias Madrid).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Fase Cierre -->
+    <div class="slide" data-title="Fase Cierre">
+      <div class="slide-content">
+        <div class="badge">FASE 5 — CIERRE</div>
+        <h1>Resultados, Lecciones y Transicion</h1>
+        <p class="subtitle">Cierre formal del Ano 1: 12 checklist items cumplidos, sign-off del patrocinador, transicion a operaciones del Ano 2.</p>
+        <div class="two-col">
+          <div>
+            <h3>Checklist de cierre</h3>
+            <ul>
+              <li>Alcance baseline completado al <span class="highlight">100%</span>.</li>
+              <li>Cronograma: Madrid M9, Barcelona M12 <span class="highlight">cumplido</span>.</li>
+              <li>Presupuesto cerrado sin exceder 660K€ <span class="highlight">(gasto real 654K€)</span>.</li>
+              <li>NPS > 45 y CSAT > 4,5/5 <span class="highlight">cumplido</span>.</li>
+              <li>200 miembros activos pagados <span class="highlight">cumplido</span>.</li>
+              <li>10 shoppers activos, contratados y formados <span class="highlight">cumplido</span>.</li>
+              <li>Plataforma operativa en produccion <span class="highlight">cumplido</span>.</li>
+              <li>12 marcas consignadas <span class="highlight">cumplido</span>.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Lecciones aprendidas clave</h4>
+              <ul>
+                <li><span class="highlight">Lanzamiento por fases:</span> Madrid piloto permitio ajustar antes de Barcelona. Replicar en futuras ciudades.</li>
+                <li><span class="highlight">Flujo de caja:</span> Pico critico en M8 (-376K€). Abrir linea de credito de 100K€ para siguientes lanzamientos.</li>
+                <li><span class="highlight">Reclutamiento:</span> Headhunting premium mas efectivo que bolsas genericas.</li>
+                <li><span class="highlight">Calidad:</span> Shadowing minimo debe ser 5 visitas (no 3). Introducir mentoring shopper senior.</li>
+                <li><span class="highlight">Marketing:</span> Embajadores generaron 40% de leads; digital puro fue caro.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Financial Summary -->
+    <div class="slide" data-title="Resumen Financiero">
+      <div class="slide-content">
+        <div class="badge">RESUMEN FINANCIERO</div>
+        <h1>Presupuesto, Ingresos y Rentabilidad</h1>
+        <p class="subtitle">Reconciliacion final del Ano 1: presupuesto controlado, beneficio real 30K€ (vs 24K€ planificado).</p>
+        <div class="two-col">
+          <div>
+            <h3>Gasto real por area</h3>
+            <table>
+              <tr><th>Area</th><th>Presup.</th><th>Real</th><th>Desv.</th></tr>
+              <tr><td>Gestion del Proyecto</td><td>24K€</td><td>23,5K€</td><td class="status-green">-500€</td></tr>
+              <tr><td>Plataforma Tecnologica</td><td>228K€</td><td>232K€</td><td class="status-yellow">+4K€</td></tr>
+              <tr><td>Operativa Shopping</td><td>196K€</td><td>198K€</td><td class="status-yellow">+2K€</td></tr>
+              <tr><td>Alianzas y Consignacion</td><td>26K€</td><td>24K€</td><td class="status-green">-2K€</td></tr>
+              <tr><td>Marketing y Lanzamiento</td><td>106K€</td><td>104K€</td><td class="status-green">-2K€</td></tr>
+              <tr><td>Legal, Calidad y Cumpl.</td><td>26K€</td><td>25,5K€</td><td class="status-green">-500€</td></tr>
+              <tr><td>Contingencia</td><td>54K€</td><td>47K€</td><td class="status-green">-7K€</td></tr>
+              <tr><td style="color:var(--gold); font-weight:600;">TOTAL</td><td style="color:var(--gold); font-weight:600;">660K€</td><td style="color:var(--gold); font-weight:600;">654K€</td><td style="color:var(--success); font-weight:600;">-6K€</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Uso de la reserva de contingencia (47K€)</h4>
+              <table>
+                <tr><th>Riesgo</th><th>Importe</th></tr>
+                <tr><td>Desviacion tecnologica (RIE-09, RIE-12)</td><td>18K€ + 8K€</td></tr>
+                <tr><td>Demanda insuficiente M8-M9 (RIE-01)</td><td>12K€</td></tr>
+                <tr><td>Reclutamiento shoppers (RIE-04)</td><td>6K€</td></tr>
+                <tr><td>Flujo de caja (RIE-10)</td><td>3K€</td></tr>
+              </table>
+            </div>
+            <div class="kpi-grid" style="margin-top: 1rem;">
+              <div class="kpi-card">
+                <span class="kpi-value">684K€</span>
+                <span class="kpi-label">Ingresos reales</span>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-value">30K€</span>
+                <span class="kpi-label">Beneficio real</span>
+              </div>
+            </div>
+            <div class="cta-box" style="margin-top: 1rem;">
+              <p style="margin:0; font-size: 0.95rem;"><span class="highlight">7K€</span> de contingencia no usada transferida a reserva del Ano 2. <span class="highlight">6K€</span> de ahorro a fondo de operaciones corriente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Milestones -->
+    <div class="slide" data-title="Hitos Clave">
+      <div class="slide-content">
+        <div class="badge">CRONOGRAMA Y HITOS</div>
+        <h1>Linea Temporal M0 — M12</h1>
+        <p class="subtitle">Ruta critica de 9 meses con hitos duros innegociables. Metodologia hibrida: fases secuenciales + sprints agiles de 2 semanas en tecnologia.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M1</strong>Equipo tech contratado</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M3</strong>API base operativa</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M5</strong>5 shoppers Madrid + 5 marcas</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M6</strong>App movil en test interno</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M8</strong>Soft launch Madrid (50 beta)</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot major"></div>
+            <div class="timeline-label"><strong>M9</strong>Lanzamiento MVP Madrid</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M10</strong>App stores publicadas</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label"><strong>M11</strong>155 miembros Madrid</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot major"></div>
+            <div class="timeline-label"><strong>M12</strong>Lanzamiento Barcelona + Cierre</div>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top: 1rem;">
+          <div class="box">
+            <h4>Fases del proyecto</h4>
+            <table>
+              <tr><th>Fase</th><th>Periodo</th><th>Objetivo</th></tr>
+              <tr><td>Inicio</td><td>Mes 0</td><td>Aprobar proyecto y vision</td></tr>
+              <tr><td>Planificacion</td><td>M0-M1</td><td>10 planes y 3 baselines</td></tr>
+              <tr><td>Ejecucion</td><td>M1-M12</td><td>Construir y lanzar MVP</td></tr>
+              <tr><td>Supervision y Control</td><td>Continuo</td><td>Medir desviaciones</td></tr>
+              <tr><td>Cierre</td><td>M12</td><td>Cerrar Ano 1 y planificar Ano 2</td></tr>
+            </table>
+          </div>
+          <div class="box">
+            <h4>Regla de transicion de fases</h4>
+            <p>Ninguna fase se cierra sin reunion de revision formal donde se validan entregables contra baselines y se aprueba el paso a la siguiente fase. La transicion Planificacion a Ejecucion requiere aprobacion explicita del Patrocinador.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Team & Resources -->
+    <div class="slide" data-title="Equipo y Recursos">
+      <div class="slide-content">
+        <div class="badge">EQUIPO Y RECURSOS</div>
+        <h1>Estructura y Compensacion</h1>
+        <p class="subtitle">Equipo core de 12 personas + red de 10 personal shoppers. Inversion en talento: 353.500€ equipo + 196.000€ operativa.</p>
+        <div class="two-col">
+          <div>
+            <h3>Equipo core (12 personas)</h3>
+            <table>
+              <tr><th>Rol</th><th>FTE</th><th>Periodo</th><th>Coste</th></tr>
+              <tr><td>Director del Proyecto</td><td>50-75%</td><td>M0-M12</td><td>27K€</td></tr>
+              <tr><td>CTO / Tech Lead</td><td>100%</td><td>M0-M9</td><td>45K€</td></tr>
+              <tr><td>Backend (x2)</td><td>100%</td><td>M1-M9</td><td>72K€</td></tr>
+              <tr><td>Frontend</td><td>100%</td><td>M1-M9</td><td>36K€</td></tr>
+              <tr><td>Mobile (x2)</td><td>50-100%</td><td>M1-M9</td><td>54K€</td></tr>
+              <tr><td>QA / Tester</td><td>0-100%</td><td>M5-M9</td><td>15K€</td></tr>
+              <tr><td>Operations Manager</td><td>0-100%</td><td>M4-M12</td><td>28K€</td></tr>
+              <tr><td>Marketing Manager</td><td>25-100%</td><td>M0-M12</td><td>24K€</td></tr>
+              <tr><td>Partnerships Manager</td><td>0-100%</td><td>M2-M12</td><td>30K€</td></tr>
+              <tr><td>HR / Talent</td><td>0-50%</td><td>M0-M6</td><td>7,5K€</td></tr>
+              <tr><td>Legal / DPO</td><td>0-50%</td><td>M0-M12</td><td>15K€</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Personal Shoppers (10)</h4>
+              <p><span class="highlight">4 Senior</span> (5+ anos lujo) · <span class="highlight">4 Mid</span> (2-5 anos) · <span class="highlight">2 Junior</span> (0-2 anos)</p>
+              <p style="margin-top:0.6rem;"><strong>Compensacion:</strong></p>
+              <ul>
+                <li>1.200€/mes fijo garantizado (SMI compliance).</li>
+                <li>15€/visita completada.</li>
+                <li>5% comision sobre ventas consignacion.</li>
+                <li>Media estimada: ~2.000€/mes por shopper.</li>
+              </ul>
+            </div>
+            <div class="box" style="margin-top: 1rem;">
+              <h4>Recursos materiales</h4>
+              <ul style="margin:0;">
+                <li>5-6 portatiles equipo tech (9K€).</li>
+                <li>10 iPads para shoppers (6K€).</li>
+                <li>10 vehiculos leasing operativo (46K€).</li>
+                <li>Coworking / oficina (12K€/ano).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 12: Risk Management -->
+    <div class="slide" data-title="Gestion de Riesgos">
+      <div class="slide-content">
+        <div class="badge">GESTION DE RIESGOS</div>
+        <h1>18 Riesgos, 7 Criticos, 66K€ de Reserva</h1>
+        <p class="subtitle">Metodologia: Probabilidad (1-5) x Impacto (1-5) = Puntuacion. Riesgos ≥ 12 son criticos. 66.000€ de reserva de contingencia asignada.</p>
+        <div class="two-col">
+          <div>
+            <h3>Riesgos criticos mitigados</h3>
+            <table>
+              <tr><th>ID</th><th>Riesgo</th><th>Punt.</th><th>Reserva</th></tr>
+              <tr><td>RIE-01</td><td>Demanda insuficiente</td><td class="status-red">15</td><td>18K€</td></tr>
+              <tr><td>RIE-04</td><td>Reclutar 10 shoppers</td><td class="status-red">15</td><td>12K€</td></tr>
+              <tr><td>RIE-05</td><td>Rotacion alta shoppers</td><td class="status-yellow">12</td><td>8K€</td></tr>
+              <tr><td>RIE-06</td><td>Calidad inconsistente</td><td class="status-yellow">12</td><td>6K€</td></tr>
+              <tr><td>RIE-09</td><td>Desviacion presupuesto</td><td class="status-yellow">12</td><td>30K€</td></tr>
+              <tr><td>RIE-10</td><td>Flujo de caja negativo</td><td class="status-yellow">12</td><td>18K€</td></tr>
+              <tr><td>RIE-12</td><td>Retraso plataforma</td><td class="status-yellow">12</td><td>10K€</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="box">
+              <h4>KRI — Key Risk Indicators</h4>
+              <table>
+                <tr><th>Riesgo</th><th>Indicador</th><th>Umbral</th></tr>
+                <tr><td>RIE-01</td><td>Miembros nuevos/mes</td><td>&lt; 15 en Madrid</td></tr>
+                <tr><td>RIE-04</td><td>Candidatos viables/mes</td><td>&lt; 2</td></tr>
+                <tr><td>RIE-05</td><td>Bajas shoppers/trim.</td><td>&gt; 1</td></tr>
+                <tr><td>RIE-06</td><td>NPS promedio</td><td>&lt; 45</td></tr>
+                <tr><td>RIE-09</td><td>Desv. gasto acum.</td><td>&gt; 5%</td></tr>
+                <tr><td>RIE-10</td><td>Ingresos vs. plan</td><td>&lt; 80%</td></tr>
+                <tr><td>RIE-12</td><td>Burndown sprint</td><td>&lt; 70%</td></tr>
+              </table>
+            </div>
+            <div class="cta-box" style="margin-top: 1rem;">
+              <p style="margin:0;"><span class="highlight">Seguros contratados:</span> RC profesional, mercancia en transito, vehiculos, ciberriesgo. Protocolo de crisis para reputacion y materializacion de riesgos legales.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 13: Quality & NPS -->
+    <div class="slide" data-title="Calidad y NPS">
+      <div class="slide-content">
+        <div class="badge">CALIDAD Y NPS</div>
+        <h1>Experiencia Premium Medible</h1>
+        <p class="subtitle">Calidad no es solo ausencia de defectos: es la experiencia premium completa. Auditorias trimestrales, formacion rigurosa y mejora continua.</p>
+        <div class="three-col">
+          <div class="box">
+            <h4>Metricas de servicio</h4>
+            <table>
+              <tr><th>Metrica</th><th>Obj.</th><th>Real</th></tr>
+              <tr><td>NPS</td><td>&gt; 50</td><td class="status-yellow">48</td></tr>
+              <tr><td>CSAT</td><td>&gt; 4,5/5</td><td class="status-green">4,6/5</td></tr>
+              <tr><td>Rating shopper</td><td>&gt; 4,5/5</td><td class="status-green">4,7/5</td></tr>
+              <tr><td>Churn mensual</td><td>&lt; 5%</td><td class="status-green">4,2%</td></tr>
+              <tr><td>Puntualidad</td><td>&gt; 95%</td><td class="status-green">97%</td></tr>
+              <tr><td>Incidencias</td><td>&lt; 2%</td><td class="status-green">1,5%</td></tr>
+            </table>
+          </div>
+          <div class="box">
+            <h4>Metricas de plataforma</h4>
+            <table>
+              <tr><th>Metrica</th><th>Obj.</th><th>Real</th></tr>
+              <tr><td>Uptime</td><td>&gt; 99,5%</td><td class="status-green">99,7%</td></tr>
+              <tr><td>Carga home</td><td>&lt; 2s</td><td class="status-green">1,4s</td></tr>
+              <tr><td>Crash rate</td><td>&lt; 0,5%</td><td class="status-green">0,3%</td></tr>
+              <tr><td>Bugs criticos</td><td>0</td><td class="status-green">0</td></tr>
+            </table>
+          </div>
+          <div class="box">
+            <h4>Formacion de shoppers</h4>
+            <table>
+              <tr><th>Modulo</th><th>Nota</th></tr>
+              <tr><td>Marca y protocolo</td><td>88%</td></tr>
+              <tr><td>CRM y digitales</td><td>91%</td></tr>
+              <tr><td>Venta y objeciones</td><td>85%</td></tr>
+              <tr><td>Etiqueta y seguridad</td><td>90%</td></tr>
+              <tr><td>Shadowing (5 visitas)</td><td>4,6/5</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="cta-box" style="margin-top: 1.2rem;">
+          <p style="margin:0;"><span class="highlight">Auditorias cerradas:</span> QA pre-lanzamiento (12 bugs menores corregidos), RGPD M7 y M12 sin hallazgos criticos, penetration test aprobado, auditoria de visitas 94% cumplimiento.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 14: Next Steps / Year 2 -->
+    <div class="slide" data-title="Proximos Pasos / Ano 2">
+      <div class="slide-content">
+        <div class="badge">ANO 2 Y MAS ALLA</div>
+        <h1>Expansion, Escalado y Roadmap</h1>
+        <p class="subtitle">Transicion a operaciones del Ano 2 con presupuesto objetivo 1.200.000€ y margen 8%. Expansion a 6-8 ciudades en el Ano 3.</p>
+        <div class="two-col">
+          <div>
+            <h3>Roadmap Ano 2</h3>
+            <ul>
+              <li><span class="highlight">Ciudades:</span> Consolidar Madrid y Barcelona. Pilotar Malaga y/o Mallorca (M6-M12 del Ano 2).</li>
+              <li><span class="highlight">Miembros:</span> Objetivo 600-800 miembros activos (+200% sobre Ano 1).</li>
+              <li><span class="highlight">Shoppers:</span> Ampliar red a 20-25 shoppers (flota proporcional).</li>
+              <li><span class="highlight">Tecnologia:</span> App hibrida Flutter, modulo feedback post-visita, mejoras UX backlog.</li>
+              <li><span class="highlight">Marcas:</span> Ampliar consignacion a 20-25 marcas.</li>
+            </ul>
+            <h3>Acciones inmediatas post-cierre</h3>
+            <ul>
+              <li>Convocar kick-off Ano 2 con equipo de operaciones.</li>
+              <li>Formalizar linea de credito de 100K€.</li>
+              <li>Definir presupuesto Ano 2: 1,2M€ con margen 8%.</li>
+              <li>Planificar auditoria RGPD externa para M3 del Ano 2.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Metricas objetivo Ano 2</h4>
+              <table>
+                <tr><th>Metrica</th><th>Obj. Ano 2</th></tr>
+                <tr><td>NPS</td><td>&gt; 55</td></tr>
+                <tr><td>Churn mensual</td><td>&lt; 3,5%</td></tr>
+                <tr><td>CSAT</td><td>&gt; 4,7/5</td></tr>
+                <tr><td>CAC</td><td>&lt; 350€</td></tr>
+                <tr><td>Margen neto</td><td>8%</td></tr>
+              </table>
+            </div>
+            <div class="box" style="margin-top: 1rem;">
+              <h4>Vision Ano 3</h4>
+              <p>6-8 ciudades europeas. 1.200+ miembros. Ingresos 3,5M€ - 4,5M€. Margen neto <span class="highlight">15-18%</span>. Paris, Milan, Londres, Dubai en radar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 15: Q&A / Contact -->
+    <div class="slide" data-title="Q&A y Contacto">
+      <div class="slide-content centered">
+        <div class="logo-mark" style="font-size: 3rem;">EXCLUSIVE LUXURY</div>
+        <h1 style="font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem;">Gracias</h1>
+        <p class="subtitle" style="max-width: 600px; margin: 0 auto 2rem;">
+          Personal Shopping Luxury — Master Briefing completo por fases.<br>
+          Documentacion detallada disponible en el repositorio del proyecto.
+        </p>
+        <div class="kpi-grid" style="max-width: 700px; margin: 0 auto 2rem;">
+          <div class="kpi-card">
+            <span class="kpi-value">660K€</span>
+            <span class="kpi-label">Presupuesto</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">684K€</span>
+            <span class="kpi-label">Ingresos</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">30K€</span>
+            <span class="kpi-label">Beneficio real</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">200</span>
+            <span class="kpi-label">Miembros</span>
+          </div>
+        </div>
+        <div class="cta-box" style="max-width: 500px; margin: 0 auto;">
+          <p style="margin:0; font-size: 1rem;">
+            <span class="highlight">Preguntas?</span><br>
+            Direccion del Proyecto · 2026-05-27 · Version 1.0
+          </p>
+        </div>
+        <p style="color: var(--gray-dark); font-size: 0.85rem; margin-top: 2rem;">
+          Usa las flechas del teclado o los botones de navegacion para moverte entre diapositivas.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-btn" id="prevBtn" onclick="prevSlide()">Anterior</button>
+    <div class="slide-counter" id="slideCounter">1 / 15</div>
+    <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Siguiente</button>
+  </div>
+
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const total = slides.length;
+      let current = 0;
+
+      const progressBar = document.getElementById('progressBar');
+      const counter = document.getElementById('slideCounter');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const jumpPanel = document.getElementById('jumpPanel');
+
+      function update() {
+        slides.forEach((s, i) => {
+          s.classList.toggle('active', i === current);
+        });
+        counter.textContent = (current + 1) + ' / ' + total;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+        progressBar.style.width = ((current + 1) / total * 100) + '%';
+        updateJumpActive();
+      }
+
+      function nextSlide() {
+        if (current < total - 1) { current++; update(); }
+      }
+
+      function prevSlide() {
+        if (current > 0) { current--; update(); }
+      }
+
+      function goTo(index) {
+        if (index >= 0 && index < total) { current = index; update(); }
+      }
+
+      function toggleJump() {
+        jumpPanel.classList.toggle('open');
+      }
+
+      function updateJumpActive() {
+        document.querySelectorAll('.jump-item').forEach((item, i) => {
+          item.classList.toggle('active', i === current);
+        });
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          goTo(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          goTo(total - 1);
+        }
+      });
+
+      // Build jump menu
+      slides.forEach((slide, i) => {
+        const title = slide.getAttribute('data-title') || ('Diapositiva ' + (i + 1));
+        const div = document.createElement('div');
+        div.className = 'jump-item';
+        div.textContent = (i + 1) + '. ' + title;
+        div.onclick = function() { goTo(i); toggleJump(); };
+        jumpPanel.appendChild(div);
+      });
+
+      // Close jump menu on outside click
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.jump-menu')) {
+          jumpPanel.classList.remove('open');
+        }
+      });
+
+      // Expose to window for button onclick attributes
+      window.nextSlide = nextSlide;
+      window.prevSlide = prevSlide;
+      window.toggleJump = toggleJump;
+      window.goTo = goTo;
+
+      update();
+    })();
+  </script>
+</body>
+</html>

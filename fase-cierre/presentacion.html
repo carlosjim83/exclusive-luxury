@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cierre Año 1 — Personal Shopping Luxury</title>
+<style>
+  :root {
+    --bg: #0a0e27;
+    --bg-card: #0f1635;
+    --gold: #d4af37;
+    --gold-light: #f3d77b;
+    --text: #ffffff;
+    --muted: #a0aec0;
+    --border: rgba(212,175,55,0.35);
+    --shadow: rgba(0,0,0,0.45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity .4s ease;
+    overflow-y: auto;
+  }
+  .slide.active {
+    display: flex;
+    opacity: 1;
+  }
+  .slide-inner {
+    width: 100%;
+    max-width: 1100px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px var(--shadow);
+  }
+  h1, h2, h3 {
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+  h1 { font-size: clamp(1.8rem, 3vw, 2.8rem); margin-bottom: .6rem; text-align: center; }
+  h2 { font-size: clamp(1.3rem, 2.2vw, 1.9rem); margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem; }
+  h3 { font-size: clamp(1rem, 1.4vw, 1.25rem); margin: 1rem 0 .5rem; }
+  p, li { color: var(--text); line-height: 1.6; }
+  .subtitle { text-align: center; color: var(--muted); font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .meta { text-align: center; color: var(--muted); font-size: .95rem; margin-bottom: 2rem; }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .kpi {
+    background: rgba(212,175,55,0.08);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .kpi .value {
+    display: block;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+  .kpi .label {
+    display: block;
+    font-size: .85rem;
+    color: var(--muted);
+    margin-top: .25rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .8rem 0;
+    font-size: .95rem;
+  }
+  th, td {
+    padding: .55rem .6rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+  }
+  th {
+    color: var(--gold);
+    font-weight: 600;
+    background: rgba(212,175,55,0.06);
+  }
+  td { color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  .badge {
+    display: inline-block;
+    padding: .25rem .5rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    background: rgba(212,175,55,0.08);
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  ul { margin: .6rem 0 .6rem 1.2rem; }
+  li { margin: .35rem 0; }
+  .nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .8rem 1.2rem;
+    background: rgba(10,14,39,0.85);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+  }
+  .nav button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: .55rem 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background .2s, color .2s;
+  }
+  .nav button:hover { background: var(--gold); color: var(--bg); }
+  .nav button:disabled { opacity: .4; cursor: not-allowed; }
+  .counter {
+    color: var(--muted);
+    font-size: .9rem;
+  }
+  .progress {
+    position: fixed;
+    top: 0; left: 0; height: 3px;
+    background: var(--gold);
+    width: 0%;
+    transition: width .3s ease;
+    z-index: 10;
+  }
+  @media (max-width: 760px) {
+    .two-col { grid-template-columns: 1fr; }
+    .slide-inner { padding: 1.2rem; }
+    table { font-size: .85rem; }
+    th, td { padding: .45rem .4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- Slide 1: Title -->
+<div class="slide active">
+  <div class="slide-inner" style="text-align:center;">
+    <div style="font-size:3rem;margin-bottom:.8rem;">&#9670;</div>
+    <h1>Cierre del Proyecto Año 1</h1>
+    <div class="subtitle">Personal Shopping Luxury</div>
+    <div class="meta">Madrid &middot; Barcelona &middot; 27 mayo 2026</div>
+    <div class="kpi-grid" style="max-width:720px;margin:1.5rem auto;">
+      <div class="kpi"><span class="value">200</span><span class="label">Miembros activos</span></div>
+      <div class="kpi"><span class="value">654K&euro;</span><span class="label">Gasto real / 660K&euro; BAC</span></div>
+      <div class="kpi"><span class="value">NPS 48</span><span class="label">Satisfacci&oacute;n clientes</span></div>
+      <div class="kpi"><span class="value">30K&euro;</span><span class="label">Beneficio real</span></div>
+    </div>
+    <p style="color:var(--muted);margin-top:1.2rem;font-size:.95rem;">Use las flechas del teclado o los botones de navegaci&oacute;n para avanzar.</p>
+  </div>
+</div>
+
+<!-- Slide 2: Overview -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Resumen Ejecutivo del Cierre</h2>
+    <div class="two-col">
+      <div>
+        <h3>Objetivos Cumplidos</h3>
+        <ul>
+          <li>Plataforma web/app operativa en producci&oacute;n</li>
+          <li>10 shoppers activos (5 Madrid + 5 Barcelona)</li>
+          <li>12 marcas de consignaci&oacute;n firmadas</li>
+          <li>Lanzamientos Madrid M9 y Barcelona M12 en fecha</li>
+          <li>200 miembros activos pagados; churn 4,2%</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Hitos de Cierre</h3>
+        <ul>
+          <li>12 de 13 hitos en fecha (92%)</li>
+          <li>Presupuesto cerrado con ahorro de 6.000&euro;</li>
+          <li>18 riesgos cerrados (0 abiertos)</li>
+          <li>12 contratos de adquisici&oacute;n formalmente cerrados</li>
+          <li>Transferencia a Operaciones Año 2 completada</li>
+        </ul>
+      </div>
+    </div>
+    <div class="kpi-grid" style="margin-top:1.2rem;">
+      <div class="kpi"><span class="value">99,7%</span><span class="label">Uptime plataforma</span></div>
+      <div class="kpi"><span class="value">4,6/5</span><span class="label">CSAT post-visita</span></div>
+      <div class="kpi"><span class="value">97%</span><span class="label">Puntualidad visitas</span></div>
+      <div class="kpi"><span class="value">0</span><span class="label">Bugs cr&iacute;ticos en prod</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Integration & Scope -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Integraci&oacute;n y Alcance — Verificaci&oacute;n Final</h2>
+    <div class="two-col">
+      <div>
+        <h3>Checklist de Cierre Formal</h3>
+        <table>
+          <tr><th>&Iacute;tem</th><th>Estado</th></tr>
+          <tr><td>Alcance baseline 100%</td><td><span class="badge">Cumplido</span></td></tr>
+          <tr><td>Cronograma M9 / M12</td><td><span class="badge">Cumplido</span></td></tr>
+          <tr><td>Presupuesto &le; 660K&euro;</td><td><span class="badge">Cumplido</span></td></tr>
+          <tr><td>NPS &gt; 45 y CSAT &gt; 4,5</td><td><span class="badge">Cumplido</span></td></tr>
+          <tr><td>200 miembros activos</td><td><span class="badge">Cumplido</span></td></tr>
+          <tr><td>Plataforma en producci&oacute;n</td><td><span class="badge">Cumplido</span></td></tr>
+          <tr><td>Acuerdos 10-15 marcas</td><td><span class="badge">Cumplido (12)</span></td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Sign-off de Aceptaci&oacute;n</h3>
+        <table>
+          <tr><th>Rol</th><th>Firma</th></tr>
+          <tr><td>Patrocinador / Inversores</td><td>27/05/2026</td></tr>
+          <tr><td>Director del Proyecto</td><td>27/05/2026</td></tr>
+          <tr><td>Operations Manager</td><td>27/05/2026</td></tr>
+          <tr><td>CTO</td><td>27/05/2026</td></tr>
+          <tr><td>Legal / DPO</td><td>27/05/2026</td></tr>
+        </table>
+        <h3>Elementos abiertos Año 2</h3>
+        <ul>
+          <li>Expansi&oacute;n a M&aacute;laga y Mallorca</li>
+          <li>App h&iacute;brida unificada (Flutter)</li>
+          <li>IA de recomendaci&oacute;n de estilo</li>
+          <li>Servicio 24/7 y chatbot</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Time & Cost -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Tiempo y Costes — Cierre Financiero</h2>
+    <div class="two-col">
+      <div>
+        <h3>Rendimiento del Cronograma</h3>
+        <table>
+          <tr><th>M&eacute;trica</th><th>Valor</th></tr>
+          <tr><td>Hitos en fecha</td><td>12/13 (92%)</td></tr>
+          <tr><td>Hitos duros cumplidos</td><td>2/2 (100%)</td></tr>
+          <tr><td>Duraci&oacute;n total</td><td>12 meses plan / 12 meses real</td></tr>
+          <tr><td>Desviaci&oacute;n m&aacute;xima</td><td>+1 mes (app nativa)</td></tr>
+          <tr><td>Desviaci&oacute;n media</td><td>+2,3 d&iacute;as por hito</td></tr>
+        </table>
+        <p style="margin-top:.6rem;color:var(--muted);font-size:.9rem;">La &uacute;nica desviaci&oacute;n relevante fue el retraso de 1 mes en la app nativa, mitigado con lanzamiento mediante web app progresiva.</p>
+      </div>
+      <div>
+        <h3>Reconciliaci&oacute;n Presupuesto Año 1</h3>
+        <table>
+          <tr><th>Concepto</th><th>Importe</th></tr>
+          <tr><td>Presupuesto aprobado (BAC)</td><td>660.000&euro;</td></tr>
+          <tr><td>Gasto real (AC)</td><td>654.000&euro;</td></tr>
+          <tr><td><strong>Ahorro / Remanente</strong></td><td><strong>6.000&euro;</strong></td></tr>
+          <tr><td>Ingresos reales</td><td>684.000&euro;</td></tr>
+          <tr><td><strong>Beneficio real</strong></td><td><strong>30.000&euro;</strong></td></tr>
+        </table>
+        <h3>Uso de Contingencia</h3>
+        <table>
+          <tr><th>Riesgo atendido</th><th>Importe</th></tr>
+          <tr><td>Desviaci&oacute;n tecnol&oacute;gica</td><td>18.000&euro;</td></tr>
+          <tr><td>Retraso app nativa</td><td>8.000&euro;</td></tr>
+          <tr><td>Demanda M8-M9</td><td>12.000&euro;</td></tr>
+          <tr><td>Reclutamiento shoppers</td><td>6.000&euro;</td></tr>
+          <tr><td>Flujo de caja</td><td>3.000&euro;</td></tr>
+          <tr><td><strong>Total usado</strong></td><td><strong>47.000&euro;</strong></td></tr>
+          <tr><td>Remanente a Año 2</td><td>7.000&euro;</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Quality & Resources -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Calidad y Recursos — Resultados Finales</h2>
+    <div class="two-col">
+      <div>
+        <h3>M&eacute;tricas de Calidad del Servicio</h3>
+        <table>
+          <tr><th>M&eacute;trica</th><th>Plan</th><th>Real</th></tr>
+          <tr><td>NPS</td><td>&gt; 50</td><td><strong>48</strong></td></tr>
+          <tr><td>CSAT post-visita</td><td>&gt; 4,5/5</td><td><strong>4,6/5</strong></td></tr>
+          <tr><td>Rating medio shopper</td><td>&gt; 4,5/5</td><td><strong>4,7/5</strong></td></tr>
+          <tr><td>Churn mensual</td><td>&lt; 5%</td><td><strong>4,2%</strong></td></tr>
+          <tr><td>T. respuesta reserva</td><td>&lt; 5 min</td><td><strong>3 min</strong></td></tr>
+          <tr><td>Puntualidad visitas</td><td>&gt; 95%</td><td><strong>97%</strong></td></tr>
+          <tr><td>Uptime plataforma</td><td>&gt; 99,5%</td><td><strong>99,7%</strong></td></tr>
+        </table>
+        <h3>Defectos Anuales</h3>
+        <table>
+          <tr><th>Severidad</th><th>Total</th><th>Resueltos</th><th>Pendientes</th></tr>
+          <tr><td>Cr&iacute;tico</td><td>4</td><td>4</td><td>0</td></tr>
+          <tr><td>Grave</td><td>18</td><td>18</td><td>0</td></tr>
+          <tr><td>Leve</td><td>67</td><td>65</td><td>2 (backlog Año 2)</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Liberaci&oacute;n de Equipo Core</h3>
+        <table>
+          <tr><th>Rol</th><th>Estado</th><th>Destino Año 2</th></tr>
+          <tr><td>Director del Proyecto</td><td>Liberado</td><td>Asesor&iacute;a 25% FTE</td></tr>
+          <tr><td>CTO / Tech Lead</td><td>Transicionado</td><td>Mantenimiento 50% FTE</td></tr>
+          <tr><td>Developers (x5)</td><td>Liberados</td><td>Disponibles reactivaci&oacute;n</td></tr>
+          <tr><td>QA / Tester</td><td>Liberado</td><td>No requerido salvo nuevos desarrollos</td></tr>
+          <tr><td>Operations Manager</td><td><strong>Retenido</strong></td><td>100% FTE operaciones</td></tr>
+          <tr><td>Marketing Manager</td><td><strong>Retenido</strong></td><td>100% FTE operaciones</td></tr>
+          <tr><td>Partnerships Manager</td><td><strong>Retenido</strong></td><td>100% FTE operaciones</td></tr>
+          <tr><td>Legal / DPO</td><td><strong>Retenido</strong></td><td>Retainer mensual</td></tr>
+        </table>
+        <h3>Shoppers — Decisi&oacute;n Año 2</h3>
+        <p>10 shoppers activos (4 senior, 4 mid, 2 junior). Media de rating 4,7/5. <strong>10 renovaciones propuestas</strong> para el Año 2.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Risks & Acquisitions -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Riesgos y Adquisiciones — Cierre de Registros</h2>
+    <div class="two-col">
+      <div>
+        <h3>Estado Final del Registro de Riesgos</h3>
+        <p style="margin-bottom:.6rem;">Todos los <strong>18 riesgos identificados</strong> han sido cerrados:</p>
+        <table>
+          <tr><th>Estrategia de cierre</th><th>Cantidad</th></tr>
+          <tr><td>Mitigados</td><td>11</td></tr>
+          <tr><td>Aceptados</td><td>5</td></tr>
+          <tr><td>Transferidos</td><td>2</td></tr>
+          <tr><td><strong>Total cerrados</strong></td><td><strong>18/18</strong></td></tr>
+        </table>
+        <p style="margin-top:.6rem;color:var(--muted);font-size:.9rem;">Riesgos mitigados clave: demanda, reclutamiento shoppers, desviaci&oacute;n presupuesto, seguridad, calidad de servicio y RGPD.</p>
+        <h3 style="margin-top:1rem;">Tendencias Año 2</h3>
+        <ul>
+          <li>Expansi&oacute;n a nueva ciudad (piloto 3 meses)</li>
+          <li>Saturaci&oacute;n de shoppers (&gt; 40 visitas/mes)</li>
+          <li>Ciberataque por notoriedad creciente</li>
+          <li>Churn de marcas clave y revisi&oacute;n laboral</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Cierre de Adquisiciones</h3>
+        <table>
+          <tr><th>Categor&iacute;a</th><th>Cerrados</th><th>Vigentes Año 2</th><th>Pagos Año 1</th></tr>
+          <tr><td>Tecnolog&iacute;a</td><td>5</td><td>2</td><td>184.000&euro;</td></tr>
+          <tr><td>Operativa</td><td>2</td><td>2</td><td>41.000&euro;</td></tr>
+          <tr><td>Marketing</td><td>4</td><td>0</td><td>65.000&euro;</td></tr>
+          <tr><td>Legal</td><td>1</td><td>1</td><td>14.000&euro;</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>12</strong></td><td><strong>5</strong></td><td><strong>304.000&euro;</strong></td></tr>
+        </table>
+        <p style="margin-top:.6rem;color:var(--muted);font-size:.9rem;">El resto del presupuesto (350K&euro;) corresponde a salarios, compensaci&oacute;n de shoppers y gastos operativos internos.</p>
+        <h3 style="margin-top:1rem;">Lecciones Clave</h3>
+        <ul>
+          <li>Contratos tipo aceleran la negociaci&oacute;n con marcas</li>
+          <li>Leasing operativo evita inversi&oacute;n inicial en veh&iacute;culos</li>
+          <li>Retainer PR corto (6 meses) fue suficiente para lanzamiento</li>
+          <li>Event planner premium gener&oacute; ROI medible en membres&iacute;as</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Communications & Stakeholders -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Comunicaciones e Interesados — Transici&oacute;n</h2>
+    <div class="two-col">
+      <div>
+        <h3>Eficacia de Canales de Comunicaci&oacute;n</h3>
+        <table>
+          <tr><th>Canal</th><th>Uso</th><th>Evaluaci&oacute;n</th></tr>
+          <tr><td>Slack interno</td><td>Diaria</td><td>Eficaz</td></tr>
+          <tr><td>Weekly sync (Zoom)</td><td>Semanal</td><td>Eficaz</td></tr>
+          <tr><td>Monthly board</td><td>Mensual</td><td>Eficaz</td></tr>
+          <tr><td>App interna shoppers</td><td>Continua</td><td>Muy eficaz</td></tr>
+          <tr><td>Email clientes</td><td>Semanal</td><td>Eficaz (42% apertura)</td></tr>
+          <tr><td>WhatsApp clientes</td><td>Interacci&oacute;n</td><td>Eficaz</td></tr>
+          <tr><td>Reuniones marcas</td><td>Mensual</td><td>Muy eficaz</td></tr>
+        </table>
+        <h3>Archivo de Comunicaciones</h3>
+        <ul>
+          <li>48 sesiones grabadas archivadas</li>
+          <li>~2.400 emails de proyecto</li>
+          <li>~45.000 mensajes Slack exportados</li>
+          <li>~8.500 comunicaciones CRM con clientes</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Satisfacci&oacute;n Final por Grupo</h3>
+        <table>
+          <tr><th>Grupo</th><th>Satisfacci&oacute;n (1-5)</th></tr>
+          <tr><td>Reguladores (AEPD, Hacienda)</td><td>5,0 (sin incidencias)</td></tr>
+          <tr><td>Personal shoppers</td><td>4,7</td></tr>
+          <tr><td>Marcas de lujo</td><td>4,6</td></tr>
+          <tr><td>Clientes miembros</td><td>4,6</td></tr>
+          <tr><td>Patrocinador / Inversores</td><td>4,5</td></tr>
+          <tr><td>Equipo core</td><td>4,4</td></tr>
+        </table>
+        <h3 style="margin-top:1rem;">Transici&oacute;n a Operaciones Año 2</h3>
+        <ul>
+          <li>Patrocinador: dashboard financiero entregado</li>
+          <li>Shoppers: KT de procesos + contratos transferidos</li>
+          <li>Marcas: CRM + calendario de visitas acordado</li>
+          <li>Clientes: CRM + plantillas + automatizaciones</li>
+          <li>Proveedores tech: contratos vigentes + runbook</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Lessons Learned & Handover -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Lecciones Aprendidas y Transici&oacute;n a Operaciones</h2>
+    <div class="two-col">
+      <div>
+        <h3>Lecciones Clave del Año 1</h3>
+        <table>
+          <tr><th>Tema</th><th>Impacto</th></tr>
+          <tr><td>Lanzamiento por fases (Madrid piloto)</td><td>Positivo: ajustar antes de escalar</td></tr>
+          <tr><td>Flujo de caja cr&iacute;tico en M8 (-376K&euro;)</td><td>Negativo: pre-venta alivi&oacute; tensi&oacute;n</td></tr>
+          <tr><td>Headhunting premium para shoppers</td><td>Positivo: m&aacute;s efectivo que bolsas gen&eacute;ricas</td></tr>
+          <tr><td>MVP con web app primero</td><td>Positivo: redujo riesgo t&eacute;cnico</td></tr>
+          <tr><td>Embajadores generaron 40% de leads</td><td>Mixto: digital puro fue caro</td></tr>
+          <tr><td>Shadowing 3 visitas fue insuficiente</td><td>Negativo: se elev&oacute; a 5</td></tr>
+        </table>
+        <h3 style="margin-top:1rem;">Recomendaciones Año 2</h3>
+        <ul>
+          <li>Abrir l&iacute;nea de cr&eacute;dito de 100K&euro; antes del siguiente lanzamiento</li>
+          <li>Mantener relaci&oacute;n con IED/ESNE y presupuestar 12K&euro; en selecci&oacute;n</li>
+          <li>Planear app h&iacute;brida (Flutter) para reducir coste mobile</li>
+          <li>Aumentar presupuesto de embajadores; reducir Meta Ads</li>
+          <li>Elevar shadowing m&iacute;nimo a 5 visitas + mentoring senior</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Handover a Operaciones Año 2</h3>
+        <table>
+          <tr><th>&Aacute;rea</th><th>Documentaci&oacute;n Entregada</th></tr>
+          <tr><td>Tecnolog&iacute;a</td><td>Runbook, credenciales, contratos cloud, backlog</td></tr>
+          <tr><td>Operativa</td><td>Manual de calidad, calendarios, contactos marcas, CRM</td></tr>
+          <tr><td>Marketing</td><td>Campa&ntilde;as activas, agencias, calendario editorial</td></tr>
+          <tr><td>Partnerships</td><td>Contratos, contactos clave, reportes de ventas</td></tr>
+          <tr><td>Legal</td><td>Carpetas de contratos, p&oacute;lizas, registro RGPD</td></tr>
+          <tr><td>Finanzas</td><td>Cuentas, informes fiscales, reservas Año 2</td></tr>
+        </table>
+        <h3 style="margin-top:1rem;">Acciones Pendientes Inmediatas</h3>
+        <ul>
+          <li>Reuni&oacute;n formal de cierre con patrocinador y firma de acta</li>
+          <li>Transferir credenciales de producci&oacute;n al equipo Año 2</li>
+          <li>Evento de cierre con equipo core y shoppers</li>
+          <li>Informe ejecutivo de cierre a inversores</li>
+          <li>Archivar documentos con etiqueta <code>Cierre-Año1-2026</code></li>
+          <li>Kick-off del Año 2: objetivos, presupuesto, roadmap de ciudades</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <button id="btnPrev" onclick="changeSlide(-1)">&larr; Anterior</button>
+  <span class="counter" id="counter">1 / 8</span>
+  <button id="btnNext" onclick="changeSlide(1)">Siguiente &rarr;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counterEl = document.getElementById('counter');
+  const progressEl = document.getElementById('progress');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  let current = 0;
+  const total = slides.length;
+
+  function update() {
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === current);
+    });
+    counterEl.textContent = (current + 1) + ' / ' + total;
+    progressEl.style.width = ((current + 1) / total * 100) + '%';
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) {
+      current = next;
+      update();
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+
+  update();
+</script>
+</body>
+</html>
