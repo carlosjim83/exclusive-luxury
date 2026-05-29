@@ -1,0 +1,161 @@
+﻿# Ficha de Riesgo por Categoría (PMI) — Shoppers
+
+> Usar este documento para desglosar, categorizar y planificar la respuesta a los riesgos de un área concreta del proyecto.
+
+---
+
+## 1. Información General
+
+| Campo | Descripción |
+|-------|-------------|
+| **Proyecto** | Personal Shopping Luxury |
+| **Categoría** | Shoppers|
+| **Fecha** | 2026-05-29 |
+| **Versión** | 1.0 |
+| **Responsable** | Risk Manager (Responsable de Riesgos) |
+
+## 2. Alcance de la Categoría
+
+Esta categoría comprende la identificación, evaluación y mitigación de riesgos asociados al desempeño, conducta y disponibilidad de los personal shoppers que prestan servicios dentro de la plataforma premium.
+
+Dado que los personal shoppers representan el principal punto de contacto entre la marca y los clientes, cualquier incidencia vinculada a su actuación puede impactar directamente en la experiencia, la seguridad de los productos, la reputación corporativa y la continuidad operativa del servicio.
+
+El alcance incluye, entre otros, los siguientes ámbitos:
+
+Riesgos operativos: errores en la selección de productos, incumplimiento de agendas, retrasos en visitas domiciliarias, mala gestión logística o fallos en la coordinación con boutiques y clientes.
+Riesgos reputacionales y de experiencia cliente: comportamientos inadecuados, falta de profesionalidad, incumplimiento de estándares de lujo, trato incorrecto al cliente o pérdida de confianza en la exclusividad del servicio.
+Riesgos de seguridad y custodia: manejo inadecuado de artículos de alto valor, pérdida, daño o sustracción de productos durante el transporte o las visitas domiciliarias.
+Riesgos de confidencialidad y privacidad: uso indebido de información sensible de clientes, filtración de datos personales, divulgación de hábitos de consumo o vulneración de acuerdos de confidencialidad.
+Riesgos legales y de cumplimiento: incumplimiento de políticas internas, normativas laborales, protocolos de seguridad, requisitos regulatorios o cláusulas contractuales establecidas por la plataforma y las marcas asociadas.
+Riesgos de disponibilidad y dependencia operativa: rotación elevada, falta de personal cualificado, dependencia de perfiles clave o dificultades para garantizar cobertura y calidad homogénea del servicio.
+
+La gestión de este riesgo contempla procesos de selección y validación reforzada, formación continua, evaluación de desempeño, protocolos operativos estandarizados, controles de trazabilidad, acuerdos de confidencialidad y mecanismos de supervisión y auditoría del servicio. pasarela).
+
+## 3. Escala de Evaluación (PMI — Matriz de Probabilidad × Impacto)
+
+| Probabilidad | Valor | Impacto | Valor |
+|--------------|-------|---------|-------|
+| Muy baja (≤ 10 %) | 1 | Mínimo (sin afectación crítica) | 1 |
+| Baja (10–25 %) | 2 | Bajo (retrasa entregables leves) | 2 |
+| Media (25–50 %) | 3 | Moderado (afecta coste/plazo 5–10 %) | 3 |
+| Alta (50–75 %) | 4 | Alto (afecta coste/plazo > 10 % o calidad) | 4 |
+| Muy alta (> 75 %) | 5 | Crítico (amenaza viabilidad del proyecto) | 5 |
+
+**Umbral de criticidad**: Puntuación ≥ 12 (Prob. × Imp.) → Riesgo crítico.
+
+## 4. Riesgos Identificados
+
+### 4.1 Riesgos Críticos (Puntuación ≥ 12)
+
+| ID | Riesgo | Descripción | Prob. | Imp. | Punt. | Estrategia PMI | Plan de Mitigación | Propietario | Reserva / Presupuesto | KRI | Umbral KRI |
+|----|--------|-------------|-------|------|-------|----------------|--------------------|-------------|-----------------------|-----|------------|
+| PS-01 | Conducta inapropiada del personal shopper | Actuaciones no alineadas con los estándares premium de atención, generando reclamaciones o pérdida de confianza del cliente | 3 | 5 | **15** | Mitigar | Formación en protocolo luxury, código de conducta y evaluación continua. | Operations Manager | 12.000 € | Nº reclamaciones mensuales. | >3 reclamaciones reportadas. |
+| PS-02 | Pérdida o daño de artículos de lujo | Deterioro, extravío o manejo incorrecto de productos de alto valor durante transporte o visita domiciliaria | 2 | 5 | **12** | Mitigar / Transferir | Seguro especializado, protocolos de custodia, trazabilidad y doble verificación de entrega. | Logístico | 25.000 € | Incidentes de custodia. | > 1 incidente trimestral. |
+| PS-03 | Filtración de información confidencial | Divulgación de datos personales, hábitos de compra o direcciones de clientes exclusivos. | 3 | 5 | **15** | Evitar | NDA obligatorios, formación RGPD, acceso restringido y auditorías de acceso a datos. | Compliance Manager | 15.000 € | Nº incidentes de privacidad | > 1 incidente crítico |
+| PS-04 | Fraude interno del personal shopper | Apropiación indebida de productos, manipulación de pedidos o colusión con terceros. | 2 | 5 | **12** | Mitigar | Background checks, segregación de funciones, auditorías aleatorias y trazabilidad RFID. | Responsable de Riesgos | 20.000 € | Desviaciones de inventar. | >0,5% inventario. |
+| PS-05 | Riesgo de seguridad en visitas domiciliarias. | Incidentes físicos, robos o situaciones inseguras durante desplazamientos o visitas a clientes. | 2 | 5 | **13** | Mitigar / Transferir | Protocolos de seguridad, geolocalización, seguro y validación previa del cliente.| Responsable de Seguridad | 18.000 € | Nº incidentes de seguridad. | > 1 incidente grave. |
+
+
+### 4.2 Riesgos Significativos (Puntuación 8–11)
+
+| ID | Riesgo | Descripción | Prob. | Imp. | Punt. | Estrategia PMI | Plan de Mitigación | Propietario |
+|----|--------|-------------|-------|------|-------|----------------|--------------------|-------------|
+| PS-06 | Falta de homogeneidad en el servicio | Diferencias significativas en calidad, asesoramiento o experiencia entre personal shoppers | 3 | 3 | **9** | Mitigar | Manual operativo, formación certificada y KPIs de experiencia cliente | Director de Customer Experience |
+| PS-07 | Dependencia de perfiles clave | Concentración de clientes en un número reducido de shoppers de alto rendimiento. | 2 | 4 | **8** | Mitigar | Plan de sucesión, shadowing y diversificación de cartera de clientes. | Director de Customer Experience |
+| PS-08 | Baja adaptación al perfil del cliente. |  Recomendaciones o selección de productos no alineadas con gustos, expectativas o protocolo del cliente. | 3 | 3 | **9** | Mitigar | Fichas detalladas de cliente, formación en clienteling y revisiones periódicas de satisfacción.| Director de Customer Experience |
+| PS-09 | Uso inadecuado de herramientas digitales | Errores en el uso de CRM, agenda, inventario o aplicaciones internas que afecten la operación del servicio. | 2 | 4 | **8** | Mitigar | Formación tecnológica, controles automáticos y soporte operativo continuo| Responsable IT Operacional |
+
+### 4.3 Riesgos Monitorizados (Puntuación ≤ 7)
+
+| ID | Riesgo | Descripción | Prob. | Imp. | Punt. | Estrategia PMI | Propietario |
+|----|--------|-------------|-------|------|-------|----------------|-------------|
+| PS-10 | Retrasos menores en desplazamientos | Demoras puntuales en los desplazamientos del personal shopper que afectan ligeramente la agenda. | 2 | 3 | **6** | Aceptar / Monitorizar | Operations Manager |
+| PS-11 | Baja participación en formaciones | Algunos shoppers no completan programas internos de actualización o formación continua | 2 | 3 | **4** | Monitorizar | Responsable de Formación |
+
+## 5. Plan de Respuesta a Incidentes (Activación)
+
+### Para riesgo: PS-05 (Incumplimiento de agenda o ausencia)
+
+- **Trigger / Condición de activación**: El Plan de Respuesta a Incidentes para el riesgo PS-05 se activará automáticamente cuando se produzca cualquiera de las siguientes situaciones:
+
+Retraso superior a 30 minutos respecto a la hora programada de la visita.
+Ausencia injustificada del personal shopper.
+Imposibilidad de asignar un shopper sustituto dentro del tiempo de servicio acordado (SLA).
+Recepción de reclamación crítica por parte de un cliente relacionada con puntualidad o disponibilidad.
+Fallo operativo del sistema de agenda que afecte la correcta ejecución de visitas programadas.
+Acumulación de incidencias que supere el umbral KRI establecido (>5% mensual de visitas retrasadas o canceladas).
+
+- **Acciones inmediatas (0–24 h)**:
+- Validar la incidencia y confirmar la indisponibilidad o retraso del personal shopper asignado.
+Contactar directamente con el shopper afectado para determinar causa, tiempo estimado de resolución y viabilidad de continuidad del servicio.
+- Informar de manera proactiva al cliente afectado manteniendo unprotocolo de comunicación premium, discreto y orientado a la solución.
+Activar el pool de contingencia y reasignar un personal shopper alternativo certificado según disponibilidad, ubicación y perfil del cliente.
+- Reorganizar la agenda operativa para minimizar impactos en otros servicios programados.
+- Coordinar la logística necesaria para garantizar la entrega o disponibilidad de los productos previstos para la visita.
+- **Acciones a corto plazo (1–7 días)**:
+- Realizar análisis de causa raíz (Root Cause Analysis) para identificar factores operativos, organizativos o personales que hayan provocado la incidencia.
+- Revisar la planificación de agendas y capacidad operativa para detectar sobrecargas, solapamientos o deficiencias en la asignación de servicios.
+- Actualizar y reforzar el pool de contingencia de personal shoppers disponibles para sustituciones inmediatas
+- Presentar informe de incidentes y acciones correctivas a Dirección de Operaciones y Comité de Riesgos para seguimiento y toma de decisiones.
+- Aplicar medidas de recuperación de experiencia cliente.
+- **Escalación**: Informar de manera telefónica e inmediata al Director del Operaciones al detectarse el incidente.
+
+---
+
+### Para riesgo: PS-03 (Filtración de información confidencial)
+
+- **Trigger / Condición de activación**: El plan se activará automáticamente cuando se detecte cualquiera de las siguientes situaciones:
+
+Acceso no autorizado a información de clientes VVIP.
+Filtración o divulgación de datos personales, direcciones, hábitos de compra o información financiera.
+Uso indebido de credenciales o cuentas internas.
+Pérdida o robo de dispositivos corporativos con información sensible.
+Envío incorrecto de información confidencial a terceros.
+Reclamación formal de cliente relacionada con privacidad o confidencialidad.
+Detección de actividad sospechosa por sistemas de monitorización o ciberseguridad.
+Incumplimiento potencial de normativa RGPD o políticas internas de protección de datos.
+
+- **Acciones inmediatas (0–24 h)**:
+- Identificar y contener el origen de la filtración o acceso indebido.
+Suspender temporalmente accesos, cuentas o credenciales comprometidas.
+- Aislar dispositivos, sistemas o canales afectados para evitar propagación del incidente.
+- Notificar inmediatamente al Responsable de Compliance y al Responsable de Seguridad de la Información.
+Registrar el incidente en el sistema corporativo de gestión de incidentes.
+- Evaluar el alcance de la información comprometida:
+       Tipo de datos afectados.
+       Número de clientes impactados.
+       Nivel de criticidad reputacional y legal.
+- Informar a Dirección y activar protocolo legal y de protección de datos cuando corresponda.
+- Contactar de forma controlada y discreta con los clientes afectados si existe impacto relevante.
+- Preservar evidencias digitales para auditoría e investigación posterior.
+- **Acciones a corto plazo (1–7 días)**:
+- Realizar análisis de causa raíz (Root Cause Analysis).
+- Revisar políticas internas de privacidad y gestión de accesos.
+- Reforzar formación obligatoria en RGPD, confidencialidad y ciberseguridad.
+- Implementar autenticación multifactor y controles adicionales de acceso.
+- Actualizar protocolos de gestión documental y dispositivos corporativos.
+- Ejecutar auditorías periódicas de seguridad y cumplimiento.
+- Revisar contratos, NDA y cláusulas de confidencialidad del personal shopper.
+- Mejorar sistemas de monitorización y detección temprana de anomalías.
+- Presentar informe ejecutivo al Comité de Riesgos y Compliance.
+- **Escalación**: Notificar inmediatamente al Responsable de Compliance y al Responsable de Seguridad de la Información.
+
+## 6. Dependencias con Otras Categorías
+
+| Riesgo ID | Categoría Relacionada | Tipo de Dependencia |
+|-----------|-----------------------|---------------------|
+| FRA-01 | Seguridad / Tecnología | Causa: Un fallo técnico de la app (ej. API caída) que impida al shopper realizar el escaneo fotográfico o NFC en tiempo real in situ expone al proyecto a un cambio no registrable en el vestidor. |
+| FRA-02 | Shoppers / Administrativo | Causa: Un proceso débil en la verificación de antecedentes (vetting) o reclutamiento abre las puertas a personal propenso a cometer fraude. |
+| FRA-03 | Consignación / Alianzas | Efecto: Detectar piezas falsas provenientes de un aliado puede forzar la disolución de contratos estratégicos de consignación y dañar la reputación del catálogo. |
+
+## 7. Acciones Pendientes
+
+- [ ] Integrar el SDK de verificación criptográfica NFC / Tech Lead — Fecha límite: Mes 8 (Antes del Soft Launch)
+- [ ] Desarrollar y aprobar el protocolo legal de actuación en domicilio / DPO — Fecha límite: Mes 7
+
+---
+
+**Documento elaborado por**: Responsable de Riesgos (Risk Manager)  
+**Fecha**: 2026-05-28  
+**Versión**: 1.0
+
