@@ -1,0 +1,188 @@
+﻿# Ficha de Riesgo por Categoría (PMI) — Mecado
+
+> Usar este documento para desglosar, categorizar y planificar la respuesta a los riesgos de un área concreta del proyecto.
+
+---
+
+## 1. Información General
+
+| Campo | Descripción |
+|-------|-------------|
+| **Proyecto** | Personal Shopping Luxury |
+| **Categoría** | Mercado
+| **Fecha** | 2026-05-29 |
+| **Versión** | 1.0 |
+| **Responsable** | Risk Manager (Responsable de Riesgos) |
+
+## 2. Alcance de la Categoría
+
+Esta categoría comprende la identificación, evaluación y mitigación de riesgos derivados de cambios en las condiciones del mercado, comportamiento del consumidor, entorno competitivo y evolución del sector luxury retail y servicios premium personalizados.
+
+El riesgo de mercado puede impactar directamente en la captación y retención de clientes, la sostenibilidad del modelo de membresías, la rentabilidad operativa y el posicionamiento exclusivo de la plataforma.
+
+El alcance incluye, entre otros, los siguientes ámbitos:
+
+Cambios en tendencias de consumo: variaciones en preferencias de clientes de alto poder adquisitivo, hábitos de compra, digitalización del lujo o demanda de experiencias personalizadas.
+Entorno competitivo: aparición de nuevos competidores premium, plataformas digitales luxury, servicios concierge o iniciativas directas de marcas de lujo.
+Dependencia de marcas y boutiques asociadas: pérdida de acuerdos estratégicos, exclusividades comerciales o reducción de colaboración con partners clave.
+Factores macroeconómicos: inflación, recesión, fluctuaciones financieras o disminución del gasto en bienes y servicios de lujo.
+Presión sobre precios y membresías: dificultad para mantener márgenes premium, percepción de valor o sensibilidad del cliente frente al coste del servicio.
+Riesgo reputacional de posicionamiento: deterioro de la percepción de exclusividad, innovación o diferenciación de la plataforma frente al mercado.
+Cambios regulatorios o sectoriales: modificaciones legales, fiscales o comerciales que afecten al sector luxury retail o servicios personalizados.
+
+La gestión de este riesgo contempla monitorización continua del mercado, análisis competitivo, diversificación de partners, estrategias de fidelización, innovación en experiencia cliente y revisión periódica del modelo de negocio y posicionamiento premium.
+
+## 3. Escala de Evaluación (PMI — Matriz de Probabilidad × Impacto)
+
+| Probabilidad | Valor | Impacto | Valor |
+|--------------|-------|---------|-------|
+| Muy baja (≤ 10 %) | 1 | Mínimo (sin afectación crítica) | 1 |
+| Baja (10–25 %) | 2 | Bajo (retrasa entregables leves) | 2 |
+| Media (25–50 %) | 3 | Moderado (afecta coste/plazo 5–10 %) | 3 |
+| Alta (50–75 %) | 4 | Alto (afecta coste/plazo > 10 % o calidad) | 4 |
+| Muy alta (> 75 %) | 5 | Crítico (amenaza viabilidad del proyecto) | 5 |
+
+**Umbral de criticidad**: Puntuación ≥ 12 (Prob. × Imp.) → Riesgo crítico.
+
+## 4. Riesgos Identificados
+
+### 4.1 Riesgos Críticos (Puntuación ≥ 12)
+
+| ID | Riesgo | Descripción | Prob. | Imp. | Punt. | Estrategia PMI | Plan de Mitigación | Propietario | Reserva / Presupuesto | KRI | Umbral KRI |
+|----|--------|-------------|-------|------|-------|----------------|--------------------|-------------|-----------------------|-----|------------|
+| ME-01 | Reducción de demanda del segmento luxury | Disminución del consumo de servicios premium y compras de lujo debido a cambios económicos o comportamiento del cliente | 3 | 5 | **15** | Mitigar | Diversificación de servicios, programas de fidelización y segmentación avanzada de clientes. | Director comercial | 40.000 € | % caída de renovaciones de membresía | >10% trimestral. |
+| ME-02 | Entrada de nuevos competidores premium | Aparición de plataformas luxury, servicios concierge o iniciativas directas de marcas que reduzcan cuota de mercado. | 4 | 4 | **16** | Mitigar | Estrategia de diferenciación, alianzas exclusivas y mejora continua de experiencia cliente. | Director Estratégic | 35.000 € | Pérdida de cuota de mercado | >8% anual. |
+| ME-03 | Pérdida de boutiques o marcas asociadas | Finalización de acuerdos estratégicos con partners clave del ecosistema luxury. | 3 | 5 | **15** | Mitigar | Contratos de largo plazo, gestión de partners y diversificación de marcas asociadas. | Partnership Managerr | 30.000 € |Nº partners estratégicos perdidos | >2 por año |
+| ME-04 | Deterioro del posicionamiento premium | Pérdida de percepción de exclusividad, calidad o diferenciación frente al mercado luxury. | 3 | 5 | **15** | Mitigar | Control reputacional, estándares premium y campañas de branding exclusivas. | Director Comercial | 25.000 € | NPS clientes | <8/10. |
+| ME-05 | Presión sobre precios y membresías | Incremento de sensibilidad al precio o dificultad para justificar el valor premium del servicio. | 4 | 4 | **16** | Mitigar | Optimización de propuesta de valor, beneficios exclusivos y revisión estratégica de pricing.| Director Comercial | 20.000 € | % cancelación de membresías | >12% semestral. |
+
+
+### 4.2 Riesgos Significativos (Puntuación 8–11)
+
+| ID | Riesgo | Descripción | Prob. | Imp. | Punt. | Estrategia PMI | Plan de Mitigación | Propietario |
+|----|--------|-------------|-------|------|-------|----------------|--------------------|-------------|
+| ME-06 | Dependencia excesiva de un segmento de clientes | Concentración elevada de ingresos en un grupo reducido de clientes | 2 | 4 | **8** | Mitigar | Diversificación de segmentos, ampliación de cartera premium y estrategias de retención | Director Comercial |
+| ME-07 | Cambios en tendencias de consumo luxury | Evolución de preferencias hacia modelos digitales, sostenibles o experiencias diferentes al servicio ofrecido. | 3 | 3 | **9** | Mitigar | Estudios de mercado periódicos, innovación de servicios y análisis de tendencias luxurys. | Director Comercial |
+| ME-08 | Baja capacidad de expansión geográfica |  Dificultades para replicar el modelo premium en nuevas ciudades o mercados internacionales | 2 | 5 | **10** | Mitigar | Estudios previos de mercado, pilotos controlados y partnerships locales.| Director Comercial  |
+| ME-09 | Dependencia de temporadas de alta demanda | Concentración de ingresos en campañas específicas, temporadas luxury o eventos concretos. | 3 | 3 | **9** | Mitigar | Diversificación de servicios anuales y campañas de fidelización fuera de temporada.| Director Financiero |
+
+### 4.3 Riesgos Monitorizados (Puntuación ≤ 7)
+
+| ID | Riesgo | Descripción | Prob. | Imp. | Punt. | Estrategia PMI | Propietario |
+|----|--------|-------------|-------|------|-------|----------------|-------------|
+| ME-10 | Variación moderada en preferencias de canales digitales | Cambios graduales en la forma en que los clientes premium interactúan con plataformas digitales | 2 | 3 | **6** | Aceptar / Mitigar | Director Comercial |
+| ME-11 | Reducción puntual de actividad luxury estacional | Descenso temporal de demanda asociado a factores estacionales o calendario comercial. | 2 | 2 | **4** | Aceptar| Director Financiero |
+
+## 5. Plan de Respuesta a Incidentes (Activación)
+
+### Para riesgo: ME-02 (Entrada de nuevos competidores premium)
+
+- **Trigger / Condición de activación**: El Plan de Respuesta a Incidentes para el riesgo ME-02 se activará automáticamente cuando se produzca cualquiera de las siguientes situaciones:
+
+Entrada en el mercado de una nueva plataforma luxury o servicio concierge dirigido al mismo segmento VVIP.
+Lanzamiento de servicios directos de personal shopping por parte de marcas de lujo o grandes retailers premium.
+Pérdida de cuota de mercado superior al umbral definido (>8% anual).
+Reducción significativa en captación de nuevos clientes premium durante dos periodos consecutivos.
+Incremento relevante de campañas comerciales agresivas por parte de competidores directos.
+Disminución del ratio de renovación de membresías atribuible a ofertas de la competencia.
+Pérdida de acuerdos estratégicos o exclusividades con boutiques debido a nuevos actores del mercado.
+Descenso sostenido del NPS o percepción de diferenciación premium frente a competidores.
+Monitorización de mercado que detecte cambios relevantes en posicionamiento, precios o innovación competitiva.
+
+- **Acciones inmediatas **:
+- Confirmar y analizar la entrada o movimiento competitivo identificado, evaluando:
+	Tipo de competidor.
+	Segmento objetivo.
+	Propuesta de valor.
+	Cobertura geográfica.
+	Estrategia de precios y servicios.
+- Activar un análisis urgente de impacto sobre:
+	Clientes.
+	Membresías activas.
+	Partners estratégicos.
+	Cuota de mercado.
+	Posicionamiento premium.
+- Informar a Dirección Estratégica, Dirección Comercial y Comité de Riesgos sobre la situación detectada.
+- Intensificar la monitorización del mercado y de las acciones comerciales de competidores directos.
+- Contactar de forma proactiva con clientes estratégicos y boutiques clave para reforzar relaciones y detectar posibles riesgos de fuga.
+- Revisar campañas comerciales, beneficios exclusivos y propuesta de valor para mantener diferenciación competitiva inmediata.
+- Evaluar posibles medidas tácticas de contención:
+	Refuerzo de fidelización.
+	Beneficios premium temporales.
+	Eventos exclusivos.
+	Servicios personalizados adicionales..
+- **Acciones a corto/medio plazo (1–7 días)**:
+- Fortalecer alianzas estratégicas con boutiques, marcas luxury y partners clave mediante acuerdos de colaboración y exclusividad.
+- Evaluar oportunidades de expansión de servicios o incorporación de nuevas líneas de negocio alineadas con tendencias del mercado luxury.
+- Reforzar la estrategia de branding y posicionamiento premium mediante campañas de reputación, comunicación selectiva y presencia en eventos exclusivos.
+- Implementar herramientas avanzadas de inteligencia de mercado y monitorización competitiva continua.
+- Revisar la estrategia de pricing y membresías para asegurar competitividad sin deteriorar la percepción de exclusividad.
+- Analizar tendencias de comportamiento del cliente luxury para adaptar la experiencia digital y presencial a nuevas expectativas del mercado.
+
+---
+
+### Para riesgo: ME-05 (Presión sobre precios y membresías)
+
+- **Trigger / Condición de activación**: El Plan de Respuesta a Incidentes para el riesgo ME-05 se activará automáticamente cuando se produzca cualquiera de las siguientes situaciones:
+
+Incremento sostenido en la tasa de cancelación o no renovación de membresías premium superior al umbral definido (>12% semestral).
+Evidencia de sensibilidad creciente al precio en encuestas de satisfacción o feedback directo del cliente.
+Aparición de competidores con propuestas de valor similares a menor coste que impacten en la retención.
+Reducción del margen medio por cliente por presión en negociaciones o descuentos no estratégicos.
+Disminución del ratio valor percibido vs. coste del servicio en indicadores de experiencia cliente.
+Alertas del equipo comercial o financiero indicando necesidad recurrente de ajustes de pricing para cerrar ventas.
+
+- **Acciones inmediatas **:
+- Activar análisis urgente de cancelaciones y renovaciones recientes para identificar patrones de sensibilidad al precio (segmentos, clientes y motivos).
+- Segmentar la base de clientes VVIP en función de riesgo de churn (alto, medio, bajo) para priorizar acciones de retención.
+- Contacto proactivo con clientes de alto valor en riesgo mediante el equipo de Customer Experience para recuperación de valor percibido.
+- Activar ofertas de retención no basadas en descuento directo (beneficios exclusivos, upgrades temporales, experiencias privadas).
+- Congelar temporalmente cualquier decisión de descuentos comerciales no estratégicos o excepcionales hasta revisión de pricing.
+- Revisar en tiempo real la narrativa de valor del servicio en comunicación comercial para asegurar coherencia con posicionamiento premium.
+- Detectar y analizar posibles causas externas (competencia, mercado, percepción de marca) mediante feedback inmediato de equipos comerciales.
+- Reforzar argumentario de ventas del equipo comercial para evitar erosión adicional del valor percibido en nuevas captaciones.
+- Informar a Dirección Comercial y Dirección Financiera del impacto estimado en ingresos y margen.
+
+- **Acciones a corto/medio plazo (1–7 días)**:
+- Revisar integralmente la estrategia de pricing de membresías, evaluando:
+	Elasticidad de precio por segmento VVIP.
+	Sensibilidad al valor percibido.
+	Competitividad frente a servicios luxury alternativos.
+- Redefinir y reforzar la propuesta de valor del servicio para incrementar la percepción de exclusividad, incorporando:
+	Beneficios no replicables.
+	Experiencias altamente personalizadas.
+	Acceso diferencial a boutiques y productos.
+- Diseñar un programa estructurado de fidelización premium para reducir churn, incluyendo:
+	Ventajas acumulativas por antigüedad.
+	Servicios concierge ampliados.
+	Eventos privados exclusivos.
+- Optimizar el portfolio de membresías para mejorar segmentación:
+	Revisión de tiers (entry luxury, premium, VVIP).
+	Ajuste de beneficios por nivel.
+	Eliminación de solapamientos de valor.
+- Implementar un sistema de inteligencia de mercado continuo para monitorizar:
+	Competidores directos e indirectos.
+	Tendencias de pricing en el sector luxury.
+	Evolución del comportamiento del cliente de alto patrimonio.
+- Reforzar la estrategia de comunicación de valor:
+	Narrativa centrada en exclusividad, acceso y curación personalizada.
+	Reducción de foco en precio en todos los canales comerciales.
+
+## 6. Dependencias con Otras Categorías
+
+| Riesgo ID | Categoría Relacionada | Tipo de Dependencia |
+|-----------|-----------------------|---------------------|
+| FRA-01 | Seguridad / Tecnología | Causa: Un fallo técnico de la app (ej. API caída) que impida al cliente nos expone a que se pierda interes por la marca. |
+| PS-01 | Shoppers  | Causa: Una mala atención al cliente nos expone a que se pierda interes por la marca o perdamos valor. |
+
+
+## 7. Acciones Pendientes
+
+
+
+---
+
+**Documento elaborado por**: Responsable de Riesgos (Risk Manager)  
+**Fecha**: 2026-05-29  
+**Versión**: 1.0
+
