@@ -1,0 +1,960 @@
+{
+  "project": "Personal Shopping Luxury",
+  "stack": {
+    "backend": "Fastify (TypeScript)",
+    "frontend_web": "Next.js (TypeScript)",
+    "mobile": "React Native (Expo)",
+    "database": "PostgreSQL + Prisma",
+    "payments": "Stripe",
+    "realtime": "Socket.io",
+    "notifications": "Firebase Cloud Messaging + Resend",
+    "maps": "Google Maps API",
+    "jobs": "BullMQ / node-cron",
+    "deployment": "Vercel (web) + Render/Railway (API)"
+  },
+  "methodology": "SCRUM",
+  "sprint_duration_weeks": 2,
+  "total_sprints": 10,
+  "epics": [
+    {
+      "id": "E01",
+      "title": "Infraestructura & DevOps",
+      "description": "Monorepo, Docker, CI/CD, despliegues",
+      "sprints": [1, 10]
+    },
+    {
+      "id": "E02",
+      "title": "Autenticación y Autorización",
+      "description": "Registro, login, roles, JWT",
+      "sprints": [1, 2]
+    },
+    {
+      "id": "E03",
+      "title": "API Core — Backend (Fastify)",
+      "description": "REST API, base de datos, lógica de negocio",
+      "sprints": [2, 3, 4, 5, 6, 7]
+    },
+    {
+      "id": "E04",
+      "title": "Web Cliente — Next.js",
+      "description": "Landing, perfil, catálogo, reservas, chat",
+      "sprints": [2, 3, 4, 5, 7, 10]
+    },
+    {
+      "id": "E05",
+      "title": "Sistema de Reservas & Booking",
+      "description": "Calendario, disponibilidad, geolocalización",
+      "sprints": [4]
+    },
+    {
+      "id": "E06",
+      "title": "Pasarela de Pagos (Stripe)",
+      "description": "Membresías anuales, cobro por visita, webhooks",
+      "sprints": [5]
+    },
+    {
+      "id": "E07",
+      "title": "Panel de Administración",
+      "description": "Dashboard, gestión de usuarios, citas, reporting",
+      "sprints": [6, 10]
+    },
+    {
+      "id": "E08",
+      "title": "CRM y Perfiles",
+      "description": "Preferencias de estilo, historial, notas",
+      "sprints": [3, 6]
+    },
+    {
+      "id": "E09",
+      "title": "Chat y Notificaciones",
+      "description": "Chat cliente-shopper, emails, push",
+      "sprints": [7, 9]
+    },
+    {
+      "id": "E10",
+      "title": "App Móvil (React Native)",
+      "description": "iOS/Android: reservas, chat, historial",
+      "sprints": [8, 9]
+    },
+    {
+      "id": "E11",
+      "title": "Operativa y Logística",
+      "description": "Agenda operaciones, reportes, calendario interno",
+      "sprints": [10]
+    },
+    {
+      "id": "E12",
+      "title": "Lanzamiento & Marketing Web",
+      "description": "SEO, performance, staging, demo",
+      "sprints": [10]
+    }
+  ],
+  "sprints": [
+    {
+      "number": 1,
+      "name": "Cimientos",
+      "goal": "Repo funcional, login/registro operativo y base de datos local",
+      "weeks": "1-2",
+      "stories": [
+        {
+          "id": "H01",
+          "epic_id": "E01",
+          "title": "Monorepo con workspaces",
+          "as": "dev",
+          "want": "un monorepo con workspaces",
+          "so_that": "el equipo pueda trabajar en paralelo",
+          "points": 5,
+          "tasks": [
+            "Crear estructura apps/web, apps/api, packages/db, packages/shared",
+            "Configurar TypeScript, ESLint, Prettier",
+            "Configurar TurboRepo para builds incremental"
+          ],
+          "acceptance_criteria": [
+            "pnpm dev levanta web y api simultáneamente",
+            "Los cambios en packages/db se reflejan sin reinstall",
+            "Build completo pasa en < 60s"
+          ]
+        },
+        {
+          "id": "H02",
+          "epic_id": "E01",
+          "title": "Docker Compose local",
+          "as": "dev",
+          "want": "levantar todo con Docker Compose",
+          "so_that": "el entorno sea reproducible",
+          "points": 3,
+          "tasks": [
+            "Dockerfile para api (multistage)",
+            "Dockerfile para web (multistage)",
+            "docker-compose.yml con Postgres 15, Redis y healthchecks"
+          ],
+          "acceptance_criteria": [
+            "docker compose up levanta web + api + db + redis",
+            "La base de datos persiste en volumen local",
+            "Healthcheck de api responde 200 en /health"
+          ]
+        },
+        {
+          "id": "H03",
+          "epic_id": "E01",
+          "title": "CI/CD básico en GitHub Actions",
+          "as": "equipo",
+          "want": "CI/CD en GitHub Actions",
+          "so_that": "no se rompa main",
+          "points": 3,
+          "tasks": [
+            "Workflow lint + typecheck + test en PR",
+            "Protección de rama main (requiere PR + checks)",
+            "Cache de dependencias pnpm"
+          ],
+          "acceptance_criteria": [
+            "Un PR con error de lint no permite merge",
+            "Los tests fallidos bloquean el merge",
+            "El workflow completa en < 5 min"
+          ]
+        },
+        {
+          "id": "H04",
+          "epic_id": "E02",
+          "title": "Registro con email y contraseña",
+          "as": "visitante",
+          "want": "registrarme con email y contraseña",
+          "so_that": "pueda acceder a la plataforma",
+          "points": 5,
+          "tasks": [
+            "Endpoint POST /auth/register",
+            "Validación de entrada con Zod",
+            "Hash de contraseña con bcrypt",
+            "Generar JWT access + refresh tokens"
+          ],
+          "acceptance_criteria": [
+            "Un usuario puede registrarse con email único",
+            "La contraseña se almacena hasheada",
+            "Se devuelve un JWT válido tras registro"
+          ]
+        },
+        {
+          "id": "H05",
+          "epic_id": "E02",
+          "title": "Inicio de sesión",
+          "as": "visitante",
+          "want": "iniciar sesión",
+          "so_that": "acceder a mi perfil",
+          "points": 3,
+          "tasks": [
+            "Endpoint POST /auth/login",
+            "Middleware JWT en Fastify",
+            "Cookies httpOnly para refresh token"
+          ],
+          "acceptance_criteria": [
+            "Login con credenciales válidas devuelve JWT",
+            "Login con credenciales inválidas devuelve 401",
+            "El refresh token se envía como cookie segura"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "name": "API Core & Landing",
+      "goal": "Landing publicada, API REST base y perfil editable",
+      "weeks": "3-4",
+      "stories": [
+        {
+          "id": "H06",
+          "epic_id": "E03",
+          "title": "Prisma ORM con migraciones",
+          "as": "dev",
+          "want": "Prisma ORM con migraciones",
+          "so_that": "persistir datos de forma tipada",
+          "points": 5,
+          "tasks": [
+            "Definir schema Prisma: User, Profile, City, Role",
+            "Configurar migraciones con prisma migrate dev",
+            "Seed básico con datos mínimos"
+          ],
+          "acceptance_criteria": [
+            "npx prisma migrate dev aplica cambios sin errores",
+            "El seed crea al menos un usuario admin y una ciudad",
+            "Las queries están tipadas con Prisma Client"
+          ]
+        },
+        {
+          "id": "H07",
+          "epic_id": "E04",
+          "title": "Landing page premium",
+          "as": "visitante",
+          "want": "ver una landing premium",
+          "so_that": "entienda el servicio",
+          "points": 8,
+          "tasks": [
+            "Diseñar secciones: Hero, Cómo funciona, Marcas, Precios, FAQ",
+            "Implementar animaciones suaves (Framer Motion)",
+            "Responsive mobile-first"
+          ],
+          "acceptance_criteria": [
+            "La carga inicial es < 3s en 4G",
+            "Se ve correctamente en mobile, tablet y desktop",
+            "CTA principal lleva a flujo de registro"
+          ]
+        },
+        {
+          "id": "H08",
+          "epic_id": "E04",
+          "title": "Perfil básico editable",
+          "as": "cliente",
+          "want": "ver y editar mi perfil básico",
+          "so_that": "gestionar mis datos",
+          "points": 3,
+          "tasks": [
+            "Página /perfil con formulario",
+            "Edición de datos personales",
+            "Subida de avatar a Cloudinary"
+          ],
+          "acceptance_criteria": [
+            "El usuario puede editar nombre, teléfono y dirección",
+            "El avatar se sube y se muestra actualizado",
+            "Los cambios persisten tras recargar"
+          ]
+        },
+        {
+          "id": "H09",
+          "epic_id": "E03",
+          "title": "API REST de usuarios y perfiles",
+          "as": "sistema",
+          "want": "endpoints REST de usuarios y perfiles",
+          "so_that": "la web pueda consumir datos",
+          "points": 5,
+          "tasks": [
+            "CRUD /users con paginación",
+            "CRUD /profiles vinculado a User",
+            "Validaciones Zod en todas las rutas",
+            "Manejo de errores uniforme (AppError)"
+          ],
+          "acceptance_criteria": [
+            "GET /users devuelve lista paginada",
+            "POST /users valida campos obligatorios",
+            "Errores devuelven JSON con code y message"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "name": "Catálogo & Shoppers",
+      "goal": "Mostrar marcas y shoppers; dar de alta shoppers desde admin",
+      "weeks": "5-6",
+      "stories": [
+        {
+          "id": "H10",
+          "epic_id": "E03",
+          "title": "Catálogo de marcas de lujo",
+          "as": "cliente",
+          "want": "ver un catálogo de marcas de lujo",
+          "so_that": "conozca las alianzas",
+          "points": 5,
+          "tasks": [
+            "Modelo Brand: nombre, logo, categoría, ciudad, descripción",
+            "Endpoint listado con filtros (ciudad, categoría)",
+            "Grid UI con tarjetas de marca"
+          ],
+          "acceptance_criteria": [
+            "Se listan al menos 10 marcas en demo",
+            "Los filtros funcionan sin recarga de página",
+            "Cada marca tiene página de detalle"
+          ]
+        },
+        {
+          "id": "H11",
+          "epic_id": "E07",
+          "title": "Alta de personal shoppers",
+          "as": "admin",
+          "want": "dar de alta personal shoppers",
+          "so_that": "aparezcan en la plataforma",
+          "points": 5,
+          "tasks": [
+            "CRUD shoppers en panel admin",
+            "Campos: nombre, ciudad, especialidad, bio, foto, tarifa, rating",
+            "Asignación de usuario de login al shopper"
+          ],
+          "acceptance_criteria": [
+            "Un admin puede crear un shopper con foto",
+            "El shopper aparece en el listado público filtrado por ciudad",
+            "No se publica shopper sin aprobación admin"
+          ]
+        },
+        {
+          "id": "H12",
+          "epic_id": "E04",
+          "title": "Perfil detallado de shopper",
+          "as": "cliente",
+          "want": "ver el perfil detallado de un shopper",
+          "so_that": "decida si reservo con él",
+          "points": 3,
+          "tasks": [
+            "Página /shoppers/[id]",
+            "Mostrar portfolio, reseñas mock, bio",
+            "Botón 'Reservar' que lleva a flujo de cita"
+          ],
+          "acceptance_criteria": [
+            "La página carga datos reales del shopper",
+            "Las reseñas se muestran con estrellas",
+            "El botón reservar no aparece si no hay disponibilidad"
+          ]
+        },
+        {
+          "id": "H13",
+          "epic_id": "E03",
+          "title": "Seed de datos de demo",
+          "as": "dev",
+          "want": "seed de datos de demo",
+          "so_that": "haga pruebas sin crear todo a mano",
+          "points": 3,
+          "tasks": [
+            "Seed 10 marcas (5 moda, 5 accesorios)",
+            "Seed 10 shoppers (5 Madrid, 5 Barcelona)",
+            "Seed 2 ciudades con zonas de cobertura"
+          ],
+          "acceptance_criteria": [
+            "npx prisma db seed completa en < 10s",
+            "Los shoppers tienen disponibilidad semanal de demo",
+            "Las marcas tienen imágenes de placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "name": "Booking v1",
+      "goal": "Un cliente puede reservar una cita con un shopper en una fecha concreta",
+      "weeks": "7-8",
+      "stories": [
+        {
+          "id": "H14",
+          "epic_id": "E05",
+          "title": "Solicitar cita con shopper",
+          "as": "cliente",
+          "want": "solicitar una cita eligiendo fecha y shopper",
+          "so_that": "reciba el servicio a domicilio",
+          "points": 8,
+          "tasks": [
+            "Flujo UI: ciudad → shopper → calendario → hora → confirmar",
+            "Endpoint POST /bookings",
+            "Estados de cita: pending, confirmed, cancelled, completed"
+          ],
+          "acceptance_criteria": [
+            "El cliente puede reservar en 4 pasos",
+            "No se permite reservar slot ocupado",
+            "Se envía email de confirmación al reservar"
+          ]
+        },
+        {
+          "id": "H15",
+          "epic_id": "E05",
+          "title": "Definir disponibilidad semanal",
+          "as": "shopper",
+          "want": "definir mi disponibilidad semanal",
+          "so_that": "me reserven en mis horarios",
+          "points": 5,
+          "tasks": [
+            "Modelo Availability: día, hora inicio, hora fin, shopperId",
+            "UI calendario tipo 'horario de apertura'",
+            "Excepciones: días libres, vacaciones"
+          ],
+          "acceptance_criteria": [
+            "El shopper define slots de 1h de lunes a sábado",
+            "Los cambios se reflejan inmediatamente en el flujo de reserva",
+            "Un día libre bloquea todos los slots de ese día"
+          ]
+        },
+        {
+          "id": "H16",
+          "epic_id": "E05",
+          "title": "Mapa de cobertura del shopper",
+          "as": "cliente",
+          "want": "ver el mapa de cobertura del shopper",
+          "so_that": "sepa si llega a mi domicilio",
+          "points": 5,
+          "tasks": [
+            "Integrar Google Maps JS API",
+            "Geocodificar dirección del cliente",
+            "Mostrar radio de cobertura (ej. 15km)"
+          ],
+          "acceptance_criteria": [
+            "La dirección del cliente se convierte en coordenadas",
+            "Se visualiza un círculo de cobertura en el mapa",
+            "Si el cliente está fuera del radio, se muestra aviso"
+          ]
+        },
+        {
+          "id": "H17",
+          "epic_id": "E05",
+          "title": "Bloqueo atómico de slots",
+          "as": "sistema",
+          "want": "bloquear slots al confirmar una cita",
+          "so_that": "evite duplicados",
+          "points": 3,
+          "tasks": [
+            "Transacción atómica Prisma al crear cita",
+            "Estados de cita con máquina de estados",
+            "Soft-delete en cancelaciones (libera slot)"
+          ],
+          "acceptance_criteria": [
+            "Dos clientes simultáneos no pueden reservar el mismo slot",
+            "Cancelar una cita libera el slot inmediatamente",
+            "Las citas tienen timestamps de creación y modificación"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "name": "Pagos",
+      "goal": "Cobrar membresías anuales y visitas puntuales vía Stripe",
+      "weeks": "9-10",
+      "stories": [
+        {
+          "id": "H18",
+          "epic_id": "E06",
+          "title": "Pago de membresía anual",
+          "as": "cliente",
+          "want": "pagar la membresía anual online",
+          "so_that": "acceda al servicio",
+          "points": 8,
+          "tasks": [
+            "Stripe Checkout Session para Subscription (2000€/año)",
+            "Webhook invoice.paid para activar membresía",
+            "Flag isMember en User + fecha de expiración"
+          ],
+          "acceptance_criteria": [
+            "El cliente es redirigido a Stripe Checkout",
+            "Al completar el pago, el usuario pasa a isMember=true",
+            "Un webhook fallido reintenta 3 veces"
+          ]
+        },
+        {
+          "id": "H19",
+          "epic_id": "E06",
+          "title": "Pago de visita puntual",
+          "as": "cliente",
+          "want": "pagar una visita puntual online",
+          "so_that": "no lleve efectivo",
+          "points": 5,
+          "tasks": [
+            "Stripe PaymentIntent (100€/visita)",
+            "Cobro al confirmar la cita (o 24h antes)",
+            "Generar recibo digital"
+          ],
+          "acceptance_criteria": [
+            "El cobro se realiza correctamente por visita",
+            "Si el pago falla, la cita se cancela y notifica",
+            "El recibo se almacena y se muestra en el perfil"
+          ]
+        },
+        {
+          "id": "H20",
+          "epic_id": "E07",
+          "title": "Panel de transacciones",
+          "as": "admin",
+          "want": "ver transacciones para conciliar",
+          "so_that": "controle los ingresos",
+          "points": 3,
+          "tasks": [
+            "Listado de pagos con filtros: estado, fecha, cliente",
+            "Paginación y búsqueda",
+            "Exportar a CSV"
+          ],
+          "acceptance_criteria": [
+            "El admin ve todas las transacciones en tiempo real",
+            "Los filtros funcionan combinados",
+            "El CSV contiene fecha, cliente, monto, estado"
+          ]
+        },
+        {
+          "id": "H21",
+          "epic_id": "E09",
+          "title": "Email de confirmación de pago",
+          "as": "cliente",
+          "want": "recibir email de confirmación de pago",
+          "so_that": "tenga constancia",
+          "points": 3,
+          "tasks": [
+            "Integrar proveedor de email (Resend)",
+            "Template HTML de confirmación de pago",
+            "Trigger post-webhook exitoso"
+          ],
+          "acceptance_criteria": [
+            "El email llega en < 2 min tras el pago",
+            "El template es responsive y visualmente premium",
+            "Incluye detalle del pago y link a perfil"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "name": "Admin & CRM",
+      "goal": "Equipo interno gestiona el negocio; clientes tienen perfiles enriquecidos",
+      "weeks": "11-12",
+      "stories": [
+        {
+          "id": "H22",
+          "epic_id": "E07",
+          "title": "Dashboard con KPIs",
+          "as": "admin",
+          "want": "un dashboard con KPIs",
+          "so_that": "vea el estado del negocio",
+          "points": 8,
+          "tasks": [
+            "Métricas: miembros activos, citas mes, ingresos, NPS",
+            "Gráficas con Recharts o Tremor",
+            "Filtros por fecha y ciudad"
+          ],
+          "acceptance_criteria": [
+            "El dashboard carga en < 2s",
+            "Los datos son reales y se actualizan diariamente",
+            "Se ve correctamente en resoluciones desktop"
+          ]
+        },
+        {
+          "id": "H23",
+          "epic_id": "E07",
+          "title": "Gestión de citas desde admin",
+          "as": "admin",
+          "want": "gestionar citas (reagendar / cancelar)",
+          "so_that": "ayude a operaciones",
+          "points": 5,
+          "tasks": [
+            "CRUD citas en panel admin",
+            "Notificación automática a cliente y shopper",
+            "Auditoría de cambios (quién y cuándo)"
+          ],
+          "acceptance_criteria": [
+            "El admin puede reagendar sin afectar otros slots",
+            "El cliente recibe email de cambio",
+            "Se guarda log de quién modificó la cita"
+          ]
+        },
+        {
+          "id": "H24",
+          "epic_id": "E08",
+          "title": "Ficha completa de cliente",
+          "as": "admin",
+          "want": "ver el perfil completo de un cliente",
+          "so_that": "entienda su historial",
+          "points": 3,
+          "tasks": [
+            "Vista ficha cliente: datos, preferencias, historial citas",
+            "Notas internas editables por admin",
+            "Timeline de actividad"
+          ],
+          "acceptance_criteria": [
+            "La ficha muestra toda la info en una sola pantalla",
+            "Las notas internas no son visibles para el cliente",
+            "El timeline ordena eventos cronológicamente"
+          ]
+        },
+        {
+          "id": "H25",
+          "epic_id": "E08",
+          "title": "Preferencias de estilo",
+          "as": "cliente",
+          "want": "guardar mis preferencias de estilo",
+          "so_that": "el shopper me conozca",
+          "points": 3,
+          "tasks": [
+            "Formulario: tallas, colores, marcas favoritas, estilo",
+            "Guardar vinculado a Profile",
+            "Mostrar resumen en perfil del shopper antes de la visita"
+          ],
+          "acceptance_criteria": [
+            "El cliente puede editar sus preferencias anytime",
+            "El shopper ve un resumen en la vista previa de la cita",
+            "Los cambios se guardan sin recarga (optimistic UI)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "name": "Chat & Notificaciones",
+      "goal": "Comunicación fluida cliente-shopper y recordatorios automáticos",
+      "weeks": "13-14",
+      "stories": [
+        {
+          "id": "H26",
+          "epic_id": "E09",
+          "title": "Chat cliente-shopper",
+          "as": "cliente",
+          "want": "chatear con mi shopper antes de la visita",
+          "so_that": "coordine detalles",
+          "points": 8,
+          "tasks": [
+            "WebSocket con Socket.io: sala por cita",
+            "Persistir mensajes en DB",
+            "Indicador 'escribiendo' y doble check de lectura"
+          ],
+          "acceptance_criteria": [
+            "Los mensajes se envían y reciben en tiempo real",
+            "El historial se carga al abrir el chat",
+            "Solo participan cliente y shopper asignados"
+          ]
+        },
+        {
+          "id": "H27",
+          "epic_id": "E09",
+          "title": "Recordatorios de cita",
+          "as": "cliente",
+          "want": "recibir recordatorios de mi cita",
+          "so_that": "no olvide",
+          "points": 3,
+          "tasks": [
+            "Job programado con BullMQ o node-cron",
+            "Email 24h antes de la cita",
+            "SMS opcional vía Twilio (mock en demo)"
+          ],
+          "acceptance_criteria": [
+            "El email se envía exactamente 24h antes",
+            "Si la cita se cancela, se anulan recordatorios pendientes",
+            "El job se ejecuta sin errores en staging"
+          ]
+        },
+        {
+          "id": "H28",
+          "epic_id": "E09",
+          "title": "Notificaciones push para shoppers",
+          "as": "shopper",
+          "want": "notificaciones push cuando me reserven",
+          "so_that": "responda rápido",
+          "points": 5,
+          "tasks": [
+            "FCM server-side para envío de notificaciones",
+            "Guardar tokens de dispositivo por usuario",
+            "Triggers: nueva reserva, cancelación, nuevo mensaje"
+          ],
+          "acceptance_criteria": [
+            "El shopper recibe push en < 5s tras el evento",
+            "La notificación abre la pantalla correcta",
+            "Si el token es inválido, se elimina de la DB"
+          ]
+        },
+        {
+          "id": "H29",
+          "epic_id": "E09",
+          "title": "Emails transaccionales robustos",
+          "as": "sistema",
+          "want": "enviar emails transaccionales sin caer en spam",
+          "so_that": "lleguen a los clientes",
+          "points": 3,
+          "tasks": [
+            "Configurar dominio remitente y DKIM básico",
+            "Templates responsive: bienvenida, confirmación cita, recibo",
+            "Cola de reintentos si el proveedor falla"
+          ],
+          "acceptance_criteria": [
+            "Los emails no van a spam en Gmail/Outlook básico",
+            "Los templates se ven bien en móvil",
+            "Hay reintentos automáticos hasta 3 veces"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "name": "App Móvil v1",
+      "goal": "App funcional con login, reservas y historial",
+      "weeks": "15-16",
+      "stories": [
+        {
+          "id": "H30",
+          "epic_id": "E10",
+          "title": "Reservar citas desde app",
+          "as": "cliente",
+          "want": "usar la app para reservar citas",
+          "so_that": "no dependa del ordenador",
+          "points": 8,
+          "tasks": [
+            "React Native setup con Expo",
+            "Navegación con React Navigation (tabs + stack)",
+            "Pantallas: login, home, flujo reserva (reutilizar lógica web)"
+          ],
+          "acceptance_criteria": [
+            "La app compila en iOS y Android sin errores",
+            "El flujo de reserva es funcional y fluido",
+            "Reutiliza endpoints existentes del backend"
+          ]
+        },
+        {
+          "id": "H31",
+          "epic_id": "E10",
+          "title": "Historial de visitas en app",
+          "as": "cliente",
+          "want": "ver mi historial de visitas en la app",
+          "so_that": "recuerde qué compré",
+          "points": 5,
+          "tasks": [
+            "Pantalla 'Mis Visitas' con tabs upcoming/completed",
+            "Detalle de visita: fecha, shopper, notas, productos vistos",
+            "Pull-to-refresh"
+          ],
+          "acceptance_criteria": [
+            "Se listan citas pasadas y futuras",
+            "El detalle muestra info completa",
+            "El pull-to-refresh actualiza la lista"
+          ]
+        },
+        {
+          "id": "H32",
+          "epic_id": "E10",
+          "title": "Push notifications en app",
+          "as": "cliente",
+          "want": "recibir push en el móvil cuando me envíen un mensaje",
+          "so_that": "responda rápido",
+          "points": 5,
+          "tasks": [
+            "Integrar FCM en React Native (Expo Notifications)",
+            "Manejo de tokens de dispositivo",
+            "Deep link a pantalla de chat"
+          ],
+          "acceptance_criteria": [
+            "El token se registra al iniciar sesión",
+            "Al tocar la notificación se abre el chat correcto",
+            "Funciona en background y foreground"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "name": "App Móvil v2 & Chat",
+      "goal": "Chat móvil, catálogo en app y gestión de suscripción",
+      "weeks": "17-18",
+      "stories": [
+        {
+          "id": "H33",
+          "epic_id": "E10",
+          "title": "Chat desde app móvil",
+          "as": "cliente",
+          "want": "chatear con mi shopper desde la app",
+          "so_that": "coordine en cualquier lado",
+          "points": 8,
+          "tasks": [
+            "Chat UI en React Native (lista burbujas)",
+            "Conexión Socket.io desde RN",
+            "Envío de imágenes (opcional v1)"
+          ],
+          "acceptance_criteria": [
+            "Los mensajes se sincronizan con la web en tiempo real",
+            "Se muestra indicador de enviado/leído",
+            "El scroll mantiene posición al recibir mensaje"
+          ]
+        },
+        {
+          "id": "H34",
+          "epic_id": "E10",
+          "title": "Catálogo de marcas en app",
+          "as": "cliente",
+          "want": "ver el catálogo de marcas en la app",
+          "so_that": "me inspire",
+          "points": 3,
+          "tasks": [
+            "Pantalla marcas con grid",
+            "Filtros por ciudad y categoría",
+            "Reutilizar endpoint /brands"
+          ],
+          "acceptance_criteria": [
+            "El listado carga en < 2s",
+            "Los filtros funcionan igual que en web",
+            "Cada marca tiene pantalla de detalle"
+          ]
+        },
+        {
+          "id": "H35",
+          "epic_id": "E10",
+          "title": "Gestión de membresía en app",
+          "as": "cliente",
+          "want": "gestionar mi membresía desde la app",
+          "so_that": "renueve o vea estado",
+          "points": 5,
+          "tasks": [
+            "Pantalla suscripción: estado actual, fecha expiración",
+            "Integración Stripe mobile / Apple Pay mock",
+            "Historial de pagos"
+          ],
+          "acceptance_criteria": [
+            "El cliente ve claramente si está activo o expirado",
+            "Puede iniciar renovación desde la app",
+            "Los pagos se reflejan en web y app"
+          ]
+        },
+        {
+          "id": "H36",
+          "epic_id": "E10",
+          "title": "Completar citas desde app shopper",
+          "as": "shopper",
+          "want": "marcar citas como completadas desde la app",
+          "so_that": "operativa se actualice",
+          "points": 3,
+          "tasks": [
+            "Pantalla agenda shopper en RN",
+            "Acción 'Completar' con formulario notas post-visita",
+            "Sincronización con estado en backend"
+          ],
+          "acceptance_criteria": [
+            "El shopper ve solo sus citas asignadas",
+            "Al completar, se libera su disponibilidad",
+            "Las notas post-visita son visibles para admin"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "name": "Operativa & Lanzamiento",
+      "goal": "MVP estable, entorno de demo y web optimizada",
+      "weeks": "19-20",
+      "stories": [
+        {
+          "id": "H37",
+          "epic_id": "E11",
+          "title": "Vista calendario operaciones",
+          "as": "operaciones",
+          "want": "una vista calendario de citas del día",
+          "so_that": "organice el servicio",
+          "points": 5,
+          "tasks": [
+            "Vista calendario admin (día / semana)",
+            "Filtros por shopper y ciudad",
+            "Exportar a PDF el resumen diario"
+          ],
+          "acceptance_criteria": [
+            "El calendario muestra todas las citas confirmadas",
+            "Se distingue por color según estado",
+            "El PDF se genera en < 3s"
+          ]
+        },
+        {
+          "id": "H38",
+          "epic_id": "E11",
+          "title": "Informe semanal automático",
+          "as": "dirección",
+          "want": "un informe semanal automático",
+          "so_that": "haga seguimiento del negocio",
+          "points": 3,
+          "tasks": [
+            "Cron semanal (domingos 9am)",
+            "Email con métricas: citas, ingresos, NPS, shoppers activos",
+            "Comparativa vs semana anterior"
+          ],
+          "acceptance_criteria": [
+            "El email se envía puntualmente cada domingo",
+            "Los datos son exactos y consistentes con dashboard",
+            "No requiere acción manual para ejecutarse"
+          ]
+        },
+        {
+          "id": "H39",
+          "epic_id": "E12",
+          "title": "SEO y performance web",
+          "as": "visitante",
+          "want": "una web rápida y bien posicionada",
+          "so_that": "descubra el servicio",
+          "points": 5,
+          "tasks": [
+            "SEO básico: meta tags dinámicos, sitemap.xml, robots.txt",
+            "Optimización de imágenes con Next/Image",
+            "Auditoría Lighthouse > 90 en performance y accesibilidad"
+          ],
+          "acceptance_criteria": [
+            "Lighthouse Performance > 90",
+            "Lighthouse Accessibility > 90",
+            "El sitemap incluye todas las páginas públicas"
+          ]
+        },
+        {
+          "id": "H40",
+          "epic_id": "E01",
+          "title": "Entorno de staging estable",
+          "as": "equipo",
+          "want": "un entorno de staging estable",
+          "so_that": "haga demos a inversores",
+          "points": 5,
+          "tasks": [
+            "Desplegar web en Vercel (producción y staging)",
+            "Desplegar API en Render/Railway",
+            "Base de datos staging con datos de demo",
+            "Variables de entorno documentadas"
+          ],
+          "acceptance_criteria": [
+            "Staging es idéntico a producción en configuración",
+            "Los datos de demo se resetean semanalmente",
+            "El deploy es automático desde main"
+          ]
+        }
+      ]
+    }
+  ],
+  "definition_of_ready": [
+    "Historia escrita con formato 'Como… quiero… para…'",
+    "Criterios de aceptación claros (mínimo 3)",
+    "Dependencias técnicas identificadas",
+    "Diseño UI/UX aprobado (si aplica)",
+    "Estimación en story points consensuada"
+  ],
+  "definition_of_done": [
+    "Código mergeado en main vía PR revisado",
+    "Tests unitarios pasando (cobertura > 70%)",
+    "Tests de integración para el flujo crítico",
+    "Documentación técnica actualizada (README, ADR si aplica)",
+    "Desplegado en staging y validado por QA/PO",
+    "No deuda técnica crítica pendiente"
+  ],
+  "roles": [
+    { "name": "Product Owner", "responsibility": "Priorizar backlog, validar criterios de aceptación, definir mockups" },
+    { "name": "Scrum Master", "responsibility": "Facilitar ceremonias, eliminar bloqueos, métricas de sprint" },
+    { "name": "Backend Dev (Fastify)", "responsibility": "API, DB, integraciones (Stripe, Maps, Email)" },
+    { "name": "Frontend Dev (Next.js)", "responsibility": "Web cliente, panel admin, landing, chat web" },
+    { "name": "Mobile Dev (React Native)", "responsibility": "App iOS/Android, push notifications, chat móvil" },
+    { "name": "DevOps / QA", "responsibility": "CI/CD, Docker, staging, tests E2E, Lighthouse" }
+  ]
+}
