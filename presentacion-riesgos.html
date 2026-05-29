@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion de Riesgos — Personal Shopping Luxury</title>
+  <style>
+    :root {
+      --navy: #0a0e27;
+      --navy-light: #12183f;
+      --navy-lighter: #1a2255;
+      --gold: #d4af37;
+      --gold-light: #e8c96a;
+      --gold-dark: #b5942f;
+      --white: #f5f5f7;
+      --gray: #a0a8c0;
+      --gray-dark: #6b7190;
+      --success: #2ecc71;
+      --warning: #f1c40f;
+      --danger: #e74c3c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .presentation {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 4rem;
+      background: var(--navy);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold));
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+    }
+
+    .slide-content {
+      max-width: 1100px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 1.2rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+      margin-top: 1.2rem;
+    }
+
+    p, li {
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+      line-height: 1.6;
+      color: var(--gray);
+      margin-bottom: 0.6rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    li { margin-bottom: 0.4rem; }
+
+    .subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      padding: 0.35rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .kpi-card {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-lighter);
+      border-radius: 8px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+
+    .kpi-card:hover { border-color: var(--gold-dark); }
+
+    .kpi-value {
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .box {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-lighter);
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+
+    .box h4 {
+      color: var(--gold-light);
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid var(--navy-lighter);
+    }
+
+    th {
+      color: var(--gold);
+      font-weight: 600;
+      background: var(--navy-light);
+    }
+
+    td { color: var(--gray); }
+
+    .status-green { color: var(--success); font-weight: 600; }
+    .status-yellow { color: var(--warning); font-weight: 600; }
+    .status-red { color: var(--danger); font-weight: 600; }
+
+    .centered { text-align: center; }
+
+    .cta-box {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid var(--gold-dark);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .highlight {
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    /* Heat map specific styles */
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: auto repeat(5, 1fr);
+      gap: 4px;
+      margin: 1.5rem 0;
+    }
+
+    .heatmap-label {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.8rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .heatmap-top {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gray);
+      padding-bottom: 0.3rem;
+    }
+
+    .heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .hm-1 { background: rgba(46, 204, 113, 0.25); color: var(--success); border: 1px solid rgba(46,204,113,0.4); }
+    .hm-2 { background: rgba(46, 204, 113, 0.45); color: #b0ffc0; border: 1px solid rgba(46,204,113,0.5); }
+    .hm-3 { background: rgba(241, 196, 15, 0.4); color: #fff8d0; border: 1px solid rgba(241,196,15,0.5); }
+    .hm-4 { background: rgba(231, 76, 60, 0.5); color: #ffd0d0; border: 1px solid rgba(231,76,60,0.6); }
+    .hm-5 { background: rgba(231, 76, 60, 0.85); color: var(--white); border: 1px solid var(--danger); }
+
+    .risk-bar {
+      height: 28px;
+      border-radius: 4px;
+      background: var(--navy-lighter);
+      overflow: hidden;
+      display: flex;
+      margin: 0.4rem 0;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--white);
+      transition: width 0.6s ease;
+    }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: var(--navy-light);
+      border-top: 1px solid var(--navy-lighter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-size: 0.9rem;
+      color: var(--gray);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .jump-menu {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 200;
+    }
+
+    .jump-btn {
+      background: var(--navy-light);
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .jump-btn:hover { background: rgba(212, 175, 55, 0.15); }
+
+    .jump-panel {
+      position: absolute;
+      top: 44px;
+      right: 0;
+      width: 280px;
+      max-height: 70vh;
+      overflow-y: auto;
+      background: var(--navy-light);
+      border: 1px solid var(--gold-dark);
+      border-radius: 8px;
+      padding: 0.5rem 0;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .jump-panel.open { display: block; }
+
+    .jump-item {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+      cursor: pointer;
+      border-bottom: 1px solid var(--navy-lighter);
+    }
+
+    .jump-item:last-child { border-bottom: none; }
+    .jump-item:hover { background: var(--navy-lighter); color: var(--white); }
+    .jump-item.active { color: var(--gold); font-weight: 600; }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+      z-index: 300;
+    }
+
+    .logo-mark {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .slide { padding: 2rem; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      table { font-size: 0.85rem; }
+      th, td { padding: 0.4rem; }
+      .nav-bar { padding: 0 1rem; }
+      .heatmap-grid { grid-template-columns: auto repeat(5, 1fr); gap: 3px; }
+    }
+
+    @media (max-width: 600px) {
+      .slide { padding: 1.5rem 1rem 5rem; justify-content: flex-start; overflow-y: auto; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .jump-panel { width: 90vw; right: -0.5rem; }
+      .heatmap-cell { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="jump-menu">
+    <button class="jump-btn" id="jumpBtn" onclick="toggleJump()">Ir a diapositiva</button>
+    <div class="jump-panel" id="jumpPanel"></div>
+  </div>
+
+  <div class="presentation" id="presentation">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active" data-title="Portada">
+      <div class="slide-content centered">
+        <div class="logo-mark">EXCLUSIVE LUXURY</div>
+        <h1 style="font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 0.6rem;">Gestion de Riesgos</h1>
+        <p class="subtitle">Plan de Gestion de Riesgos — Presentacion para Stakeholders</p>
+        <div class="kpi-grid" style="max-width: 700px; margin: 2rem auto;">
+          <div class="kpi-card">
+            <span class="kpi-value">99+</span>
+            <span class="kpi-label">Riesgos identificados</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">66K&euro;</span>
+            <span class="kpi-label">Reserva total</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">7</span>
+            <span class="kpi-label">Categorias analizadas</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">PMI</span>
+            <span class="kpi-label">Metodologia</span>
+          </div>
+        </div>
+        <p style="color: var(--gray-dark); font-size: 0.9rem; margin-top: 2rem;">Direccion del Proyecto &middot; 2026-05-29 &middot; Version 1.0</p>
+      </div>
+    </div>
+
+    <!-- Slide 2: Como medimos el riesgo -->
+    <div class="slide" data-title="Como Medimos el Riesgo">
+      <div class="slide-content">
+        <div class="badge">METODOLOGIA</div>
+        <h1>Como Medimos el Riesgo</h1>
+        <p class="subtitle">Usamos el estandar PMI: Probabilidad x Impacto = Puntuacion. Lo simple para que todo el equipo lo entienda.</p>
+        <div class="two-col">
+          <div>
+            <h3>La formula en 3 pasos</h3>
+            <ul>
+              <li><span class="highlight">Probabilidad</span> de que ocurra: de 1 (muy baja) a 5 (muy alta).</li>
+              <li><span class="highlight">Impacto</span> si ocurre: de 1 (minimo) a 5 (critico).</li>
+              <li>Multiplicamos ambos: <span class="highlight">Puntuacion de 1 a 25</span>.</li>
+            </ul>
+            <div class="cta-box" style="margin-top: 1rem;">
+              <p style="margin:0;"><span class="highlight">Umbral critico:</span> Puntuacion &ge; 12. Estos riesgos tienen plan de mitigacion, propietario y dinero reservado.</p>
+            </div>
+            <h3>Estrategias de respuesta</h3>
+            <ul>
+              <li><span class="highlight">Mitigar</span> &mdash; Reducir probabilidad o impacto (lo mas comun).</li>
+              <li><span class="highlight">Transferir</span> &mdash; Pasar el riesgo a un tercero (ej. seguros).</li>
+              <li><span class="highlight">Aceptar</span> &mdash; Asumirlo y tener reserva preparada.</li>
+              <li><span class="highlight">Evitar</span> &mdash; Cambiar el plan para que no ocurra.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Matriz de puntuacion</h4>
+              <table>
+                <tr><th>Prob. →</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+                <tr><th>Imp. ↓</th><td colspan="5" style="text-align:center; color:var(--gray-dark);">Puntuacion</td></tr>
+                <tr><th>5 Critico</th><td class="status-yellow">5</td><td class="status-yellow">10</td><td class="status-red">15</td><td class="status-red">20</td><td class="status-red">25</td></tr>
+                <tr><th>4 Alto</th><td class="status-green">4</td><td class="status-yellow">8</td><td class="status-yellow">12</td><td class="status-red">16</td><td class="status-red">20</td></tr>
+                <tr><th>3 Moderado</th><td class="status-green">3</td><td class="status-green">6</td><td class="status-yellow">9</td><td class="status-yellow">12</td><td class="status-red">15</td></tr>
+                <tr><th>2 Bajo</th><td class="status-green">2</td><td class="status-green">4</td><td class="status-green">6</td><td class="status-yellow">8</td><td class="status-yellow">10</td></tr>
+                <tr><th>1 Minimo</th><td class="status-green">1</td><td class="status-green">2</td><td class="status-green">3</td><td class="status-green">4</td><td class="status-green">5</td></tr>
+              </table>
+              <p style="font-size: 0.85rem; margin-top: 0.5rem;"><span class="status-green">Verde</span> = Monitorizado &nbsp; <span class="status-yellow">Amarillo</span> = Significativo &nbsp; <span class="status-red">Rojo</span> = Critico</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Resumen por categoria -->
+    <div class="slide" data-title="Resumen por Categoria">
+      <div class="slide-content">
+        <div class="badge">PANORAMICA</div>
+        <h1>Cinco Areas de Riesgo, un Presupuesto de Proteccion</h1>
+        <p class="subtitle">Hemos analizado 7 categorias de riesgo. Aqui el resumen visual: cuantos riesgos hay, cuantos son criticos y cuanto dinero hemos apartado para cada area.</p>
+        <table>
+          <tr>
+            <th>Categoria</th>
+            <th style="text-align:center;">Riesgos</th>
+            <th style="text-align:center;">Criticos</th>
+            <th style="text-align:center;">Significativos</th>
+            <th style="text-align:center;">Reserva</th>
+            <th>% del total</th>
+          </tr>
+          <tr>
+            <td><span class="highlight">Plataforma Tecnologica</span></td>
+            <td style="text-align:center;">33</td>
+            <td style="text-align:center;" class="status-red">6</td>
+            <td style="text-align:center;" class="status-yellow">14</td>
+            <td style="text-align:center; font-weight:600;">18.000&euro;</td>
+            <td>
+              <div class="risk-bar"><div class="risk-bar-fill" style="width: 27%; background: linear-gradient(90deg, var(--gold-dark), var(--gold));">27%</div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="highlight">Mercado</span></td>
+            <td style="text-align:center;">15</td>
+            <td style="text-align:center;" class="status-red">4</td>
+            <td style="text-align:center;" class="status-yellow">8</td>
+            <td style="text-align:center; font-weight:600;">15.000&euro;</td>
+            <td>
+              <div class="risk-bar"><div class="risk-bar-fill" style="width: 23%; background: linear-gradient(90deg, var(--gold-dark), var(--gold));">23%</div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="highlight">Shoppers</span></td>
+            <td style="text-align:center;">16</td>
+            <td style="text-align:center;" class="status-red">5</td>
+            <td style="text-align:center;" class="status-yellow">7</td>
+            <td style="text-align:center; font-weight:600;">14.000&euro;</td>
+            <td>
+              <div class="risk-bar"><div class="risk-bar-fill" style="width: 21%; background: linear-gradient(90deg, var(--gold-dark), var(--gold));">21%</div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="highlight">Administrativo / Regulacion</span></td>
+            <td style="text-align:center;">18</td>
+            <td style="text-align:center;" class="status-red">5</td>
+            <td style="text-align:center;" class="status-yellow">6</td>
+            <td style="text-align:center; font-weight:600;">12.000&euro;</td>
+            <td>
+              <div class="risk-bar"><div class="risk-bar-fill" style="width: 18%; background: linear-gradient(90deg, var(--gold-dark), var(--gold));">18%</div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="highlight">Consignacion de Marcas</span></td>
+            <td style="text-align:center;">17</td>
+            <td style="text-align:center;" class="status-red">5</td>
+            <td style="text-align:center;" class="status-yellow">7</td>
+            <td style="text-align:center; font-weight:600;">7.000&euro;</td>
+            <td>
+              <div class="risk-bar"><div class="risk-bar-fill" style="width: 11%; background: linear-gradient(90deg, var(--gold-dark), var(--gold));">11%</div></div>
+            </td>
+          </tr>
+          <tr style="border-top: 2px solid var(--navy-lighter);">
+            <td style="color:var(--gold); font-weight:700;">TOTAL</td>
+            <td style="text-align:center; color:var(--gold); font-weight:700;">99</td>
+            <td style="text-align:center; color:var(--danger); font-weight:700;">25</td>
+            <td style="text-align:center; color:var(--warning); font-weight:700;">42</td>
+            <td style="text-align:center; color:var(--gold); font-weight:700;">66.000&euro;</td>
+            <td>
+              <div class="risk-bar"><div class="risk-bar-fill" style="width: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold));">100%</div></div>
+            </td>
+          </tr>
+        </table>
+        <p style="font-size: 0.9rem; color: var(--gray-dark); margin-top: 1rem;">Nota: Las categorias Seguridad / Fraude estan documentadas en fichas separadas y suman riesgos adicionales al registro global.</p>
+      </div>
+    </div>
+
+    <!-- Slide 4: Top riesgos criticos -->
+    <div class="slide" data-title="Top Riesgos Criticos">
+      <div class="slide-content">
+        <div class="badge">ALTA EXPOSICION</div>
+        <h1>Los 10 Riesgos que Mas Nos Preocupan</h1>
+        <p class="subtitle">Los de mayor puntuacion en una linea. Rojo = critico (&ge;12). Naranja = alto (10-11). <span class="highlight">Reserva total de estos 10: 16.400&euro;</span></p>
+        <table style="font-size: 0.92rem;">
+          <tr>
+            <th style="width:4%;">#</th>
+            <th style="width:26%;">Riesgo</th>
+            <th style="width:7%; text-align:center;">Punt.</th>
+            <th style="width:10%; text-align:right;">Reserva</th>
+            <th>Que hacemos para mitigarlo</th>
+          </tr>
+          <tr style="background:rgba(231,76,60,0.08);">
+            <td style="font-weight:700; color:var(--danger);">1</td>
+            <td><strong>Demanda insuficiente</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">No llegamos a 200 miembros</span></td>
+            <td class="status-red" style="text-align:center; font-weight:700;">15</td>
+            <td style="text-align:right; font-weight:600;">2.500&euro;</td>
+            <td>Precios early bird, embajadores, eventos exclusivos</td>
+          </tr>
+          <tr style="background:rgba(231,76,60,0.08);">
+            <td style="font-weight:700; color:var(--danger);">2</td>
+            <td><strong>No encontrar shoppers</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Falta de talento en lujo</span></td>
+            <td class="status-red" style="text-align:center; font-weight:700;">15</td>
+            <td style="text-align:right; font-weight:600;">2.500&euro;</td>
+            <td>Headhunting premium, escuelas de moda, bonus referido</td>
+          </tr>
+          <tr style="background:rgba(231,76,60,0.05);">
+            <td style="font-weight:700; color:var(--danger);">3</td>
+            <td><strong>Rotacion alta de shoppers</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Se van por mejores ofertas</span></td>
+            <td class="status-red" style="text-align:center; font-weight:700;">12</td>
+            <td style="text-align:right; font-weight:600;">1.000&euro;</td>
+            <td>Bonus antiguedad, comunidad interna, mentoring</td>
+          </tr>
+          <tr style="background:rgba(231,76,60,0.05);">
+            <td style="font-weight:700; color:var(--danger);">4</td>
+            <td><strong>Calidad inconsistente</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">NPS bajo por visitas malas</span></td>
+            <td class="status-red" style="text-align:center; font-weight:700;">12</td>
+            <td style="text-align:right; font-weight:600;">1.500&euro;</td>
+            <td>Shadowing obligatorio, evaluacion cliente, coaching</td>
+          </tr>
+          <tr style="background:rgba(231,76,60,0.05);">
+            <td style="font-weight:700; color:var(--danger);">5</td>
+            <td><strong>Competencia con mas recursos</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Farfetch o startup copian</span></td>
+            <td class="status-red" style="text-align:center; font-weight:700;">12</td>
+            <td style="text-align:right; font-weight:600;">2.000&euro;</td>
+            <td>Comunidad exclusiva, velocidad de ejecucion, NPS</td>
+          </tr>
+          <tr style="background:rgba(241,196,15,0.06);">
+            <td style="font-weight:700; color:var(--warning);">6</td>
+            <td><strong>No cerrar marcas de lujo</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Hermes / Chanel rechazan</span></td>
+            <td class="status-yellow" style="text-align:center; font-weight:700;">12</td>
+            <td style="text-align:right; font-weight:600;">1.000&euro;</td>
+            <td>Enfoque en marcas emergentes y espanolas</td>
+          </tr>
+          <tr style="background:rgba(241,196,15,0.06);">
+            <td style="font-weight:700; color:var(--warning);">7</td>
+            <td><strong>Ventas consignacion bajas</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Piezas sin vender, marcas insatisfechas</span></td>
+            <td class="status-yellow" style="text-align:center; font-weight:700;">12</td>
+            <td style="text-align:right; font-weight:600;">500&euro;</td>
+            <td>Curaduria, reasignacion, promociones miembros</td>
+          </tr>
+          <tr style="background:rgba(241,196,15,0.06);">
+            <td style="font-weight:700; color:var(--warning);">8</td>
+            <td><strong>Estacionalidad extrema</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Picos Navidad, valles verano</span></td>
+            <td class="status-yellow" style="text-align:center; font-weight:700;">12</td>
+            <td style="text-align:right; font-weight:600;">1.500&euro;</td>
+            <td>Membresia anual, servicios off-season, eventos Q1/Q3</td>
+          </tr>
+          <tr style="background:rgba(241,196,15,0.06);">
+            <td style="font-weight:700; color:var(--warning);">9</td>
+            <td><strong>Incumplimiento RGPD</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Sancion por datos VIP</span></td>
+            <td class="status-yellow" style="text-align:center; font-weight:700;">10</td>
+            <td style="text-align:right; font-weight:600;">2.500&euro;</td>
+            <td>DPO desde inicio, auditoria pre-lanzamiento, RAT</td>
+          </tr>
+          <tr style="background:rgba(241,196,15,0.06);">
+            <td style="font-weight:700; color:var(--warning);">10</td>
+            <td><strong>Reclasificacion laboral</strong><br><span style="font-size:0.85rem; color:var(--gray-dark);">Inspeccion = empleados</span></td>
+            <td class="status-yellow" style="text-align:center; font-weight:700;">10</td>
+            <td style="text-align:right; font-weight:600;">1.400&euro;</td>
+            <td>Contratos claros, autonomia real, asesoria laboral</td>
+          </tr>
+        </table>
+        <p style="font-size: 0.85rem; color: var(--gray-dark); margin-top: 0.8rem;">
+          Fila roja = puntuacion 15 (maxima). Fila amarilla = puntuacion 12 (critico) o 10 (alto). Todos tienen propietario, plan de mitigacion y dinero reservado.
+        </p>
+      </div>
+    </div>
+
+    <!-- Slide 5: Mapa de calor -->
+    <div class="slide" data-title="Mapa de Calor">
+      <div class="slide-content">
+        <div class="badge">VISUALIZACION</div>
+        <h1>Mapa de Calor de Riesgos</h1>
+        <p class="subtitle">Cada celda muestra cuantos riesgos caen en esa combinacion de Probabilidad x Impacto. El rojo intenso es donde mas nos jugamos el proyecto.</p>
+        <div style="max-width: 700px; margin: 0 auto;">
+          <div class="heatmap-grid">
+            <div></div>
+            <div class="heatmap-top">1<br>Muy baja</div>
+            <div class="heatmap-top">2<br>Baja</div>
+            <div class="heatmap-top">3<br>Media</div>
+            <div class="heatmap-top">4<br>Alta</div>
+            <div class="heatmap-top">5<br>Muy alta</div>
+
+            <div class="heatmap-label">5 Critico</div>
+            <div class="heatmap-cell hm-2">2</div>
+            <div class="heatmap-cell hm-3">3</div>
+            <div class="heatmap-cell hm-5">4</div>
+            <div class="heatmap-cell hm-5">5</div>
+            <div class="heatmap-cell hm-5">2</div>
+
+            <div class="heatmap-label">4 Alto</div>
+            <div class="heatmap-cell hm-2">3</div>
+            <div class="heatmap-cell hm-3">5</div>
+            <div class="heatmap-cell hm-4">8</div>
+            <div class="heatmap-cell hm-4">12</div>
+            <div class="heatmap-cell hm-4">4</div>
+
+            <div class="heatmap-label">3 Moderado</div>
+            <div class="heatmap-cell hm-1">4</div>
+            <div class="heatmap-cell hm-2">6</div>
+            <div class="heatmap-cell hm-3">9</div>
+            <div class="heatmap-cell hm-4">10</div>
+            <div class="heatmap-cell hm-4">2</div>
+
+            <div class="heatmap-label">2 Bajo</div>
+            <div class="heatmap-cell hm-1">5</div>
+            <div class="heatmap-cell hm-1">8</div>
+            <div class="heatmap-cell hm-2">4</div>
+            <div class="heatmap-cell hm-3">3</div>
+            <div class="heatmap-cell hm-3">1</div>
+
+            <div class="heatmap-label">1 Minimo</div>
+            <div class="heatmap-cell hm-1">3</div>
+            <div class="heatmap-cell hm-1">2</div>
+            <div class="heatmap-cell hm-1">4</div>
+            <div class="heatmap-cell hm-1">1</div>
+            <div class="heatmap-cell hm-1">0</div>
+          </div>
+          <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap;">
+            <div style="display:flex; align-items:center; gap:0.4rem; font-size:0.85rem; color:var(--gray);"><span style="width:18px;height:18px;border-radius:4px;background:rgba(46,204,113,0.25);border:1px solid rgba(46,204,113,0.4);display:inline-block;"></span> Monitorizado</div>
+            <div style="display:flex; align-items:center; gap:0.4rem; font-size:0.85rem; color:var(--gray);"><span style="width:18px;height:18px;border-radius:4px;background:rgba(241,196,15,0.4);border:1px solid rgba(241,196,15,0.5);display:inline-block;"></span> Significativo</div>
+            <div style="display:flex; align-items:center; gap:0.4rem; font-size:0.85rem; color:var(--gray);"><span style="width:18px;height:18px;border-radius:4px;background:rgba(231,76,60,0.85);border:1px solid var(--danger);display:inline-block;"></span> Critico (&ge;12)</div>
+          </div>
+        </div>
+        <div class="cta-box" style="margin-top: 2rem;">
+          <p style="margin:0;"><span class="highlight">Insight:</span> El cluster mas denso esta en <span class="status-red">Probabilidad Media-Alta (3-4) + Impacto Alto (4)</span>. Significa que tenemos muchos riesgos "probables y caros". La mitigacion prioritaria debe ir ahi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Reservas por categoria -->
+    <div class="slide" data-title="Reservas de Contingencia">
+      <div class="slide-content">
+        <div class="badge">PRESUPUESTO DE PROTECCION</div>
+        <h1>66.000&euro; para Actuar si Ocurren</h1>
+        <p class="subtitle">Cada categoria tiene una reserva asignada proporcional a su numero de riesgos criticos y su impacto potencial. No es dinero "perdido": es el seguro del proyecto.</p>
+        <div class="three-col">
+          <div class="box centered">
+            <h4>Plataforma</h4>
+            <span class="kpi-value" style="font-size: 2rem;">18K&euro;</span>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">6 criticos &middot; 14 significativos</p>
+            <div class="risk-bar" style="margin-top: 1rem;"><div class="risk-bar-fill" style="width: 100%; background: linear-gradient(90deg, #8b6914, var(--gold));">27%</div></div>
+          </div>
+          <div class="box centered">
+            <h4>Mercado</h4>
+            <span class="kpi-value" style="font-size: 2rem;">15K&euro;</span>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">4 criticos &middot; 8 significativos</p>
+            <div class="risk-bar" style="margin-top: 1rem;"><div class="risk-bar-fill" style="width: 83%; background: linear-gradient(90deg, #8b6914, var(--gold));">23%</div></div>
+          </div>
+          <div class="box centered">
+            <h4>Administrativo</h4>
+            <span class="kpi-value" style="font-size: 2rem;">12K&euro;</span>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">5 criticos &middot; 6 significativos</p>
+            <div class="risk-bar" style="margin-top: 1rem;"><div class="risk-bar-fill" style="width: 67%; background: linear-gradient(90deg, #8b6914, var(--gold));">18%</div></div>
+          </div>
+        </div>
+        <div class="three-col" style="margin-top: 1rem;">
+          <div class="box centered">
+            <h4>Shoppers</h4>
+            <span class="kpi-value" style="font-size: 2rem;">14K&euro;</span>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">5 criticos &middot; 7 significativos</p>
+            <div class="risk-bar" style="margin-top: 1rem;"><div class="risk-bar-fill" style="width: 78%; background: linear-gradient(90deg, #8b6914, var(--gold));">21%</div></div>
+          </div>
+          <div class="box centered">
+            <h4>Consignacion</h4>
+            <span class="kpi-value" style="font-size: 2rem;">7K&euro;</span>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">5 criticos &middot; 7 significativos</p>
+            <div class="risk-bar" style="margin-top: 1rem;"><div class="risk-bar-fill" style="width: 40%; background: linear-gradient(90deg, #8b6914, var(--gold));">11%</div></div>
+          </div>
+          <div class="box centered" style="border: 1px solid var(--gold-dark);">
+            <h4>Total Proyecto</h4>
+            <span class="kpi-value" style="font-size: 2.4rem;">66K&euro;</span>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">25 criticos &middot; 42 significativos</p>
+            <div class="risk-bar" style="margin-top: 1rem;"><div class="risk-bar-fill" style="width: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));">100%</div></div>
+          </div>
+        </div>
+        <div class="cta-box" style="margin-top: 1.5rem;">
+          <p style="margin:0;"><span class="highlight">Como se financia:</span> 66.000&euro; vienen de la reserva general del proyecto (10% del presupuesto). El resto se distribuye desde el presupuesto operativo de cada area. Las reservas no usadas en Ano 1 se transfieren a Ano 2.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: KRI -->
+    <div class="slide" data-title="Indicadores Clave de Riesgo">
+      <div class="slide-content">
+        <div class="badge">SEMAFOROS DE ALERTA</div>
+        <h1>KRI: Los Semforos que Nos Avisan Antes del Accidente</h1>
+        <p class="subtitle">Key Risk Indicators son metricas de negocio que revisamos mensualmente. Si cruzan el umbral, se activa el plan de respuesta.</p>
+        <div class="two-col">
+          <div>
+            <h3>KRI de captacion y demanda</h3>
+            <table>
+              <tr><th>Indicador</th><th>Umbral</th><th>Frec.</th></tr>
+              <tr><td>Miembros nuevos / mes (Madrid)</td><td class="status-red">&lt; 15</td><td>Mensual</td></tr>
+              <tr><td>Tasa conversion prospecto &rarr; miembro</td><td class="status-red">&lt; 5%</td><td>Mensual</td></tr>
+              <tr><td>Churn mensual de miembros</td><td class="status-red">&gt; 5%</td><td>Mensual</td></tr>
+              <tr><td>NPS promedio</td><td class="status-red">&lt; 45</td><td>Trimestral</td></tr>
+            </table>
+            <h3>KRI de operaciones</h3>
+            <table>
+              <tr><th>Indicador</th><th>Umbral</th><th>Frec.</th></tr>
+              <tr><td>Shoppers activos por ciudad</td><td class="status-red">&lt; 3</td><td>Semanal</td></tr>
+              <tr><td>Visitas con retraso &gt; 15 min</td><td class="status-red">&gt; 5%</td><td>Semanal</td></tr>
+              <tr><td>CSAT post-visita</td><td class="status-red">&lt; 4.0/5</td><td>Mensual</td></tr>
+            </table>
+          </div>
+          <div>
+            <h3>KRI de negocio y marcas</h3>
+            <table>
+              <tr><th>Indicador</th><th>Umbral</th><th>Frec.</th></tr>
+              <tr><td>Visitas Q1 vs Q4</td><td class="status-red">&lt; 40%</td><td>Trimestral</td></tr>
+              <tr><td>Ratio rotacion inventario consignado</td><td class="status-red">&lt; 40%</td><td>Mensual</td></tr>
+              <tr><td>Marcas con contrato firmado</td><td class="status-red">&lt; 8 a M6</td><td>Mensual</td></tr>
+              <tr><td>Concentracion ventas por marca</td><td class="status-red">&gt; 30%</td><td>Mensual</td></tr>
+            </table>
+            <h3>KRI regulatorios</h3>
+            <table>
+              <tr><th>Indicador</th><th>Umbral</th><th>Frec.</th></tr>
+              <tr><td>Quejas formales ante AEPD</td><td class="status-red">&gt; 0</td><td>Inmediata</td></tr>
+              <tr><td>Reclamaciones en consumo</td><td class="status-red">&gt; 5/a&ntilde;o</td><td>Mensual</td></tr>
+              <tr><td>Denuncias LSSICE</td><td class="status-red">&gt; 0</td><td>Inmediata</td></tr>
+              <tr><td>Denuncias / inspecciones Trabajo</td><td class="status-red">&gt; 0</td><td>Inmediata</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Plan de respuesta -->
+    <div class="slide" data-title="Plan de Respuesta">
+      <div class="slide-content">
+        <div class="badge">ACTIVACION</div>
+        <h1>Que Hacemos Cuando un Riesgo se Convierte en Realidad</h1>
+        <p class="subtitle">Cada categoria tiene un protocolo de activacion con tiempos definidos: acciones inmediatas (0-24h), a corto plazo (1-7 dias) y escalacion.</p>
+        <div class="three-col">
+          <div class="box">
+            <h4>1. Detectar</h4>
+            <p>El KRI cruza su umbral, un cliente reclama formalmente, o el equipo detecta una anomalia. El propietario del riesgo recibe la alerta.</p>
+          </div>
+          <div class="box">
+            <h4>2. Contener</h4>
+            <p>Acciones inmediatas en 24h: aislar el dano, notificar a Legal/Director, activar seguros si aplica, parar la practica cuestionada.</p>
+          </div>
+          <div class="box">
+            <h4>3. Resolver</h4>
+            <p>Acciones a 7 dias: negociacion, conciliacion, fix tecnico, comunicacion externa si es necesario, y actualizacion de runbooks.</p>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top: 1.5rem;">
+          <div>
+            <h3>Ejemplos de activacion</h3>
+            <ul>
+              <li><span class="highlight">Brecha de datos:</span> Notificar AEPD en 72h, contratar forense, comunicar a clientes.</li>
+              <li><span class="highlight">Escandalo de shopper:</span> Suspension inmediata, contacto con cliente, comunicado externo en &lt; 4h.</li>
+              <li><span class="highlight">Caida de captacion:</span> Reunion de crisis, activar reserva para campana extra, analizar funnel.</li>
+              <li><span class="highlight">Disputa con marca:</span> Conciliacion o plan de pagos, revision de contrato, actualizar procesos.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="box">
+              <h4>Escalacion por criticidad</h4>
+              <table>
+                <tr><th>Nivel</th><th>Quien</th><th>Cuando</th></tr>
+                <tr><td>Equipo</td><td>Propietario del riesgo</td><td>Toda activacion</td></tr>
+                <tr><td>Director</td><td>Director del Proyecto</td><td>&gt; 10K&euro; o reputacion</td></tr>
+                <tr><td>CCB</td><td>Comite de Control</td><td>Cambio de baseline</td></tr>
+                <tr><td>Inversores</td><td>Patrocinador</td><td>&gt; 50K&euro; o &gt; 100 clientes</td></tr>
+              </table>
+            </div>
+            <div class="cta-box" style="margin-top: 1rem;">
+              <p style="margin:0; font-size: 0.95rem;"><span class="highlight">Regla:</span> Todo riesgo critico materializado genera una "leccion aprendida" documentada antes de cerrar el incidente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Q&A -->
+    <div class="slide" data-title="Q&A y Contacto">
+      <div class="slide-content centered">
+        <div class="logo-mark" style="font-size: 3rem;">EXCLUSIVE LUXURY</div>
+        <h1 style="font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem;">Gracias</h1>
+        <p class="subtitle" style="max-width: 650px; margin: 0 auto 2rem;">
+          Gestion de Riesgos &mdash; 99+ riesgos identificados, 66.000&euro; en reservas, y una metodologia clara para proteger el proyecto.<br>
+          Documentacion completa disponible en las fichas de categoria.
+        </p>
+        <div class="kpi-grid" style="max-width: 700px; margin: 0 auto 2rem;">
+          <div class="kpi-card">
+            <span class="kpi-value">25</span>
+            <span class="kpi-label">Criticos mitigados</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">42</span>
+            <span class="kpi-label">Significativos</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">66K&euro;</span>
+            <span class="kpi-label">Reserva total</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">PMI</span>
+            <span class="kpi-label">Prob x Impacto</span>
+          </div>
+        </div>
+        <div class="cta-box" style="max-width: 500px; margin: 0 auto;">
+          <p style="margin:0; font-size: 1rem;">
+            <span class="highlight">Preguntas?</span><br>
+            Direccion del Proyecto &middot; 2026-05-29 &middot; Version 1.0
+          </p>
+        </div>
+        <p style="color: var(--gray-dark); font-size: 0.85rem; margin-top: 2rem;">
+          Usa las flechas del teclado o los botones de navegacion para moverte entre diapositivas.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-btn" id="prevBtn" onclick="prevSlide()">Anterior</button>
+    <div class="slide-counter" id="slideCounter">1 / 9</div>
+    <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Siguiente</button>
+  </div>
+
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const total = slides.length;
+      let current = 0;
+
+      const progressBar = document.getElementById('progressBar');
+      const counter = document.getElementById('slideCounter');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const jumpPanel = document.getElementById('jumpPanel');
+
+      function update() {
+        slides.forEach((s, i) => {
+          s.classList.toggle('active', i === current);
+        });
+        counter.textContent = (current + 1) + ' / ' + total;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+        progressBar.style.width = ((current + 1) / total * 100) + '%';
+        updateJumpActive();
+      }
+
+      function nextSlide() {
+        if (current < total - 1) { current++; update(); }
+      }
+
+      function prevSlide() {
+        if (current > 0) { current--; update(); }
+      }
+
+      function goTo(index) {
+        if (index >= 0 && index < total) { current = index; update(); }
+      }
+
+      function toggleJump() {
+        jumpPanel.classList.toggle('open');
+      }
+
+      function updateJumpActive() {
+        document.querySelectorAll('.jump-item').forEach((item, i) => {
+          item.classList.toggle('active', i === current);
+        });
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          goTo(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          goTo(total - 1);
+        }
+      });
+
+      // Build jump menu
+      slides.forEach((slide, i) => {
+        const title = slide.getAttribute('data-title') || ('Diapositiva ' + (i + 1));
+        const div = document.createElement('div');
+        div.className = 'jump-item';
+        div.textContent = (i + 1) + '. ' + title;
+        div.onclick = function() { goTo(i); toggleJump(); };
+        jumpPanel.appendChild(div);
+      });
+
+      // Close jump menu on outside click
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.jump-menu')) {
+          jumpPanel.classList.remove('open');
+        }
+      });
+
+      // Expose to window for button onclick attributes
+      window.nextSlide = nextSlide;
+      window.prevSlide = prevSlide;
+      window.toggleJump = toggleJump;
+      window.goTo = goTo;
+
+      update();
+    })();
+  </script>
+</body>
+</html>
